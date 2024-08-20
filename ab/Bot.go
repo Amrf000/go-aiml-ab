@@ -316,10 +316,10 @@ func (bot *Bot) AddCategoriesFromAIML() int {
 			if TraceMode {
 				fmt.Println(file.Name())
 			}
-			if file.Name() == "client_profile.aiml" {
-				nn := 0
-				nn++
-			}
+			//if file.Name() == "client_profile.aiml" {
+			//	nn := 0
+			//	nn++
+			//}
 			moreCategories := AIMLToCategories(bot.AimlPath, file.Name())
 			if err != nil {
 				fmt.Println("Problem loading", file.Name())

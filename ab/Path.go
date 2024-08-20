@@ -24,6 +24,7 @@ func NewPath() *Paths {
 
 func SentenceToPath(sentence string) *Paths {
 	sentence = strings.TrimSpace(sentence)
+	sentence = strings.ReplaceAll(sentence, "><", "> <")
 	words := strings.Split(sentence, " ")
 	return ArrayToPath(words)
 }
@@ -38,6 +39,10 @@ func PathToSentence(path *Paths) string {
 }
 
 func ArrayToPath(array []string) *Paths {
+	//if slices.Contains(array, "<SET>MONTH</SET> <SET>ORDINAL</SET> <SET>NUMBER</SET>") {
+	//	nn := 0
+	//	nn++
+	//}
 	var head *Paths = nil
 	var tail *Paths = nil
 	for i := len(array) - 1; i >= 0; i-- {

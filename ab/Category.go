@@ -29,10 +29,10 @@ func NewCategory(activationCnt int, pattern, that, topic, template, filename str
 		filename = FixCSV(filename)
 	}
 
-	if strings.HasPrefix("pattern", "<pattern") {
-		nn := 0
-		nn++
-	}
+	//if strings.HasPrefix(pattern, "<pattern") {
+	//	nn := 0
+	//	nn++
+	//}
 
 	return &Category{
 		Pattern:        strings.ToUpper(strings.TrimSpace(pattern)),

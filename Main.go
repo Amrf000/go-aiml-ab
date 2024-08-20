@@ -17,7 +17,7 @@ func main() {
 func MainFunction(args []string) {
 	botName := "alice2"
 	ab.JpTokenize = false
-	traceMode := true
+	traceMode := false
 	action := "chat"
 	fmt.Println(ab.ProgramNameVersion)
 
@@ -145,7 +145,7 @@ func GetGlossFromInputStream(bot *ab.Bot, in *os.File) {
 	for word, gloss := range def {
 		gloss += "."
 		c := ab.NewCategory(0, "WNDEF "+word, "*", "*", gloss, "wndefs0.aiml")
-		fmt.Println(c.InputThatTopic() + ":" + c.GetTemplate() + ":" + c.GetFilename())
+		// fmt.Println(c.InputThatTopic() + ":" + c.GetTemplate() + ":" + c.GetFilename())
 		node := bot.Brain.FindNode(c)
 		if node != nil {
 			node.Category.SetTemplate(node.Category.GetTemplate() + "," + gloss)

@@ -3,7 +3,7 @@ package ab
 import "fmt"
 
 var (
-	TraceMode               = true
+	TraceMode               = false
 	EnableExternalSets      = true
 	EnableExternalMaps      = true
 	JpTokenize              = false

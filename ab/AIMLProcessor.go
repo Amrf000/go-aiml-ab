@@ -29,8 +29,8 @@ func CategoryProcessor(n *xmldom.Node, categories *[]*Category, topic, aimlFile,
 		mName := m.Name
 		switch mName {
 		case "#text":
-			nn := 0
-			nn++
+			//nn := 0
+			//nn++
 		case "pattern":
 			pattern = NodeToString(m)
 		case "that":
@@ -104,10 +104,10 @@ func AIMLToCategories(directory, aimlFile string) []*Category {
 	nodelist := root.Children
 	for _, n := range nodelist {
 		if n.Name == "category" {
-			if len(n.Children) > 2 {
-				nn := 0
-				nn++
-			}
+			//if len(n.Children) > 2 {
+			//	nn := 0
+			//	nn++
+			//}
 			CategoryProcessor(n, &categories, "*", aimlFile, language)
 		} else if n.Name == "topic" {
 			topic := n.GetAttribute("name").Value
@@ -201,6 +201,9 @@ func EvalTagContent(node *xmldom.Node, ps *ParseState, ignoreAttributes map[stri
 		if _, ignored := ignoreAttributes[child.Name]; !ignored {
 			result.WriteString(RecursEval(child, ps))
 		}
+	}
+	if childList == nil && node.Text != "" {
+		return node.Text
 	}
 	return result.String()
 }

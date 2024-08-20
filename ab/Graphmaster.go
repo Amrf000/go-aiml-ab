@@ -54,7 +54,7 @@ func (g *Graphmaster) ReplaceBotProperties(pattern string) string {
 
 func (g *Graphmaster) AddCategory(category *Category) {
 	inputThatTopic := InputThatTopic(category.GetPattern(), category.GetThat(), category.GetTopic())
-	fmt.Println("addCategory: " + inputThatTopic)
+	// fmt.Println("addCategory: " + inputThatTopic)
 	inputThatTopic = g.ReplaceBotProperties(inputThatTopic)
 	p := SentenceToPath(inputThatTopic)
 	g.AddPath(p, category)
@@ -175,16 +175,18 @@ func (g *Graphmaster) MatchRaw(input, that, topic string) *Nodemapper {
 	var n *Nodemapper = nil
 
 	inputThatTopic := InputThatTopic(input, that, topic)
-	fmt.Println("Matching: " + inputThatTopic)
+	if TraceMode {
+		fmt.Println("Matching: " + inputThatTopic)
+	}
 	p := SentenceToPath(inputThatTopic)
-	p.Print()
+	// p.Print()
 	n = g.MatchWithTopic(p, inputThatTopic)
 	if TraceMode {
 		if n != nil {
 			//MagicBooleans.trace("in graphmaster.match(), matched "+n.category.inputThatTopic()+" "+n.category.getFilename());
-			if TraceMode {
-				fmt.Println("Matched: " + n.Category.InputThatTopic() + " " + n.Category.GetFilename())
-			}
+			//if TraceMode {
+			//	fmt.Println("Matched: " + n.Category.InputThatTopic() + " " + n.Category.GetFilename())
+			//}
 		} else {
 			//MagicBooleans.trace("in graphmaster.match(), no match.");
 			if TraceMode {
@@ -233,9 +235,9 @@ func (g *Graphmaster) MatchWithTopic(path *Paths, inputThatTopic string) *Nodema
 func (g *Graphmaster) Match(path *Paths, node *Nodemapper, inputThatTopic, starState string, starIndex int,
 	inputStars, thatStars, topicStars []string, matchTrace string) *Nodemapper {
 	var matchedNode *Nodemapper
-	if path != nil {
-		fmt.Println("Match: Height=" + strconv.Itoa(node.Height) + " Length=" + strconv.Itoa(path.Length) + " Path=" + PathToSentence(path))
-	}
+	//if path != nil {
+	//	fmt.Println("Match: Height=" + strconv.Itoa(node.Height) + " Length=" + strconv.Itoa(path.Length) + " Path=" + PathToSentence(path))
+	//}
 	g.MatchCount++
 	if matchedNode = g.NullMatch(path, node, matchTrace); matchedNode != nil {
 		return matchedNode
@@ -263,7 +265,7 @@ func (g *Graphmaster) Match(path *Paths, node *Nodemapper, inputThatTopic, starS
 }
 
 func (g *Graphmaster) Fail(mode, trace string) {
-	fmt.Println("Match failed (" + mode + ") " + trace)
+	// fmt.Println("Match failed (" + mode + ") " + trace)
 }
 
 func (g *Graphmaster) NullMatch(path *Paths, node *Nodemapper, matchTrace string) *Nodemapper {
