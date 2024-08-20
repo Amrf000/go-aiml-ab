@@ -259,14 +259,7 @@ func Srai(node *xmldom.Node, ps *ParseState) string {
 	if leaf == nil {
 		return response
 	}
-	response = EvalTemplate(leaf.Category.GetTemplate(), &ParseState{
-		Depth:       ps.Depth + 1,
-		ChatSession: ps.ChatSession,
-		Input:       ps.Input,
-		That:        ps.That,
-		Topic:       topic,
-		Leaf:        leaf,
-	})
+	response = EvalTemplate(leaf.Category.GetTemplate(), NewParseState(ps.Depth+1, ps.ChatSession, ps.Input, ps.That, topic, leaf))
 	return strings.TrimSpace(response)
 }
 func GetAttributeOrTagValue(node *xmldom.Node, ps *ParseState, attributeName string) string {

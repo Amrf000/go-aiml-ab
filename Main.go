@@ -9,6 +9,8 @@ import (
 )
 
 func main() {
+	ab.InitJieba()
+	defer ab.DeInitJieba()
 	ab.SetRootPathFromSystem()
 	ab.Extension = ab.NewPCAIMLProcessorExtension()
 	MainFunction(os.Args)

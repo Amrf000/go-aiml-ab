@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/subchen/go-xmldom v1.1.2
+	github.com/yanyiwu/gojieba v1.4.1
 	golang.org/x/exp v0.0.0-20240808152545-0cdaa3abc0fa
 )
 

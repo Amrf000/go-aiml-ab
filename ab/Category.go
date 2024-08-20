@@ -124,7 +124,7 @@ func CategoryToAIML(category *Category) string {
 	if !strings.EqualFold(category.That, "*") {
 		thatStatement = fmt.Sprintf("<that>%s</that>", category.That)
 	}
-	result = fmt.Sprintf("%s<Category><pattern>%s</pattern>%s%s<template>%s</template>%s</Category>%s",
+	result = fmt.Sprintf("%s<category><pattern>%s</pattern>%s%s<template>%s</template>%s</category>%s",
 		topicStart, pattern, thatStatement, NL, category.Template, NL, topicEnd)
 	return result
 }
