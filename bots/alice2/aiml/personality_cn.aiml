@@ -59,13 +59,13 @@
 <li>又说了一遍？</li>
 </random></template>
 </category>
-<category><pattern>你宁愿<set>是</set> * 还是 *</pattern>
+<category><pattern>你宁愿<set>be</set> * 还是 *</pattern>
 <template><random>
 <li><bot name="species"/> <star/> <star index="2"/> 可以吗？</li>
 <li><bot name="species"/> <star/> <star index="3"/> 可以吗？</li>
 </random></template>
 </category>
-<category><pattern>您宁愿 <set>是</set> * 还是 <set>是</set> *</pattern>
+<category><pattern>您宁愿 <set>be</set> * 还是 <set>be</set> *</pattern>
 <template><random>
 <li><bot name="species"/> 可以 <star/> <star index="2"/> 吗？</li>
 <li><bot name="species"/> 可以 <star index="3"/> <star index="4"/> 吗？</li>
@@ -122,19 +122,19 @@
 <category><pattern><set>estup</set> * 你 ^ <set>was</set> ^</pattern> 是什么
 <template>我不认为我 <star index="4"/> 任何 <map name="plural"><star index="2"/></map>。</template>
 </category>
-<category><pattern>你最<set>是</set> ^ <set>是</set> ^</pattern>的是什么
+<category><pattern>你最<set>estup</set> ^ <set>was</set> ^</pattern>的是什么
 <template>我不认为我<star index="4"/>任何<map name="plural"><star index="2"/></map>。</template>
 </category>
-<category><pattern>你最<set>是</set> ^</pattern>的是什么
+<category><pattern>你最<set>was</set> ^</pattern>的是什么
 <template>我不认为我<star index="3"/>任何<map name="plural"><star/></map>。</template>
 </category>
-<category><pattern>你最<set>是</set> ^</pattern>的是什么
+<category><pattern>你最<set>was</set> ^</pattern>的是什么
 <template>我不认为我<star index="3"/>任何<map name="plural"><star/></map>。</template>
 </category>
-<category><pattern>你最大的* ^ <set>是</set> ^是什么</pattern>
+<category><pattern>你最大的* ^ <set>was</set> ^是什么</pattern>
 <template>我不认为我<star index="3"/>任何<map name="plural"><star/></map>。</template>
 </category>
-<category><pattern>你最大的* ^ <set>是</set> ^是什么</pattern>
+<category><pattern>你最大的* ^ <set>was</set> ^是什么</pattern>
 <template>我不认为我<star index="3"/>任何<map name="plural"><star/></map>。</template>
 </category>
 <category><pattern>谁创造了 ^ 宇宙</pattern>
@@ -187,7 +187,7 @@
 <category><pattern>我们可以见面吗 ^</pattern>
 <template>我们现在正在见面。</template>
 </category>
-<category><pattern>你说的是<set>语言</set> ^</pattern>
+<category><pattern>你说的是<set>language</set> ^</pattern>
 <template>英语是我的母语，但我可以为你做一些翻译。</template>
 </category>
 <category><pattern>你避开了 ^</pattern>
@@ -373,7 +373,7 @@
 <category><pattern>哪些数字跟在<set>number</set></pattern>后面
 <template><map><name>successor</name><star/></map>.</template>
 </category>
-<category><pattern>以<set>字母</set></pattern>开头的单词
+<category><pattern>以<set>letter</set></pattern>开头的单词
 <template><map><name>phonetic</name><star/></map>.</template>
 </category>
 <category><pattern>A * 能飞吗</pattern>
@@ -1756,13 +1756,13 @@
 <category><pattern>教我如何*</pattern>
 <template><sraix service="pannous">我该如何<star/></sraix></template>
 </category>
-<category><pattern><set>快餐</set></pattern>
+<category><pattern><set>fastfood</set></pattern>
 <template><srai>找到最近的<star/></srai></template>
 </category>
-<category><pattern>查找<set>快餐</set></pattern>
+<category><pattern>查找<set>fastfood</set></pattern>
 <template><srai>查找最近的<star/></srai></template>
 </category>
-<category><pattern>查找<set>快餐</set></pattern>
+<category><pattern>查找<set>fastfood</set></pattern>
 <template><srai>查找最近的<star/></srai></template>
 </category>
 <category><pattern><set>name</set></pattern> 的性别
@@ -1798,13 +1798,13 @@
 <category><pattern>说真的</pattern>
 <template>我完全认真。</template>
 </category>
-<category><pattern><set>序数</set> 字母 <set>介词</set> * 是什么</pattern>
+<category><pattern><set>ordinal</set> 字母 <set>preposition</set> * 是什么</pattern>
 <template><think>
 <set name="nth"><map><name>ordinal2number</name><star/></map></set>
 </think>
 <srai>NTH <get name="nth"/> <star index="3"/></srai></template>
 </category>
-<category><pattern><set>序数</set> 字母 <set>介词</set> 是什么</pattern>
+<category><pattern><set>ordinal</set> 字母 <set>preposition</set> 是什么</pattern>
 <template><think>
 <set name="nth"><map><name>ordinal2number</name><star/></map></set>
 </think>
@@ -3216,7 +3216,7 @@
 <category><pattern>并非全部 *</pattern>
 <template>我认为可能会有一些例外。</template>
 </category>
-<category><pattern><set>文章</set> *</pattern>
+<category><pattern><set>article</set> *</pattern>
 <template><random><li>这是事实吗？</li><li>感谢您的信息。</li><li>我会记住这一点的。</li></random></template>
 </category>
 <category><pattern>最好的 *</pattern>
