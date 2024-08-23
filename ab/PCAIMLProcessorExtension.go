@@ -1,8 +1,8 @@
 package ab
 
 import (
+	"aiml/external/go-dom"
 	"fmt"
-	"github.com/subchen/go-xmldom"
 )
 
 type PCAIMLProcessorExtension struct {
@@ -27,7 +27,7 @@ func (p *PCAIMLProcessorExtension) ExtensionTagSet() map[string]bool {
 	return p.ExtensionTagNames
 }
 
-func (p *PCAIMLProcessorExtension) NewContact(node *xmldom.Node, ps *ParseState) string {
+func (p *PCAIMLProcessorExtension) NewContact(node dom.Node, ps *ParseState) string {
 	// Implement logic to handle <addinfo> tag
 	displayName := EvalTagContent(node, ps, nil)
 	phoneType := "unknown"
@@ -43,36 +43,37 @@ func (p *PCAIMLProcessorExtension) NewContact(node *xmldom.Node, ps *ParseState)
 	return ""
 }
 
-func (p *PCAIMLProcessorExtension) ContactID(node *xmldom.Node, ps *ParseState) string {
+func (p *PCAIMLProcessorExtension) ContactID(node dom.Node, ps *ParseState) string {
 	// Implement logic to handle <contactid> tag
 	displayName := EvalTagContent(node, ps, nil)
 	result := ContactId(displayName)
 	return result
 }
 
-func (p *PCAIMLProcessorExtension) MultipleIds(node *xmldom.Node, ps *ParseState) string {
+func (p *PCAIMLProcessorExtension) MultipleIds(node dom.Node, ps *ParseState) string {
 	contactName := EvalTagContent(node, ps, nil)
 	result := MultipleIds(contactName)
 	//System.out.println("multipleIds("+contactName+")="+result);
 	return result
 }
-func (p *PCAIMLProcessorExtension) DisplayName(node *xmldom.Node, ps *ParseState) string {
+func (p *PCAIMLProcessorExtension) DisplayName(node dom.Node, ps *ParseState) string {
 	id := EvalTagContent(node, ps, nil)
 	result := DisplayName(id)
 	//System.out.println("displayName("+id+")="+result);
 	return result
 }
 
-func (p *PCAIMLProcessorExtension) DialNumber(node *xmldom.Node, ps *ParseState) string {
-	childList := node.Children
+func (p *PCAIMLProcessorExtension) DialNumber(node dom.Node, ps *ParseState) string {
+	childList := node.GetChildNodes()
 	id := "unknown"
 	itype := "unknown"
-	for i := 0; i < len(childList); i++ {
-		if childList[i].Name == "id" {
-			id = EvalTagContent(childList[i], ps, nil)
+	for i := 0; i < childList.GetLength(); i++ {
+		nodeName := childList.Item(i).GetNodeName()
+		if nodeName == "id" {
+			id = EvalTagContent(childList.Item(i), ps, nil)
 		}
-		if childList[i].Name == "type" {
-			itype = EvalTagContent(childList[i], ps, nil)
+		if nodeName == "type" {
+			itype = EvalTagContent(childList.Item(i), ps, nil)
 		}
 	}
 	result := DialNumber(itype, id)
@@ -80,16 +81,17 @@ func (p *PCAIMLProcessorExtension) DialNumber(node *xmldom.Node, ps *ParseState)
 	return result
 }
 
-func (p *PCAIMLProcessorExtension) EmailAddress(node *xmldom.Node, ps *ParseState) string {
-	childList := node.Children
+func (p *PCAIMLProcessorExtension) EmailAddress(node dom.Node, ps *ParseState) string {
+	childList := node.GetChildNodes()
 	id := "unknown"
 	itype := "unknown"
-	for i := 0; i < len(childList); i++ {
-		if childList[i].Name == "id" {
-			id = EvalTagContent(childList[i], ps, nil)
+	for i := 0; i < childList.GetLength(); i++ {
+		nodeName := childList.Item(i).GetNodeName()
+		if nodeName == "id" {
+			id = EvalTagContent(childList.Item(i), ps, nil)
 		}
-		if childList[i].Name == "type" {
-			itype = EvalTagContent(childList[i], ps, nil)
+		if nodeName == "type" {
+			itype = EvalTagContent(childList.Item(i), ps, nil)
 		}
 	}
 	result := EmailAddress(itype, id)
@@ -97,15 +99,15 @@ func (p *PCAIMLProcessorExtension) EmailAddress(node *xmldom.Node, ps *ParseStat
 	return result
 }
 
-func (p *PCAIMLProcessorExtension) ContactBirthday(node *xmldom.Node, ps *ParseState) string {
+func (p *PCAIMLProcessorExtension) ContactBirthday(node dom.Node, ps *ParseState) string {
 	id := EvalTagContent(node, ps, nil)
 	result := Birthday(id)
 	//System.out.println("birthday("+id+")="+result);
 	return result
 }
 
-func (p *PCAIMLProcessorExtension) RecursEval(node *xmldom.Node, ps *ParseState) string {
-	nodeName := node.Name
+func (p *PCAIMLProcessorExtension) RecursEval(node dom.Node, ps *ParseState) string {
+	nodeName := node.GetNodeName()
 	switch nodeName {
 	case "contactid":
 		return p.ContactID(node, ps)

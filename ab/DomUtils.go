@@ -1,12 +1,11 @@
 package ab
 
 import (
+	"aiml/external/go-dom"
 	"bytes"
 	"encoding/xml"
 	"fmt"
-	"github.com/subchen/go-xmldom"
 	"io/ioutil"
-	"strings"
 )
 
 // Node represents a simple node structure for XML processing.
@@ -18,7 +17,7 @@ import (
 //}
 
 // ParseFile parses an XML file and returns the root node.
-func ParseFile(fileName string) (*xmldom.Node, error) {
+func ParseFile(fileName string) (dom.Element, error) {
 	xmlData, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		return nil, err
@@ -27,20 +26,21 @@ func ParseFile(fileName string) (*xmldom.Node, error) {
 }
 
 // ParseString parses an XML string and returns the root node.
-func ParseString(xmlString string) (*xmldom.Node, error) {
+func ParseString(xmlString string) (dom.Element, error) {
 	return ParseXML([]byte(xmlString), "")
 }
 
 // ParseXML parses XML data and returns the root node.
-func ParseXML(xmlData []byte, filename string) (*xmldom.Node, error) {
-	doc, err := xmldom.ParseXML(string(xmlData))
+func ParseXML(xmlData []byte, filename string) (dom.Element, error) {
+	dec := xml.NewDecoder(bytes.NewReader(xmlData))
+	doc, err := dom.Parse(dec)
 	if err != nil {
 		fmt.Println(filename)
 		panic(err)
 	}
-	root := doc.Root
+	root := doc.GetDocumentElement()
 	return root, nil
-	//var node xmldom.Node
+	//var node dom.Node
 	//decoder := xml.NewDecoder(bytes.NewReader(xmlData))
 	//err := decoder.Decode(&node)
 	//if err != nil {
@@ -51,7 +51,7 @@ func ParseXML(xmlData []byte, filename string) (*xmldom.Node, error) {
 }
 
 // NodeToString converts an XML node back to its string representation.
-func NodeToString(node *xmldom.Node) string {
+func NodeToString(node dom.Node) string {
 	//var buf bytes.Buffer
 	//encoder := xml.NewEncoder(&buf)
 	//err := encoder.Encode(node)
@@ -64,66 +64,72 @@ func NodeToString(node *xmldom.Node) string {
 	if node == nil {
 		return ""
 	}
+	buf := bytes.Buffer{}
+	if err := dom.Encode(node, &buf); err != nil {
+		panic(err)
+		return ""
+	}
 
+	return buf.String()
 	// Convert the node to a string without the XML declaration and indentation
 	//result := node.XML()
 	//return result
-	buf := new(bytes.Buffer)
-	printXML(buf, node, 0, "")
-	return buf.String()
+	//buf := new(bytes.Buffer)
+	//printXML(buf, node, 0, "")
+	//return buf.String()
 }
 
-func printXML(buf *bytes.Buffer, n *xmldom.Node, level int, indent string) {
-	pretty := len(indent) > 0
-
-	if pretty {
-		buf.WriteString(strings.Repeat(indent, level))
-	}
-	buf.WriteByte('<')
-	buf.WriteString(n.Name)
-
-	if len(n.Attributes) > 0 {
-		for _, attr := range n.Attributes {
-			buf.WriteByte(' ')
-			buf.WriteString(attr.Name)
-			buf.WriteByte('=')
-			buf.WriteByte('"')
-			xml.Escape(buf, []byte(attr.Value))
-			buf.WriteByte('"')
-		}
-	}
-
-	if len(n.Children) == 0 && len(n.Text) == 0 {
-		buf.WriteString(" />")
-		if pretty {
-			buf.WriteByte('\n')
-		}
-		return
-	}
-
-	buf.WriteByte('>')
-
-	if len(n.Text) > 0 {
-		xml.EscapeText(buf, []byte(n.Text))
-	}
-
-	if len(n.Children) > 0 {
-		if pretty {
-			buf.WriteByte('\n')
-		}
-		for _, c := range n.Children {
-			printXML(buf, c, level+1, indent)
-		}
-	}
-
-	if len(n.Children) > 0 && len(indent) > 0 {
-		buf.WriteString(strings.Repeat(indent, level))
-	}
-	buf.WriteString("</")
-	buf.WriteString(n.Name)
-	buf.WriteByte('>')
-
-	if pretty {
-		buf.WriteByte('\n')
-	}
-}
+//func printXML(buf *bytes.Buffer, n dom.Node, level int, indent string) {
+//	pretty := len(indent) > 0
+//
+//	if pretty {
+//		buf.WriteString(strings.Repeat(indent, level))
+//	}
+//	buf.WriteByte('<')
+//	buf.WriteString(n.GetNodeName())
+//
+//	if len(n.Attributes) > 0 {
+//		for _, attr := range n.Attributes {
+//			buf.WriteByte(' ')
+//			buf.WriteString(attr.Name)
+//			buf.WriteByte('=')
+//			buf.WriteByte('"')
+//			xml.Escape(buf, []byte(attr.Value))
+//			buf.WriteByte('"')
+//		}
+//	}
+//
+//	if len(n.Children) == 0 && len(n.Text) == 0 {
+//		buf.WriteString(" />")
+//		if pretty {
+//			buf.WriteByte('\n')
+//		}
+//		return
+//	}
+//
+//	buf.WriteByte('>')
+//
+//	if len(n.Text) > 0 {
+//		xml.EscapeText(buf, []byte(n.Text))
+//	}
+//
+//	if len(n.Children) > 0 {
+//		if pretty {
+//			buf.WriteByte('\n')
+//		}
+//		for _, c := range n.Children {
+//			printXML(buf, c, level+1, indent)
+//		}
+//	}
+//
+//	if len(n.Children) > 0 && len(indent) > 0 {
+//		buf.WriteString(strings.Repeat(indent, level))
+//	}
+//	buf.WriteString("</")
+//	buf.WriteString(n.Name)
+//	buf.WriteByte('>')
+//
+//	if pretty {
+//		buf.WriteByte('\n')
+//	}
+//}

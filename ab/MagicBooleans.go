@@ -8,7 +8,7 @@ var (
 	EnableExternalMaps      = true
 	JpTokenize              = false
 	FixExcelCsv             = true
-	EnableNetworkConnection = true
+	EnableNetworkConnection = false
 	CacheSraix              = false
 	QaTestMode              = false
 	MakeVerbsSetsMapsFlag   = false

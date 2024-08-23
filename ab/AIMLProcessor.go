@@ -1,8 +1,8 @@
 package ab
 
 import (
+	"aiml/external/go-dom"
 	"fmt"
-	"github.com/subchen/go-xmldom"
 	"math/rand"
 	"path/filepath"
 	"regexp"
@@ -18,15 +18,16 @@ type AIMLProcessor struct {
 var DEBUG bool
 var Extension AIMLProcessorExtension
 
-func CategoryProcessor(n *xmldom.Node, categories *[]*Category, topic, aimlFile, language string) {
+func CategoryProcessor(n dom.Node, categories *[]*Category, topic, aimlFile, language string) {
 	var pattern, that, template string
-	children := n.Children
+	children := n.GetChildNodes()
 	pattern = "*"
 	that = "*"
 	template = ""
 
-	for _, m := range children {
-		mName := m.Name
+	for j := 0; j < children.GetLength(); j++ {
+		m := children.Item(j)
+		mName := m.GetNodeName()
 		switch mName {
 		case "#text":
 			//nn := 0
@@ -92,28 +93,31 @@ func AIMLToCategories(directory, aimlFile string) []*Category {
 	}
 
 	language := DefaultLanguage
-	if len(root.Attributes) > 0 {
-		XMLAttributes := root.Attributes
-		for _, attr := range XMLAttributes {
-			if attr.Name == "language" {
-				language = attr.Value
+	if root.GetAttributes().GetLength() > 0 {
+		XMLAttributes := root.GetAttributes()
+		for i := 0; i < XMLAttributes.GetLength(); i++ {
+			if XMLAttributes.Item(i).GetNodeName() == "language" {
+				language = XMLAttributes.Item(i).GetValue()
 			}
 		}
 	}
 
-	nodelist := root.Children
-	for _, n := range nodelist {
-		if n.Name == "category" {
+	nodelist := root.GetChildNodes()
+	for i := 0; i < nodelist.GetLength(); i++ {
+		n := nodelist.Item(i)
+		nodeName := n.GetNodeName()
+		if nodeName == "category" {
 			//if len(n.Children) > 2 {
 			//	nn := 0
 			//	nn++
 			//}
 			CategoryProcessor(n, &categories, "*", aimlFile, language)
-		} else if n.Name == "topic" {
-			topic := n.GetAttribute("name").Value
-			children := n.Children
-			for _, m := range children {
-				if m.Name == "category" {
+		} else if nodeName == "topic" {
+			topic, _ := n.(dom.Element).GetAttribute("name")
+			children := n.GetChildNodes()
+			for j := 0; j < children.GetLength(); j++ {
+				m := children.Item(j)
+				if m.GetNodeName() == "category" {
 					CategoryProcessor(m, &categories, topic, aimlFile, language)
 				}
 			}
@@ -186,43 +190,45 @@ func Explode(input string) string {
 	return strings.TrimSpace(strings.ReplaceAll(exploded, "  ", " "))
 }
 
-func EvalTagContent(node *xmldom.Node, ps *ParseState, ignoreAttributes map[string]bool) string {
+func EvalTagContent(node dom.Node, ps *ParseState, ignoreAttributes map[string]bool) string {
 	var result strings.Builder
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("Something went wrong with evalTagContent", r)
 		}
 	}()
-	childList := node.Children
-	for _, child := range childList {
+	childList := node.GetChildNodes()
+	for i := 0; i < childList.GetLength(); i++ {
+		child := childList.Item(i)
 		if ignoreAttributes == nil {
 			ignoreAttributes = map[string]bool{}
 		}
-		if _, ignored := ignoreAttributes[child.Name]; !ignored {
+		if _, ignored := ignoreAttributes[child.GetNodeName()]; !ignored {
 			result.WriteString(RecursEval(child, ps))
 		}
 	}
-	if childList == nil && node.Text != "" {
-		return node.Text
-	}
+	//if childList == nil && node.Text != "" {
+	//	return node.Text
+	//}
 	return result.String()
 }
 
 var traceCount int
 
-func GenericXML(node *xmldom.Node, ps *ParseState) string {
+func GenericXML(node dom.Node, ps *ParseState) string {
 	evalResult := EvalTagContent(node, ps, nil)
 	result := UnevaluatedXML(evalResult, node, ps)
 	return result
 }
 
-func UnevaluatedXML(resultIn string, node *xmldom.Node, ps *ParseState) string {
-	nodeName := node.Name
+func UnevaluatedXML(resultIn string, nodea dom.Node, ps *ParseState) string {
+	node := nodea.(dom.Element)
+	nodeName := node.GetNodeName()
 	attributes := ""
-	if len(node.Attributes) > 0 {
-		XMLAttributes := node.Attributes
-		for _, attr := range XMLAttributes {
-			attributes += fmt.Sprintf(" %s=\"%s\"", attr.Name, attr.Value)
+	if node.GetAttributes().GetLength() > 0 {
+		XMLAttributes := node.GetAttributes()
+		for i := 0; i < XMLAttributes.GetLength(); i++ {
+			attributes += fmt.Sprintf(" %s=\"%s\"", XMLAttributes.Item(i).GetNodeName(), XMLAttributes.Item(i).GetValue())
 		}
 	}
 	result := fmt.Sprintf("<%s%s/>", nodeName, attributes)
@@ -231,7 +237,7 @@ func UnevaluatedXML(resultIn string, node *xmldom.Node, ps *ParseState) string {
 	}
 	return result
 }
-func Srai(node *xmldom.Node, ps *ParseState) string {
+func Srai(node dom.Node, ps *ParseState) string {
 	sraiCount++
 	if sraiCount > MaxRecursionCount || ps.Depth > MaxRecursionDepth {
 		return TooMuchRecursion
@@ -262,24 +268,25 @@ func Srai(node *xmldom.Node, ps *ParseState) string {
 	response = EvalTemplate(leaf.Category.GetTemplate(), NewParseState(ps.Depth+1, ps.ChatSession, ps.Input, ps.That, topic, leaf))
 	return strings.TrimSpace(response)
 }
-func GetAttributeOrTagValue(node *xmldom.Node, ps *ParseState, attributeName string) string {
+func GetAttributeOrTagValue(node dom.Node, ps *ParseState, attributeName string) string {
 	var result string
-	m := node.GetAttribute(attributeName)
-	if m == nil {
-		childList := node.Children
-		for _, child := range childList {
-			if child.Name == attributeName {
+	m, ok := node.(dom.Element).GetAttribute(attributeName)
+	if !ok {
+		childList := node.GetChildNodes()
+		for i := 0; i < childList.GetLength(); i++ {
+			child := childList.Item(i)
+			if child.GetNodeName() == attributeName {
 				result = EvalTagContent(child, ps, nil)
 				break
 			}
 		}
 	} else {
-		result = m.Value
+		result = m
 	}
 	return result
 }
 
-func Sraix(node *xmldom.Node, ps *ParseState) string {
+func Sraix(node dom.Node, ps *ParseState) string {
 	attributeNames := map[string]bool{
 		"botid": true,
 		"host":  true,
@@ -293,7 +300,7 @@ func Sraix(node *xmldom.Node, ps *ParseState) string {
 	result := SraixSraix(ps.ChatSession, evalResult, defaultResponse, hint, host, botid, "", limit)
 	return result
 }
-func MapNode(node *xmldom.Node, ps *ParseState) string {
+func MapNode(node dom.Node, ps *ParseState) string {
 	result := DefaultMap
 	attributeNames := StringSet("name")
 	mapName := GetAttributeOrTagValue(node, ps, "name")
@@ -313,7 +320,7 @@ func MapNode(node *xmldom.Node, ps *ParseState) string {
 	return result
 }
 
-func SetNode(node *xmldom.Node, ps *ParseState) string {
+func SetNode(node dom.Node, ps *ParseState) string {
 	attributeNames := StringSet("name", "var")
 	predicateName := GetAttributeOrTagValue(node, ps, "name")
 	varName := GetAttributeOrTagValue(node, ps, "var")
@@ -340,7 +347,7 @@ func SetNode(node *xmldom.Node, ps *ParseState) string {
 
 	return result
 }
-func GetA(node *xmldom.Node, ps *ParseState) string {
+func GetA(node dom.Node, ps *ParseState) string {
 	result := DefaultGet
 	predicateName := GetAttributeOrTagValue(node, ps, "name")
 	varName := GetAttributeOrTagValue(node, ps, "var")
@@ -368,7 +375,7 @@ func TupleGet(tupleName, varName string) string {
 	return result
 }
 
-func Abot(node *xmldom.Node, ps *ParseState) string {
+func Abot(node dom.Node, ps *ParseState) string {
 	result := DefaultProperty
 	propertyName := GetAttributeOrTagValue(node, ps, "name")
 	if propertyName != "" {
@@ -378,14 +385,14 @@ func Abot(node *xmldom.Node, ps *ParseState) string {
 	return result
 }
 
-func Date(node *xmldom.Node, ps *ParseState) string {
+func Date(node dom.Node, ps *ParseState) string {
 	jformat := GetAttributeOrTagValue(node, ps, "jformat")
 	locale := GetAttributeOrTagValue(node, ps, "locale")
 	timezone := GetAttributeOrTagValue(node, ps, "timezone")
 	return DateCustom(jformat, locale, timezone)
 }
 
-func Interval(node *xmldom.Node, ps *ParseState) string {
+func Interval(node dom.Node, ps *ParseState) string {
 	style := GetAttributeOrTagValue(node, ps, "style")
 	jformat := GetAttributeOrTagValue(node, ps, "jformat")
 	from := GetAttributeOrTagValue(node, ps, "from")
@@ -420,7 +427,7 @@ func Interval(node *xmldom.Node, ps *ParseState) string {
 	return result
 }
 
-func GetIndexValue(node *xmldom.Node, ps *ParseState) int {
+func GetIndexValue(node dom.Node, ps *ParseState) int {
 	index := 0
 	value := GetAttributeOrTagValue(node, ps, "index")
 	if value != "" {
@@ -431,7 +438,7 @@ func GetIndexValue(node *xmldom.Node, ps *ParseState) int {
 	return index
 }
 
-func InputStar(node *xmldom.Node, ps *ParseState) string {
+func InputStar(node dom.Node, ps *ParseState) string {
 	result := ""
 	index := GetIndexValue(node, ps)
 	if index < 0 || index >= len(ps.StarBindings.InputStars.Items) {
@@ -442,7 +449,7 @@ func InputStar(node *xmldom.Node, ps *ParseState) string {
 	}
 	return result
 }
-func ThatStar(node *xmldom.Node, ps *ParseState) string {
+func ThatStar(node dom.Node, ps *ParseState) string {
 	index := GetIndexValue(node, ps)
 	if star := ps.StarBindings.ThatStars.Star(index); star != "" {
 		return strings.TrimSpace(star)
@@ -450,29 +457,29 @@ func ThatStar(node *xmldom.Node, ps *ParseState) string {
 	return ""
 }
 
-func TopicStar(node *xmldom.Node, ps *ParseState) string {
+func TopicStar(node dom.Node, ps *ParseState) string {
 	index := GetIndexValue(node, ps)
 	if star := ps.StarBindings.TopicStars.Star(index); star != "" {
 		return strings.TrimSpace(star)
 	}
 	return ""
 }
-func Id(node *xmldom.Node, ps *ParseState) string {
+func Id(node dom.Node, ps *ParseState) string {
 	return ps.ChatSession.CustomerID
 }
 
-func SizeA(node *xmldom.Node, ps *ParseState) string {
+func SizeA(node dom.Node, ps *ParseState) string {
 	return strconv.Itoa(len(ps.ChatSession.Bot.Brain.GetCategories()))
 }
 
-func Vocabulary(node *xmldom.Node, ps *ParseState) string {
+func Vocabulary(node dom.Node, ps *ParseState) string {
 	return strconv.Itoa(len(ps.ChatSession.Bot.Brain.GetVocabulary()))
 }
 
-func Program(node *xmldom.Node, ps *ParseState) string {
+func Program(node dom.Node, ps *ParseState) string {
 	return ProgramNameVersion
 }
-func That(node *xmldom.Node, ps *ParseState) string {
+func That(node dom.Node, ps *ParseState) string {
 	index := 0
 	jndex := 0
 	value := GetAttributeOrTagValue(node, ps, "index")
@@ -507,63 +514,63 @@ func That(node *xmldom.Node, ps *ParseState) string {
 	}
 	return that
 }
-func Input(node *xmldom.Node, ps *ParseState) string {
+func Input(node dom.Node, ps *ParseState) string {
 	index := GetIndexValue(node, ps)
 	return ps.ChatSession.InputHistory.GetString(index)
 }
 
-func Request(node *xmldom.Node, ps *ParseState) string {
+func Request(node dom.Node, ps *ParseState) string {
 	index := GetIndexValue(node, ps)
 	return strings.TrimSpace(ps.ChatSession.RequestHistory.GetString(index))
 }
 
-func Response(node *xmldom.Node, ps *ParseState) string {
+func Response(node dom.Node, ps *ParseState) string {
 	index := GetIndexValue(node, ps)
 	return strings.TrimSpace(ps.ChatSession.ResponseHistory.GetString(index))
 }
 
-func System(node *xmldom.Node, ps *ParseState) string {
+func System(node dom.Node, ps *ParseState) string {
 	attributeNames := StringSet("timeout")
 	evaluatedContents := EvalTagContent(node, ps, attributeNames)
 	result := Utils_System(evaluatedContents, SystemFailed)
 	return result
 }
-func Think(node *xmldom.Node, ps *ParseState) string {
+func Think(node dom.Node, ps *ParseState) string {
 	EvalTagContent(node, ps, nil)
 	return ""
 }
 
-func ExplodeNode(node *xmldom.Node, ps *ParseState) string {
+func ExplodeNode(node dom.Node, ps *ParseState) string {
 	result := EvalTagContent(node, ps, nil)
 	return Explode(result)
 }
 
-func Normalize(node *xmldom.Node, ps *ParseState) string {
+func Normalize(node dom.Node, ps *ParseState) string {
 	result := EvalTagContent(node, ps, nil)
 	return ps.ChatSession.Bot.PreProcessor.Normalize(result)
 }
 
-func Denormalize(node *xmldom.Node, ps *ParseState) string {
+func Denormalize(node dom.Node, ps *ParseState) string {
 	result := EvalTagContent(node, ps, nil)
 	return ps.ChatSession.Bot.PreProcessor.Denormalize(result)
 }
-func Uppercase(node *xmldom.Node, ps *ParseState) string {
+func Uppercase(node dom.Node, ps *ParseState) string {
 	result := EvalTagContent(node, ps, nil)
 	return strings.ToUpper(result)
 }
 
-func Lowercase(node *xmldom.Node, ps *ParseState) string {
+func Lowercase(node dom.Node, ps *ParseState) string {
 	result := EvalTagContent(node, ps, nil)
 	return strings.ToLower(result)
 }
 
-func Formal(node *xmldom.Node, ps *ParseState) string {
+func Formal(node dom.Node, ps *ParseState) string {
 	result := EvalTagContent(node, ps, nil)
 	return CapitalizeString(result)
 }
 
 // Function implementations
-func Sentence(node *xmldom.Node, ps *ParseState) string {
+func Sentence(node dom.Node, ps *ParseState) string {
 	result := EvalTagContent(node, ps, nil)
 	if len(result) > 1 {
 		return strings.ToUpper(result[:1]) + result[1:]
@@ -571,9 +578,9 @@ func Sentence(node *xmldom.Node, ps *ParseState) string {
 	return ""
 }
 
-func Person(node *xmldom.Node, ps *ParseState) string {
+func Person(node dom.Node, ps *ParseState) string {
 	result := ""
-	if len(node.Children) > 0 {
+	if node.GetChildNodes().GetLength() > 0 {
 		result = EvalTagContent(node, ps, nil)
 	} else {
 		result = " " + ps.StarBindings.InputStars.Star(0) + " "
@@ -582,9 +589,9 @@ func Person(node *xmldom.Node, ps *ParseState) string {
 	return strings.TrimSpace(result)
 }
 
-func Person2(node *xmldom.Node, ps *ParseState) string {
+func Person2(node dom.Node, ps *ParseState) string {
 	result := ""
-	if len(node.Children) > 0 {
+	if node.GetChildNodes().GetLength() > 0 {
 		result = EvalTagContent(node, ps, nil)
 	} else {
 		result = " " + ps.StarBindings.InputStars.Star(0) + " "
@@ -592,21 +599,21 @@ func Person2(node *xmldom.Node, ps *ParseState) string {
 	result = ps.ChatSession.Bot.PreProcessor.Person2(result)
 	return strings.TrimSpace(result)
 }
-func Gender(node *xmldom.Node, ps *ParseState) string {
+func Gender(node dom.Node, ps *ParseState) string {
 	result := EvalTagContent(node, ps, nil)
 	result = " " + result + " "
 	result = ps.ChatSession.Bot.PreProcessor.Gender(result)
 	return strings.TrimSpace(result)
 }
 
-func Random(node *xmldom.Node, ps *ParseState) string {
-	childList := node.Children
-	var liList []*xmldom.Node
+func Random(node dom.Node, ps *ParseState) string {
+	childList := node.GetChildNodes()
+	var liList []dom.Node
 	// setName := GetAttributeOrTagValue(node, ps, "set")
 
-	for _, child := range childList {
-		if child.Name == "li" {
-			liList = append(liList, child)
+	for i := 0; i < childList.GetLength(); i++ {
+		if childList.Item(i).GetNodeName() == "li" {
+			liList = append(liList, childList.Item(i))
 		}
 	}
 
@@ -622,14 +629,14 @@ func Random(node *xmldom.Node, ps *ParseState) string {
 	return EvalTagContent(liList[index], ps, nil)
 }
 
-func UnevaluatedAIML(node *xmldom.Node, ps *ParseState) string {
+func UnevaluatedAIML(node dom.Node, ps *ParseState) string {
 	result := LearnEvalTagContent(node, ps)
 	return UnevaluatedXML(result, node, ps)
 }
-func RecursLearn(node *xmldom.Node, ps *ParseState) string {
-	nodeName := node.Name
+func RecursLearn(node dom.Node, ps *ParseState) string {
+	nodeName := node.GetNodeName()
 	if nodeName == "#text" {
-		return node.Text
+		return node.(dom.Text).GetValue()
 	} else if nodeName == "eval" {
 		return EvalTagContent(node, ps, nil)
 	} else {
@@ -637,30 +644,33 @@ func RecursLearn(node *xmldom.Node, ps *ParseState) string {
 	}
 }
 
-func LearnEvalTagContent(node *xmldom.Node, ps *ParseState) string {
+func LearnEvalTagContent(node dom.Node, ps *ParseState) string {
 	var result strings.Builder
-	childList := node.Children
-	for _, child := range childList {
+	childList := node.GetChildNodes()
+	for i := 0; i < childList.GetLength(); i++ {
+		child := childList.Item(i)
 		result.WriteString(RecursLearn(child, ps))
 	}
 	return result.String()
 }
-func Learn(node *xmldom.Node, ps *ParseState) string {
-	childList := node.Children
+func Learn(node dom.Node, ps *ParseState) string {
+	childList := node.GetChildNodes()
 	var pattern, that, template string
 	that = "*"
 
-	for i := 0; i < len(childList); i++ {
-		if childList[i].Name == "category" {
-			grandChildList := childList[i].Children
-			for j := 0; j < len(grandChildList); j++ {
-				switch grandChildList[j].Name {
+	for i := 0; i < childList.GetLength(); i++ {
+		nodeName := childList.Item(i).GetNodeName()
+		if nodeName == "category" {
+			grandChildList := childList.Item(i).GetChildNodes()
+			for j := 0; j < grandChildList.GetLength(); j++ {
+				subNodeName := grandChildList.Item(j).GetNodeName()
+				switch subNodeName {
 				case "pattern":
-					pattern = RecursLearn(grandChildList[j], ps)
+					pattern = RecursLearn(grandChildList.Item(j).(dom.Element), ps)
 				case "that":
-					that = RecursLearn(grandChildList[j], ps)
+					that = RecursLearn(grandChildList.Item(j).(dom.Element), ps)
 				case "template":
-					template = RecursLearn(grandChildList[j], ps)
+					template = RecursLearn(grandChildList.Item(j).(dom.Element), ps)
 				}
 			}
 
@@ -694,22 +704,22 @@ func Learn(node *xmldom.Node, ps *ParseState) string {
 				println("Learn Template = " + template)
 			}
 
-			c := Category{
-				// Initialize Category fields as needed
-			}
+			var c *Category = nil
 
-			if node.Name == "learn" {
-				ps.ChatSession.Bot.LearnGraph.AddCategory(&c)
+			if node.GetNodeName() == "learn" {
+				c = NewCategory(0, pattern, that, "*", template, NullAimlFile)
+				ps.ChatSession.Bot.LearnGraph.AddCategory(c)
 			} else {
-				ps.ChatSession.Bot.LearnfGraph.AddCategory(&c)
+				c = NewCategory(0, pattern, that, "*", template, LearnfAimlFile)
+				ps.ChatSession.Bot.LearnfGraph.AddCategory(c)
 			}
 
-			ps.ChatSession.Bot.Brain.AddCategory(&c)
+			ps.ChatSession.Bot.Brain.AddCategory(c)
 		}
 	}
 	return ""
 }
-func LoopCondition(node *xmldom.Node, ps *ParseState) string {
+func LoopCondition(node dom.Node, ps *ParseState) string {
 	loop := true
 	result := ""
 	loopCnt := 0
@@ -738,10 +748,10 @@ func LoopCondition(node *xmldom.Node, ps *ParseState) string {
 
 	return result
 }
-func Condition(node *xmldom.Node, ps *ParseState) string {
+func Condition(node dom.Node, ps *ParseState) string {
 	var result string
-	childList := node.Children // Assuming method to get child nodes
-	var liList []*xmldom.Node
+	childList := node.GetChildNodes() // Assuming method to get child nodes
+	var liList []dom.Node
 	var predicate, varName, value string
 	attributeNames := make(map[string]bool) // Use a map for attribute names
 	attributeNames["name"] = true
@@ -751,9 +761,9 @@ func Condition(node *xmldom.Node, ps *ParseState) string {
 	predicate = GetAttributeOrTagValue(node, ps, "name")
 	varName = GetAttributeOrTagValue(node, ps, "var")
 
-	for _, child := range childList {
-		if child.Name == "li" {
-			liList = append(liList, child)
+	for i := 0; i < childList.GetLength(); i++ {
+		if childList.Item(i).GetNodeName() == "li" {
+			liList = append(liList, childList.Item(i))
 		}
 	}
 
@@ -769,7 +779,7 @@ func Condition(node *xmldom.Node, ps *ParseState) string {
 		}
 	} else {
 		for i := 0; i < len(liList) && result == ""; i++ {
-			n := liList[i]
+			n := liList[i].(dom.Element)
 			liPredicate := predicate
 			liVarName := varName
 			value = GetAttributeOrTagValue(n, ps, "value")
@@ -796,40 +806,42 @@ func Condition(node *xmldom.Node, ps *ParseState) string {
 
 	return result
 }
-func EvalTagForLoop(node *xmldom.Node) bool {
-	childList := node.Children // Placeholder for actual implementation
-	for _, child := range childList {
-		if child.Name == "loop" {
+
+func EvalTagForLoop(node dom.Node) bool {
+	childList := node.GetChildNodes() // Placeholder for actual implementation
+	for i := 0; i < childList.GetLength(); i++ {
+		if childList.Item(i).GetNodeName() == "loop" {
 			return true
 		}
 	}
 	return false
 }
 
-func DeleteTriple(node *xmldom.Node, ps *ParseState) string {
+func DeleteTriple(node dom.Node, ps *ParseState) string {
 	subject := GetAttributeOrTagValue(node, ps, "subj")
 	predicate := GetAttributeOrTagValue(node, ps, "pred")
 	object := GetAttributeOrTagValue(node, ps, "obj")
 	return ps.ChatSession.TripleStore.DeleteTriple(subject, predicate, object)
 }
 
-func AddTriple(node *xmldom.Node, ps *ParseState) string {
+func AddTriple(node dom.Node, ps *ParseState) string {
 	subject := GetAttributeOrTagValue(node, ps, "subj")
 	predicate := GetAttributeOrTagValue(node, ps, "pred")
 	object := GetAttributeOrTagValue(node, ps, "obj")
 	return ps.ChatSession.TripleStore.AddTriple(subject, predicate, object)
 }
-func Uniq(node *xmldom.Node, ps *ParseState) string {
+func Uniq(node dom.Node, ps *ParseState) string {
 	vars := make(map[string]bool)
 	visibleVars := make(map[string]bool)
 	subj := "?subject"
 	pred := "?predicate"
 	obj := "?object"
-	childList := node.Children // Placeholder for actual implementation
+	childList := node.GetChildNodes() // Placeholder for actual implementation
 
-	for _, childNode := range childList {
+	for j := 0; j < childList.GetLength(); j++ {
+		childNode := childList.Item(j)
 		contents := EvalTagContent(childNode, ps, nil)
-		nodeName := childNode.Name // Placeholder for actual implementation
+		nodeName := childNode.GetNodeName() // Placeholder for actual implementation
 		if nodeName == "subj" {
 			subj = contents
 		} else if nodeName == "pred" {
@@ -862,14 +874,15 @@ func Uniq(node *xmldom.Node, ps *ParseState) string {
 	result := TupleGet(firstTuple, varName)
 	return result
 }
-func Select(node *xmldom.Node, ps *ParseState) string {
+func Select(node dom.Node, ps *ParseState) string {
 	clauses := []*Clause{}
 	vars := make(map[string]bool)
 	visibleVars := make(map[string]bool)
-	childList := node.Children // Placeholder for actual implementation
+	childList := node.GetChildNodes() // Placeholder for actual implementation
 
-	for _, childNode := range childList {
-		nodeName := childNode.Name // Placeholder for actual implementation
+	for i := 0; i < childList.GetLength(); i++ {
+		childNode := childList.Item(i)
+		nodeName := childNode.GetNodeName() // Placeholder for actual implementation
 		if nodeName == "vars" {
 			contents := EvalTagContent(childNode, ps, nil)
 			splitVars := strings.Fields(contents)
@@ -881,11 +894,12 @@ func Select(node *xmldom.Node, ps *ParseState) string {
 			}
 		} else if nodeName == "q" || nodeName == "notq" {
 			affirm := nodeName == "q"
-			grandChildList := childNode.Children // Placeholder for actual implementation
+			grandChildList := childNode.GetChildNodes() // Placeholder for actual implementation
 			subj, pred, obj := "", "", ""
-			for _, grandChildNode := range grandChildList {
+			for j := 0; j < grandChildList.GetLength(); j++ {
+				grandChildNode := grandChildList.Item(j)
 				contents := EvalTagContent(grandChildNode, ps, nil)
-				grandChildNodeName := grandChildNode.Name // Placeholder for actual implementation
+				grandChildNodeName := grandChildNode.GetNodeName() // Placeholder for actual implementation
 				if grandChildNodeName == "subj" {
 					subj = contents
 				} else if grandChildNodeName == "pred" {
@@ -913,7 +927,7 @@ func Select(node *xmldom.Node, ps *ParseState) string {
 	}
 	return finalResult
 }
-func Subject(node *xmldom.Node, ps *ParseState) string {
+func Subject(node dom.Node, ps *ParseState) string {
 	id := EvalTagContent(node, ps, nil)
 	ts := ps.ChatSession.TripleStore
 	subject := "unknown"
@@ -923,7 +937,7 @@ func Subject(node *xmldom.Node, ps *ParseState) string {
 	return subject
 }
 
-func Predicate(node *xmldom.Node, ps *ParseState) string {
+func Predicate(node dom.Node, ps *ParseState) string {
 	id := EvalTagContent(node, ps, nil)
 	ts := ps.ChatSession.TripleStore
 	if triple, exists := ts.IdTriple[id]; exists {
@@ -931,7 +945,7 @@ func Predicate(node *xmldom.Node, ps *ParseState) string {
 	}
 	return "unknown"
 }
-func Object(node *xmldom.Node, ps *ParseState) string {
+func Object(node dom.Node, ps *ParseState) string {
 	id := EvalTagContent(node, ps, nil)
 	ts := ps.ChatSession.TripleStore
 	if triple, exists := ts.IdTriple[id]; exists {
@@ -941,7 +955,7 @@ func Object(node *xmldom.Node, ps *ParseState) string {
 }
 
 // javascript evaluates a JavaScript script and returns the result
-func Javascript(node *xmldom.Node, ps *ParseState) string {
+func Javascript(node dom.Node, ps *ParseState) string {
 	result := BadJavascript
 	script := EvalTagContent(node, ps, nil)
 
@@ -977,38 +991,38 @@ func RestWords(sentence string) string {
 }
 
 // first returns the first word from the evaluated content of a node
-func First(node *xmldom.Node, ps *ParseState) string {
+func First(node dom.Node, ps *ParseState) string {
 	content := EvalTagContent(node, ps, nil)
 	return FirstWord(content)
 }
-func Rest(node *xmldom.Node, ps *ParseState) string {
+func Rest(node dom.Node, ps *ParseState) string {
 	content := EvalTagContent(node, ps, nil)
 	content = ps.ChatSession.Bot.PreProcessor.Normalize(content)
 	return RestWords(content)
 }
 
 // resetlearnf deletes Learnf categories and returns a confirmation message
-func Resetlearnf(node *xmldom.Node, ps *ParseState) string {
+func Resetlearnf(node dom.Node, ps *ParseState) string {
 	ps.ChatSession.Bot.DeleteLearnfCategories()
 	return "Deleted Learnf Categories"
 }
 
 // resetlearn deletes Learn categories and returns a confirmation message
-func Resetlearn(node *xmldom.Node, ps *ParseState) string {
+func Resetlearn(node dom.Node, ps *ParseState) string {
 	ps.ChatSession.Bot.DeleteLearnCategories()
 	return "Deleted Learn Categories"
 }
-func RecursEval(node *xmldom.Node, ps *ParseState) string {
+func RecursEval(node dom.Node, ps *ParseState) string {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("Recovered in recursEval:", r)
 		}
 	}()
 
-	nodeName := node.Name
+	nodeName := node.GetNodeName()
 	switch nodeName {
 	case "#text":
-		return node.Text
+		return node.(dom.Text).GetValue()
 	case "#comment":
 		return ""
 	case "template":

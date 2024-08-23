@@ -1,9 +1,7 @@
 package ab
 
 import (
-	"bytes"
-	"fmt"
-	"github.com/subchen/go-xmldom"
+	"aiml/external/go-dom"
 	"strings"
 )
 
@@ -40,10 +38,10 @@ func tokenizeXML(xmlExpression string) string {
 	return TrimTag(response, "sentence")
 }
 
-func recursEval(element *xmldom.Node) string {
-	switch element.Name {
+func recursEval(element dom.Element) string {
+	switch element.GetNodeName() {
 	case "#text":
-		return tokenizeFragment(element.Text)
+		return tokenizeFragment(element.(dom.Text).GetValue())
 	case "sentence":
 		return evalTagContent(element)
 	default:
@@ -51,34 +49,52 @@ func recursEval(element *xmldom.Node) string {
 	}
 }
 
-func genericXML(element *xmldom.Node) string {
+func genericXML(element dom.Element) string {
 	result := evalTagContent(element)
 	return unevaluatedXML(result, element)
 }
 
-func evalTagContent(element *xmldom.Node) string {
+func evalTagContent(element dom.Element) string {
 	var result string
-	for _, child := range element.Children {
+	childList := element.GetChildNodes()
+	for i := 0; i < childList.GetLength(); i++ {
+		child := childList.Item(i).(dom.Element)
 		result += recursEval(child)
 	}
 	return result
 }
 
-func unevaluatedXML(result string, element *xmldom.Node) string {
-	var buffer bytes.Buffer
-	buffer.WriteString(" <")
-	buffer.WriteString(element.Name)
-	for _, attr := range element.Attributes {
-		buffer.WriteString(fmt.Sprintf(" %s=\"%s\"", attr.Name, attr.Value))
+//func unevaluatedXML(result string, element dom.Element) string {
+//	var buffer bytes.Buffer
+//	buffer.WriteString(" <")
+//	buffer.WriteString(element.GetNodeName())
+//	for _, attr := range element.GetAttributes() {
+//		buffer.WriteString(fmt.Sprintf(" %s=\"%s\"", attr.Name, attr.Value))
+//	}
+//	if result == "" {
+//		buffer.WriteString("/> ")
+//	} else {
+//		buffer.WriteString(">")
+//		buffer.WriteString(result)
+//		buffer.WriteString("</")
+//		buffer.WriteString(element.GetNodeName())
+//		buffer.WriteString("> ")
+//	}
+//	return buffer.String()
+//}
+
+func unevaluatedXML(result string, node dom.Element) string {
+	nodeName := node.GetNodeName()
+	attributes := ""
+	if node.GetAttributes().GetLength() > 0 {
+		XMLAttributes := node.GetAttributes()
+		for i := 0; i < XMLAttributes.GetLength(); i++ {
+			attributes += " " + XMLAttributes.Item(i).GetNodeName() + "=\"" + XMLAttributes.Item(i).GetValue() + "\""
+		}
 	}
 	if result == "" {
-		buffer.WriteString("/> ")
+		return " <" + nodeName + attributes + "/> "
 	} else {
-		buffer.WriteString(">")
-		buffer.WriteString(result)
-		buffer.WriteString("</")
-		buffer.WriteString(element.Name)
-		buffer.WriteString("> ")
+		return " <" + nodeName + attributes + ">" + result + "</" + nodeName + "> " // add spaces
 	}
-	return buffer.String()
 }
