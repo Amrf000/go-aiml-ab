@@ -3,6 +3,7 @@ package ab
 import (
 	"bufio"
 	"fmt"
+	"github.com/robertkrimen/otto"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -100,9 +101,21 @@ func Utils_System(evaluatedContents, failedString string) string {
 	return string(output)
 }
 
+var vm *otto.Otto
+
+func InitOtto() {
+	vm = otto.New()
+}
+
 // EvalScript evaluates a JavaScript script using the Goja JavaScript engine.
 func EvalScript(engineName, script string) (string, error) {
-	// Note: For JavaScript evaluation, you'll need to use a library like "github.com/dop251/goja".
-	// This placeholder demonstrates the intention.
-	return "", fmt.Errorf("JavaScript evaluation not implemented in this example")
+	value, err := vm.Run(script)
+	if err != nil {
+		return "", err
+	}
+	ret, err := value.ToString()
+	if err != nil {
+		return "", err
+	}
+	return ret, nil
 }

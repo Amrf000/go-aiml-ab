@@ -3,6 +3,7 @@ package ab
 import (
 	"bytes"
 	"encoding/xml"
+	"fmt"
 	"github.com/subchen/go-xmldom"
 	"io/ioutil"
 	"strings"
@@ -22,17 +23,21 @@ func ParseFile(fileName string) (*xmldom.Node, error) {
 	if err != nil {
 		return nil, err
 	}
-	return ParseXML(xmlData)
+	return ParseXML(xmlData, fileName)
 }
 
 // ParseString parses an XML string and returns the root node.
 func ParseString(xmlString string) (*xmldom.Node, error) {
-	return ParseXML([]byte(xmlString))
+	return ParseXML([]byte(xmlString), "")
 }
 
 // ParseXML parses XML data and returns the root node.
-func ParseXML(xmlData []byte) (*xmldom.Node, error) {
-	doc := xmldom.Must(xmldom.ParseXML(string(xmlData)))
+func ParseXML(xmlData []byte, filename string) (*xmldom.Node, error) {
+	doc, err := xmldom.ParseXML(string(xmlData))
+	if err != nil {
+		fmt.Println(filename)
+		panic(err)
+	}
 	root := doc.Root
 	return root, nil
 	//var node xmldom.Node

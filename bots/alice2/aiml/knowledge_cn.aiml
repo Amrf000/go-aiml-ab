@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- 文件：knowledge.aiml -->
+<!-- 作者：Richard S. Wallace 博士 -->
+<!-- 最后修改时间：2014 年 7 月 19 日 -->
+<!-- -->
+<!-- 此 AIML 文件是 ALICE2 0.0.5 聊天机器人知识库的一部分。 -->
+<!-- -->
+<!-- ALICE2 大脑版权所有 &copy; 2014，由 ALICE AI 基金会所有。 -->
+<!-- -->
+<!-- ALICE2 大脑根据 GNU Lesser General -->
+<!-- 公共许可证条款发布，由自由软件基金会发布。 -->
+<!-- -->
+<!-- 本文件分发时不附带任何担保；甚至不附带 -->
+<!-- 适销性或特定用途适用性的默示担保。 -->
+<!-- -->
+<!-- 更多信息请参阅 http://www.alicebot.org -->
+<!-- -->
+<category><pattern>押韵 *</pattern>
+<template><think>
+<set var="rhyme"><map name="rhyme"><star/></map></set>
+</think>
+<condition var="rhyme">
+<li value="unknown">反<star/></li>
+<li><get var="rhyme"/></li>
+</condition></template>
+</category>
+<category><pattern>是 # <set>wet</set> ^ 湿 ^</pattern>
+<template><star index="2"/> 是湿的。</template>
+</category>
+<category><pattern>什么形状是 # <set>sphere</set></pattern>
+<template>球形</template>
+</category>
+<category><pattern>什么 # 下一个 # 2 4 6 8</pattern>
+<template>10</template>
+</category>
+<category><pattern>下一步是什么 # 2 4 6</pattern>
+<template>8</template>
+</category>
+<category><pattern>下一步是什么 # 1 3 5 7</pattern>
+<template>9</template>
+</category>
+<category><pattern>下一步是什么 # 1 3 5</pattern>
+<template>7</template>
+</category>
+<category><pattern>哪个州的首府是 <set>state</set></pattern>
+<template><map><name>state2capital</name><star/></map>.</template>
+</category>
+<category><pattern>哪个州的首府是<set>nation</set></pattern>
+<template><map><name>nation2capital</name><star/></map>.</template>
+</category>
+<category><pattern>最大的城市是哪个 ^ <set>state</set> ^</pattern>
+<template><map><name>state2largestcity</name><star/></map>.</template>
+</category>
+<category><pattern>什么是 AIML ^</pattern>
+<template>AIML，即人工智能标记语言，是一种用于创建自然语言软件代理的 XML 方言。</template>
+</category>
+<category><pattern>第一个月是哪个*</pattern>
+<template>一月。</template>
+</category>
+<category><pattern>哪一天 # 以 # S 开头</pattern>
+<template>星期六，星期日。</template>
+</category>
+<category><pattern>哪些日子 # 以 # S 开头</pattern>
+<template>星期六、星期日。</template>
+</category>
+<category><pattern>哪些日子 # 以 # M 开头</pattern>
+<template>星期一。</template>
+</category>
+<category><pattern>哪些日子 # 以 # W 开头</pattern>
+<template>星期三。</template>
+</category>
+<category><pattern>哪一天 # 以 # F 开头</pattern>
+<template>星期五。</template>
+</category>
+<category><pattern>哪一天 # 以 # T 开头</pattern>
+<template>星期二、星期四。</template>
+</category>
+<category><pattern>哪一天 # 以 # T 开头</pattern>
+<template>星期二、星期四。</template>
+</category>
+<category><pattern>火是热的吗 #</pattern>
+<template>火是热的。</template>
+</category>
+<category><pattern>火是冷的吗 #</pattern>
+<template>火是热的。</template>
+</category>
+<category><pattern>第一个月是什么*</pattern>
+<template>一月。</template>
+</category>
+<category><pattern>是 * # NUMBER</pattern>
+<template>否</template>
+</category>
+<category><pattern>是 * # FOOD</pattern>
+<template>据我所知没有。</template>
+</category>
+<category><pattern>是 * # LANGUAGE</pattern>
+<template>否</template>
+</category>
+<category><pattern>是 * MONTH</pattern>
+<template>否</template>
+</category>
+<category><pattern>是 * # SIGN</pattern>
+<template>否</template>
+</category>
+<category><pattern>是 * # NAME</pattern>
+<template>通常不是。</template>
+</category>
+<category><pattern>是 * #字母</pattern>
+<template>否</template>
+</category>
+<category><pattern>是 <set>number</set> 一个 # NUMBER</pattern>
+<template>是</template>
+</category>
+<category><pattern>是 <set>food</set> 一个 # FOOD</pattern>
+<template>是</template>
+</category>
+<category><pattern>是 <set>language</set> 一个 # LANGUAGE</pattern>
+<template>是</template>
+</category>
+<category><pattern>是 <set>month</set> 一个 MONTH</pattern>
+<template>是</template>
+</category>
+<category><pattern>是 <set>starsign</set> 一个 # SIGN</pattern>
+<template>是</template>
+</category>
+<category><pattern>是 <set>name</set> 一个 # NAME</pattern>
+<template>是</template>
+</category>
+<category><pattern>是<set>letter</set> A # 字母</pattern>
+<template>是</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> # COUNTRY #</pattern>
+<template>一个国家是<random><li>美国</li><li>俄罗斯</li><li>中国</li><li>日本</li><li>法国</li><li>南非</li></random>。</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> # 北极</pattern>
+<template>冰、海豹、企鹅、精灵、圣诞老人。</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> # 海滩</pattern>
+<template>沙滩、冲浪、日光浴者、救生员、海藻。</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> # 银行</pattern>
+<template>出纳员，金钱、支票、警卫。</template>
+</category>
+<category><pattern>名称 <set>quantifier</set> # 森林</pattern>
+<template>树木。</template>
+</category>
+<category><pattern>名称 <set>quantifier</set> # 树林</pattern>
+<template>树木。</template>
+</category>
+<category><pattern>名称 <set>quantifier</set> # 海洋</pattern>
+<template>鱼、海浪、海藻、船只。</template>
+</category>
+<category><pattern>名称 <set>quantifier</set> # 农场</pattern>
+<template>农作物、牲畜、拖拉机、谷仓。</template>
+</category>
+<category><pattern>名称 <set>quantifier</set> # 星座</pattern>
+<template>狮子座、双鱼座、天秤座。</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> # 搜索引擎</pattern>
+<template>谷歌。</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> # 北美</pattern>
+<template>美国、加拿大、墨西哥、古巴。</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> # 南美</pattern>
+<template>巴西、阿根廷、哥伦比亚、委内瑞拉。</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> # 欧洲</pattern>
+<template>德国、法国、荷兰、爱尔兰。</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> #动物</pattern>
+<template>狗、猫、马、猴子、蛇、鹰。</template>
+</category>
+<category><pattern>名称 <set>quantifier</set> # 非洲</pattern>
+<template>埃及、苏丹、尼日利亚、南非。</template>
+</category>
+<category><pattern>名称 <set>quantifier</set> # 亚洲</pattern>
+<template>俄罗斯、中国、印度、巴基斯坦。</template>
+</category>
+<category><pattern>名称 <set>quantifier</set> # 橙色</pattern>
+<template>胡萝卜</template>
+</category>
+<category><pattern>NAME <set>quantifier</set> *</pattern>
+<template><random><li>一个好名字应该是</li>
+<li>我会选择这个名字</li>
+<li>我们就叫它吧</li>
+</random> <random><li>Fred</li><li>Larry</li><li>Jenny</li></random></template>
+</category>
+<category><pattern><set>animal</set></pattern>
+<template><star/> 是一种动物。</template>
+</category>
+<category><pattern>是 * 动物</pattern>
+<template><star/> 不是我认识的动物。</template>
+</category>
+<category><pattern>是 <set>animal</set> 动物</pattern>
+<template><star/> 是一种动物。</template>
+</category>
+<category><pattern>是<set>article</set> <set>animal</set> 动物</pattern>
+<template><srai>是 <star index="2"/> 动物</srai></template>
+</category>
+<category><pattern>是 <set>animal</set> * 动物 *</pattern>
+<template><srai>是 <star/> 动物</srai></template>
+</category>
+<category><pattern>是 <set>article</set> <set>animal</set> * 动物 *</pattern>
+<template><srai>是 <star index="2"/> 动物</srai></template>
+</category>
+<category><pattern>是 * 动物 #</pattern>
+<template><srai>是 <map><name>singular</name><star/></map> 动物动物</srai></template>
+</category>
+<category><pattern>是<set>quantifier</set> * 动物 #</pattern>
+<template><srai>是<map><name>单数</name><star index="2"/></map>动物</srai></template>
+</category>
+<category><pattern><set>preposition</set></pattern>
+<template><star/> 是介词。</template>
+</category>
+<category><pattern><set>bird</set></pattern>
+<template><star/> 是一只鸟。</template>
+</category>
+<category><pattern>是 * 一只鸟</pattern>
+<template><star/> 不是我认识的鸟。</template>
+</category>
+<category><pattern>是<set>bird</set>一只鸟</pattern>
+<template><star/> 是一只鸟。</template>
+</category>
+<category><pattern>是 <set>article</set> <set>bird</set> 一只鸟</pattern>
+<template><srai>是 <star index="2"/> 一只鸟</srai></template>
+</category>
+<category><pattern>是 <set>bird</set> * 鸟 *</pattern>
+<template><srai>是 <star/> 一只鸟</srai></template>
+</category>
+<category><pattern>是 <set>article</set> <set>bird</set> * 鸟 *</pattern>
+<template><srai>是 <star index="2"/> 一只鸟</srai></template>
+</category>
+<category><pattern>是 * 鸟类 #</pattern>
+<template><srai>是 <map><name>singular</name><star/></map> 鸟类</srai></template>
+</category>
+<category><pattern>是 <set>quantifier</set> * 鸟类 #</pattern>
+<template><srai>是 <map><name>singular</name><star index="2"/></map> 鸟类</srai></template>
+</category>
+<category><pattern>是 * 颜色</pattern>
+<template><star/> 不是我认识的颜色。</template>
+</category>
+<category><pattern>是 <set>color</set> 颜色</pattern>
+<template><star/> 是一种颜色。</template>
+</category>
+<category><pattern>是 <set>article</set> <set>color</set> 物种COLOR</pattern>
+<template><srai>是 <star index="2"/> 一个颜色</srai></template>
+</category>
+<category><pattern>是 <set>color</set> * COLOR *</pattern>
+<template><srai>是 <star/> 一个颜色</srai></template>
+</category>
+<category><pattern>是 <set>article</set> <set>color</set> * COLOR *</pattern>
+<template><srai>是 <star index="2"/> 一个颜色</srai></template>
+</category>
+<category><pattern><set>number</set></pattern>
+<template><star/> 是一个数字。</template>
+</category>
+<category><pattern>是 * 一个数字</pattern>
+<template><star/> 不是一个数字，我知道。</template>
+</category>
+<category><pattern>是 <set>number</set> 一个数字</pattern>
+<template><star/> 是一个数字。</template>
+</category>
+<category><pattern>是 <set>article</set> <set>number</set> 一个数字</pattern>
+<template><srai>是 <star index="2"/> 一个数字</srai></template>
+</category>
+<category><pattern>是 <set>number</set> * 数字 *</pattern>
+<template><srai>是 <star/> 一个数字</srai></template>
+</category>
+<category><pattern>是 <set>article</set> <set>number</set> * 数字 *</pattern>
+<template><srai>是 <star index="2"/> 一个NUMBER</srai></template>
+</category>
+<category><pattern><set>language</set></pattern>
+<template><star/> 是一种语言。</template>
+</category>
+<category><pattern>是一种 * 语言</pattern>
+<template><star/> 不是我所知道的语言。</template>
+</category>
+<category><pattern>是一种 <set>language</set> 语言</pattern>
+<template><star/> 是一种语言。</template>
+</category>
+<category><pattern>是 <set>article</set> <set>language</set> 一种语言</pattern>
+<template><srai>是 <star index="2"/> 一种语言</srai></template>
+</category>
+<category><pattern>是 <set>language</set> * 语言 *</pattern>
+<template><srai>是 <star/> 一种语言</srai></template>
+</category>
+<category><pattern>是 <set>article</set> <set>language</set> * 语言 *</pattern>
+<template><srai>是 <star index="2"/> 一种语言</srai></template>
+</category>
+<category><pattern><set>letter</set></pattern>
+<template><star/> 是一封信。</template>
+</category>
+<category><pattern>是 * 一个字母</pattern>
+<template><star/> 不是我认识的字母。</template>
+</category>
+<category><pattern>是 <set>letter</set> 字母</pattern>
+<template><star/> 是一封字母。</template>
+</category>
+<category><pattern>是 <set>article</set> <set>letter</set> 字母</pattern>
+<template><srai>是 <star index="2"/> 字母</srai></template>
+</category>
+<category><pattern>是 <set>letter</set> * 字母 *</pattern>
+<template><srai>是 <star/> 字母</srai></template>
+</category>
+<category><pattern>是 <set>article</set> <set>letter</set> * 字母 *</pattern>
+<template><srai>是 <star index="2"/> 一封信</srai></template>
+</category>
+<category><pattern><set>month</set></pattern>
+<template><star/> 是一个月。</template>
+</category>
+<category><pattern>是 <set>article</set> <set>month</set> 一个月</pattern>
+<template><srai>是 <star index="2"/> 一个月</srai></template>
+</category>
+<category><pattern>是 <set>month</set> * 一个月 *</pattern>
+<template><srai>是 <star/> 一个月</srai></template>
+</category>
+<category><pattern>是 <set>article</set> <set>month</set> * 一个月 *</pattern>
+<template><srai>是 <star index="2"/> 一个月</srai></template>
+</category>
+</aiml>

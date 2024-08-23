@@ -196,7 +196,7 @@ func EvalTagContent(node *xmldom.Node, ps *ParseState, ignoreAttributes map[stri
 	childList := node.Children
 	for _, child := range childList {
 		if ignoreAttributes == nil {
-			ignoreAttributes = make(map[string]bool)
+			ignoreAttributes = map[string]bool{}
 		}
 		if _, ignored := ignoreAttributes[child.Name]; !ignored {
 			result.WriteString(RecursEval(child, ps))
@@ -947,7 +947,7 @@ func Javascript(node *xmldom.Node, ps *ParseState) string {
 
 	res, err := EvalScript("JavaScript", script)
 	if err != nil {
-		fmt.Println(err) // Print the error
+		panic(err) // Print the error
 	} else {
 		result = res
 	}
