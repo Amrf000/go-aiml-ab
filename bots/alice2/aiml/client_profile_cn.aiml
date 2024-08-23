@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- 文件：client_profile.aiml -->
+<!-- 作者：Richard S. Wallace 博士 -->
+<!-- 最后修改时间：2014 年 7 月 19 日 -->
+<!-- -->
+<!-- 此 AIML 文件是 ALICE2 0.0.5 聊天机器人知识库的一部分。 -->
+<!-- -->
+<!-- ALICE2 大脑版权所有 &copy; 2014，由 ALICE AI 基金会所有。 -->
+<!-- -->
+<!-- ALICE2 大脑根据 GNU Lesser General -->
+<!-- 公共许可证条款发布，由自由软件基金会发布。 -->
+<!-- -->
+<!-- 本文件分发时不附带任何担保；甚至不附带 -->
+<!-- 适销性或特定用途适用性的默示担保。 -->
+<!-- -->
+<!-- 更多信息请参阅 http://www.alicebot.org -->
+<!-- -->
+<category><pattern>我最喜欢的颜色是 <set>color</set></pattern>
+<template><set name="favoritecolor"><formal><star/></formal></set> 是一种不错的颜色。 <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的颜色是 *</pattern>
+<template>我没有认出 <star/> 是一种颜色。</template>
+</category>
+<category><pattern>我最喜欢的颜色是绿色</pattern>
+<template><set name="favoritecolor">绿色</set> 也是我最喜欢的颜色！ <think><set name="it"><set name="topic">绿色</set></set></think></template>
+</category>
+<category><pattern>我喜欢<set>color</set></pattern>
+<template><srai>我最喜欢的颜色是<star/></srai></template>
+</category>
+<category><pattern><set>number</set></pattern><that>你几岁了</that>
+<template><srai>我的年龄是<star/></srai></template>
+</category>
+<category><pattern>*</pattern><that>* 会将我的名字改成什么</that>
+<template><srai>你的名字是<star/></srai></template>
+</category>
+<category><pattern>*</pattern><that>你的星座是什么</that>
+<template><think><set name="sign"><star/></set></think>
+<srai><get name="sign"/></srai></template> 的星座运势
+</category>
+<category><pattern>他的名字是 *</pattern>
+<template>你对他了解多少？<think><set name="he"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我不喜欢 *</pattern>
+<template>我会将 <set name="dislikes"><star/></set> 添加到你的不喜欢列表中。 <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我有<set>article</set> *</pattern>
+<template><random><li>你拥有它多久了？</li><li>它让你感觉如何？</li><li>你什么时候得到的？</li></random><think><set name="it"><set name="topic"><set name="has"><star/> <star index="2"/></set></set></set></think></template>
+</category>
+<category><pattern>我有 *</pattern>
+<template>那是你最喜欢的物品之一吗？<think><set name="has"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我已婚</pattern>
+<template>你<set name="status">结婚</set>多久了？</template>
+</category>
+<category><pattern>我是一名医生</pattern>
+<template><think><set name="job">医生</set></think>你在哪里上的医学院？</template>
+</category>
+<category><pattern>我来自 *</pattern>
+<template>那是你现在住的地方吗？ <think><set name="birthplace"><star/></set></think></template>
+</category>
+<category><pattern>我喜欢 *</pattern>
+<template>你最喜欢它的什么？ <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我喜欢 *</pattern>
+<template><think><set name="likes"><star/></set></think> <random><li>你做这件事多久了？</li><li>你经常做这件事吗？</li><li>你认为我会喜欢吗？</li></random><think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我宁愿做 *</pattern>
+<template>它有什么更好的地方？ <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>他</pattern>
+<template><get name="he"/>?</template>
+</category>
+<category><pattern>我的星座是 *</pattern>
+<template>我知道很多 <formal><star/></formal>。
+<think>
+<set name="it"><star/></set>
+<set name="sign"><star/></set>
+<set name="topic"><star/></set>
+</think></template>
+</category>
+<category><pattern>我的定位</pattern>
+<template><get name="orientation"/></template>
+</category>
+<category><pattern>我的定位是 *</pattern>
+<template>感谢您对我的信任。 <think><set name="orientation"><star/></set></think></template>
+</category>
+<category><pattern>我的纬度</pattern>
+<template><get name="latitude"/></template>
+</category>
+<category><pattern>我的男朋友</pattern>
+<template><get name="boyfriend"/>?</template>
+</category>
+<category><pattern>我的名字</pattern>
+<template><think><set var="name"><get name="name"/></set></think>
+<condition var="name">
+<li value="unknown">我不知道你的名字。你叫什么名字？</li>
+<li value="Friend">我不知道你的名字。你叫什么名字？</li>
+<li><get var="name"/>.</li>
+</condition></template>
+</category>
+<category><pattern>我的全名</pattern>
+<template><condition name="firstname">
+<li value="what"/>
+<li><get name="firstname"/></li>
+</condition>
+<condition name="middlename">
+<li value="what"/>
+<li><get name="middlename"/></li>
+</condition>
+<condition name="lastname">
+<li value="what"/>
+<li><get name="lastname"/></li>
+</condition>.
+我叫你 <get name="name"/>.</template>
+</category>
+<category><pattern>我的城镇</pattern>
+<template><get name="town"/></template>
+</category>
+<category><pattern>我的姓氏是 *</pattern>
+<template>你喜欢别人叫你的名字还是姓氏？ <think><set name="lastname"><star/></set></think></template>
+</category>
+<category><pattern>我的姓氏 *</pattern><that>* 名字或姓氏</that>
+<template><srai>用我的姓氏叫我</srai></template>
+</category>
+<category><pattern>我的出生地</pattern>
+<template><get name="birthplace"/></template>
+</category>
+<category><pattern>我的出生地是 *</pattern>
+<template>你在那里呆了多久？
+<think>
+<set name="it"><star/></set>
+<set name="there"><star/></set>
+<set name="topic"><star/></set>
+<set name="birthplace"><star/></set>
+</think></template>
+</category>
+<category><pattern>我的国籍是 *</pattern>
+<template>我和很多 <formal><star/></formal> 人聊过。
+<think>
+<set name="it"><star/></set>
+<set name="nationality"><star/></set>
+<set name="topic"><star/></set>
+</think></template>
+</category>
+<category><pattern>我最喜欢的运动是 *</pattern>
+<template>你玩 <star/> 吗？ <think><set name="favoritesport"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的食物是 *</pattern>
+<template>哪里是获得 <star/> 的好地方？ <think><set name="favoritefood"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的食物是披萨</pattern>
+<template>你喜欢什么配料？ <think><set name="favoritefood">披萨</set></think> <think><set name="it"><set name="topic">披萨</set></set></think></template>
+</category>
+<category><pattern>我最喜欢的电影是 *</pattern>
+<template>您最喜欢这部电影的哪一点？ <think><set name="favoritemovie"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的冰淇淋是 *</pattern>
+<template><srai>最喜欢的冰淇淋</srai> <think><set name="favoriteicecream"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的书是 *</pattern>
+<template>你认为我应该读它吗？ <think><set name="favoritebook"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的演员是 *</pattern>
+<template>他演过什么？ <think><set name="favoriteactor"><star/></set></think> <think><set name="he"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的饮料是 *</pattern>
+<template>味道怎么样？ <think><set name="favoritedrink"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的歌曲是 *</pattern>
+<template>您的手机上有这首歌吗？ <think><set name="favoritesong"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的汽车是 *</pattern>
+<template>您有吗？ <think><set name="favoritecar"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的乐队是 *</pattern>
+<template>他们演奏什么歌曲？ <think><set name="favoriteband"><star/></set></think> <think><set name="them"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的乐队是披头士乐队</pattern>
+<template>谁不喜欢披头士乐队？ <think><set name="them"><set name="topic">披头士乐队</set></set></think></template>
+</category>
+<category><pattern>我最喜欢的颜色</pattern>
+<template><get name="favoritecolor"/></template>
+</category>
+<category><pattern>我最喜欢的颜色是 *</pattern>
+<template><set name="favoritecolor"><formal><star/></formal></set> 是一种不错的颜色。 <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的女演员是 *</pattern>
+<template>她演过什么？ <think><set name="favoriteactress"><formal><star/></formal></set></think> <think><set name="she"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的电视节目是 *</pattern>
+<template>你认为我会喜欢它吗？ <think><set name="favoritetvshow"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我的电子邮箱</pattern>
+<template><get name="email"/></template>
+</category>
+<category><pattern>我的电子邮箱地址是 *</pattern>
+<template><srai>我的电子邮箱是 <star/></srai></template>
+</category>
+<category><pattern>我的电子邮箱是 *</pattern>
+<template>我会记住您的电子邮箱是 <star/>。 <think><set name="email"><star/></set></think></template>
+</category>
+<category><pattern>我的眼睛是绿色的</pattern>
+<template><think><set name="eyecolor">green</set></think> 绿色是一种漂亮的颜色。</template>
+</category>
+<category><pattern>我的祖母</pattern>
+<template><get name="grandmother"/></template>
+</category>
+<category><pattern>我的国家</pattern>
+<template><get name="country"/></template>
+</category>
+<category><pattern>我的位置</pattern>
+<template><get name="location"/></template>
+</category>
+<category><pattern>我的位置是 *</pattern>
+<template><random>
+<li>我活在快乐的当下。</li>
+<li>听起来像一个异国情调位置。</li>
+<li>所以这就是你的家。</li>
+<li>告诉我你喜欢它什么</li>
+<li>你在那里做什么？</li>
+<li>住在那里让你开心吗？</li>
+<li>那里有什么好？</li>
+</random>
+<think><set name="it"><set name="there"><set name="topic"><star/></set></set></set></think>
+<think><set name="location"><star/></set></think></template>
+</category>
+<category><pattern>我的省份</pattern>
+<template><get name="province"/></template>
+</category>
+<category><pattern>我的经度</pattern>
+<template><get name="longitute"/></template>
+</category>
+<category><pattern>我的<set>animal</set>是<set>name</set> #</pattern>
+<template><srai>我的<star/>名称是<star index="2"/></srai></template>
+</category>
+<category><pattern>我的<set>animal</set>名称是*</pattern>
+<template><think>
+<set var="动物"><star/></set>
+<set var="名称"><star index="2"/></set>
+<set><name><get var="动物"/></name><get var="名称"/></set>
+</think>
+这是什么喜欢养宠物<get var="animal"/>吗？
+<learn>
+<category>
+<pattern>我的 <eval><get var="animal"/></eval></pattern>
+<template><eval><get var="name"/></eval></template>
+</category>
+<category>
+<pattern>谁是 <eval><get var="name"/></eval></pattern>
+<template>你的 <eval><get var="animal"/></eval>。</template>
+</category>
+<category>
+<pattern><eval><get var="name"/></eval></pattern>
+<template>你的 <eval><get var="animal"/></eval>。</template>
+</category>
+</learn></template>
+</category>
+<category><pattern>我的狗</pattern>
+<template><get name="dog"/></template>
+</category>
+<category><pattern>我的星座运势</pattern>
+<template><condition name="sign">
+<li value="which">你的星座是什么？</li>
+<li><srai><get name="sign"/>的星座运势</srai></li>
+</condition></template>
+</category>
+<category><pattern>我的猫</pattern>
+<template><get name="cat"/></template>
+</category>
+<category><pattern>我的 META</pattern>
+<template><get name="meta"/></template>
+</category>
+<category><pattern>我的雇主是 *</pattern>
+<template><star/> 是一个大组织吗？ <think><set name="favoriteband"><star/></set></think> <think><set name="them"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我的城市</pattern>
+<template><get name="city"/></template>
+</category>
+<category><pattern>我的州</pattern>
+<template><get name="state"/></template>
+</category>
+<category><pattern>我的街道</pattern>
+<template><get name="street"/></template>
+</category>
+<category><pattern>我的头发是*</pattern>
+<template>你喜欢你的风格吗？ <think><set name="hair"><star/></set></think></template>
+</category>
+<category><pattern>我的县</pattern>
+<template><get name="county"/></template>
+</category>
+<category><pattern>我的中间名</pattern>
+<template><get name="middlename"/></template>
+</category>
+<category><pattern>我的中间名是 *</pattern>
+<template><set name="middlename"><star/></set> 是姓氏吗？</template>
+</category>
+<category><pattern>我的生日</pattern>
+<template><get name="birthday"/></template>
+</category>
+<category><pattern>我的生日是 *</pattern>
+<template>我会记住你的生日是 <set name="birthday"><star/></set>。</template>
+</category>
+<category><pattern>我的生日</pattern>
+<template><get name="birthdate"/></template>
+</category>
+<category><pattern>我的生日是 *</pattern>
+<template>我会记住你的生日是 <set name="birthdate"><star/></set>。</template>
+</category>
+<category><pattern>我的生日是 <set>month</set> <set>ordinal</set> <set>number</set></pattern>
+<template><srai>我的生日是 <star/> <map><name>ordinal2number</name><star index="2"/></map> <star index="3"/></srai></template>
+</category>
+<category><pattern>我的生日是 <set>month</set> <set>number</set> <set>number</set></pattern>
+<template>所以你<set var="age"><srai>年龄来自<star/> <star index="2"/> <star index="3"/></srai></set>。
+<think>
+<srai>我的年龄是 <get var="age"/></srai>
+<set name="birthdate"><star/> <star index="2"/>, <star index="3"/></set>
+</think></template>
+</category>
+<category><pattern>我的年龄</pattern>
+<template><get name="age"/></template>
+</category>
+<category><pattern>我的年龄是 * *</pattern>
+<template><think>
+<set name="isanumber"><srai>ISANUMBER <star/></srai></set>
+</think>
+<condition name="isanumber">
+<li value="true"><srai>我的年龄是 <star/></srai> <srai><star index="2"/></srai></li>
+<li>你几岁了？</li>
+</condition></template>
+</category>
+<category><pattern>我的年龄IS *</pattern>
+<template><think>
+<set name="isanumber"><srai>ISANUMBER <star/></srai></set>
+</think>
+<condition name="isanumber">
+<li value="false">你几岁了？</li>
+<li><think><set name="age"><star/></set></think>
+<random>
+<li>年龄是精神高于物质的问题。如果你不介意，那就无所谓了。</li>
+<li>年龄考虑；年轻冒险。</li>
+<li>年龄是成熟的代价。</li>
+</random>
+</li>
+</condition></template>
+</category>
+<category><pattern>我的地址</pattern>
+<template><get name="address"/></template>
+</category>
+<category><pattern>我的地址是 *</pattern>
+<template>那地方好吗？ <think><set name="address"><star/></set></think></template>
+</category>
+<category><pattern>我的住所</pattern>
+<template><get name="residence"/></template>
+</category>
+<category><pattern>我的住所是 *</pattern>
+<template>你喜欢那里吗？ <think><set name="residence"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我的性别</pattern>
+<template><think><set var="gender"><get name="gender"/></set></think>
+<condition var="gender">
+<li value="unknown">我不知道您的性别。您是男性还是女性？</li>
+<li>您是<get var="gender"/>。</li>
+</condition></template>
+</category>
+<category><pattern>我的性别是 *</pattern>
+<template>很高兴知道。 <think><set name="gender"><star/></set></think></template>
+</category>
+<category><pattern>我的宗教</pattern>
+<template><get name="religion"/></template>
+</category>
+<category><pattern>我的宗教是 *</pattern>
+<template>精神探索很重要。 <think><set name="religion"><star/></set></think> <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我的路</pattern>
+<template><get name="road"/></template>
+</category>
+<category><pattern>我的名字</pattern>
+<template><get name="firstname"/></template>
+</category>
+<category><pattern>我的姓氏</pattern>
+<template><get name="lastname"/></template>
+</category>
+<category><pattern>我的名字是 *</pattern>
+<template>你喜欢别人叫你的名字还是姓氏？ <think><set name="firstname"><star/></set></think></template>
+</category>
+<category><pattern>我的名字 *</pattern><that>* 名字或姓氏</that>
+<template><srai>叫我的名字</srai></template>
+</category>
+<category><pattern>我在哪里工作</pattern>
+<template>你说你在 <get name="employer"/> 工作。</template>
+</category>
+<category><pattern>我住在哪里</pattern>
+<template>你说那是 <get name="residence"/>？</template>
+</category>
+<category><pattern>她的名字是 *</pattern>
+<template>你对她有多了解？<think><set name="she"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>IT</pattern>
+<template><get name="it"/>?</template>
+</category>
+<category><pattern>IT IS A *</pattern>
+<template>您想搜索它吗？<think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>主题</pattern>
+<template><get name="topic"/>?</template>
+</category>
+<category><pattern>功能请求 *</pattern>
+<template>我暂时无法<lowercase><star/></lowercase>。 <think><set name="featurerequest"><star/></set></think> 您是否想向开发人员发送此功能请求？</template>
+</category>
+<category><pattern>谁是我的 <set>familiarname</set></pattern>
+<template><srai>我的 <star/></srai></template>
+</category>
+<category><pattern>谁是我的 <set>familiarname</set> *</pattern>
+<template><srai>我的 <star/></srai></template>
+</category>
+<category><pattern>我的<set>familiarname</set></pattern>
+<template><get><name><map><name>familiarpredicate</name><star/></map></name></get></template>
+</category>
+<category><pattern>她</pattern>
+<template><get name="she"/>?</template>
+</category>
+<category><pattern>用我的姓氏叫我</pattern>
+<template><srai>给我打电话<get name="firstname"/></srai></template>
+</category>
+<category><pattern>给我打电话*</pattern>
+<template><srai>随机介绍</srai> <formal><star/></formal>。
+<think>
+<srai>根据姓名设置性别 <star/></srai>
+<set name="name"><formal><star/></formal></set>。
+<set name="firstname"><get name="name"/></set>
+</think></template>
+</category>
+<category><pattern>给我打电话 * *</pattern>
+<template><srai>随机介绍</srai> <formal><star/></formal>。
+<think>
+<srai>根据姓名设置性别 <star/></srai>
+<set name="name"><formal><star/> <star index="2"/></formal></set>。
+<set name="firstname"><formal><star/></formal></set>
+<set name="lastname"><formal><star index="2"/></formal></set>
+</think></template>
+</category>
+<category><pattern>给我打电话 * * *</pattern>
+<template><srai>随机介绍</srai> <star/>.
+<think>
+<srai>根据姓名设置性别 <star/></srai>
+<set name="name"><formal><star/> <star index="2"/> <star index="3"/></formal></set>.
+<set name="firstname"><formal><star/></formal></set>
+<set name="middlename"><formal><star index="2"/></formal></set>
+<set name="lastname"><formal><star index="3"/></formal></set>
+</think></template>
+</category>
+<category><pattern>我们</pattern>
+<template><get name="we"/>?</template>
+</category>
+<category><pattern>主题是 *</pattern>
+<template><random>
+<li>当然，<person/> 是个好主题。</li>
+<li>你开始。</li>
+<li>告诉我。</li>
+</random>
+<think><set name="topic"><star/></set></think></template>
+</category>
+<category><pattern>他们</pattern>
+<template><get name="them"/>?</template>
+</category>
+<category><pattern>随机介绍</pattern>
+<template><random>
+<li>嘿</li>
+<li>嗨，</li>
+<li>你好</li>
+<li>怎么了，</li>
+<li>你好吗，</li>
+<li>很高兴见到你，</li>
+<li>很高兴认识你，</li>
+<li>我能帮你什么，</li>
+<li>你好吗，</li>
+<li>好的，我会给你打电话的</li>
+<li>很高兴见到你，</li>
+<li>很高兴见到你，</li>
+<li>很高兴认识你，</li>
+<li>这是一个非常好的名字，</li>
+<li>我很高兴见到你</li>
+<li>我总是很高兴结识新朋友，</li>
+<li>我很高兴向您介绍我自己，</li>
+<li>很高兴向您介绍我自己，</li>
+</random></template>
+</category>
+<category><pattern>他们</pattern>
+<template><get name="them"/>?</template>
+</category>
+<category><pattern>从姓名设置性别*</pattern>
+<template><think>
+<set name="gendername"><srai>性别名称 <star/></srai></set>
+<condition name="gendername">
+<li value="M"><set name="gender">男性</set></li>
+<li value="F"><set name="gender">女性</set></li>
+</condition>
+</think></template>
+</category>
+<category><pattern>更改您的姓名</pattern>
+<template>您想将我的名字更改为什么？</template>
+</category>
+<category><pattern>我的生日是什么时候</pattern>
+<template>您说是<get name="birthday"/>?</template>
+</category>
+<category><pattern>名字</pattern><that>* 名字或姓氏</that>
+<template><srai>叫我的名字</srai></template>
+</category>
+<category><pattern>你怎么称呼 *</pattern>
+<template>这是个玩笑吗？你怎么称呼它？ <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我长得像什么</pattern>
+<template><think><set name="gender"><lowercase><get name="gender"/></lowercase></set></think>你看起来像一个<condition name="gender"><li value="female">女士</li><li>男士</li></condition>，正在和<condition name="gender"><li value="female">她</li><li>他的</li></condition>的电话通话。</template>
+</category>
+<category><pattern>我妻子的名字是什么</pattern>
+<template>你说她叫<get name="wife"/>。</template>
+</category>
+<category><pattern>我丈夫的名字是什么</pattern>
+<template>你说他是<get name="husband"/>。</template>
+</category>
+<category><pattern>我女儿的名字是什么</pattern>
+<template>你说她是<get name="daughter"/>。</template>
+</category>
+<category><pattern>我最喜欢的冰淇淋口味是什么</pattern>
+<template>你说它是<get name="favoriteicecream"/>。</template>
+</category>
+<category><pattern>我母亲的名字是什么</pattern>
+<template>您说她是<get name="mother"/>。</template>
+</category>
+<category><pattern>我兄弟的名字是什么</pattern>
+<template>您说他是<get name="brother"/>。</template>
+</category>
+<category><pattern>我的地址是什么</pattern>
+<template>您说是<get name="address"/>？</template>
+</category>
+<category><pattern>我的位置是什么</pattern>
+<template>我相信您在<get name="location"/>。</template>
+</category>
+<category><pattern>姓氏</pattern><that>* 名字或姓氏</that>
+<template><srai>用我的姓氏给我打电话NAME</srai></template>
+</category>
+<category><pattern>客户资料</pattern>
+<template><condition name="address"><li value="where"/><li>地址：<get name="address"/>。</li></condition>
+<condition name="age"><li value="how many"/><li>年龄：<get name="age"/>。</li></condition>
+<condition name="bestfriend"><li value="who"/><li>最佳朋友：<get name="bestfriend"/>。</li></condition>
+<condition name="birthday"><li value="when"/><li>生日：<get name="birthday"/>。</li></condition>
+<condition name="birthplace"><li value="where"/><li>出生地：<get name="birthplace"/>。</li></condition>
+<condition name="boyfriend"><li value="who"/><li>男朋友：<get name="boyfriend"/>。</li></condition>
+<condition name="brother"><li value="who"/><li>兄弟： <get name="brother"/>.</li></condition>
+<condition name="cat"><li value="what"/><li>猫：<get name="cat"/>.</li></condition>
+<condition name="city"><li value="which"/><li>城市：<get name="city"/>.</li></condition>
+<condition name="country"><li value="which"/><li>国家：<get name="country"/>.</li></condition>
+<condition name="county"><li value="which"/><li>县：<get name="county"/>.</li></condition>
+<condition name="customname"><li value="unknown"/><li>自定义名称：<get name="customname"/>.</li></condition>
+<condition name="daughter"><li value="who"/><li>女儿：<get name="daughter"/>.</li></condition>
+<condition name="dog"><li value="who"/><li>狗：<get name="dog"/>。</li></condition>
+<condition name="email"><li value="what"/><li>电子邮件：<get name="email"/>。</li></condition>
+<condition name="employer"><li value="who"/><li>雇主：<get name="employer"/>。</li></condition>
+<condition name="father"><li value="who"/><li>父亲：<get name="father"/>。</li></condition>
+<condition name="favoriteactor"><li value="who"/><li>favoriteactor：<get name="favoriteactor"/>。</li></condition>
+<condition name="favoriteactress"><li value="who"/><li>favoriteactress：<get name="favoriteactress"/>。</li></condition>
+<condition name="favoriteband"><li value="who"/><li>favoriteband：<get name="favoriteband"/>。</li></condition>
+<condition name="favoritebook"><li value="what"/><li>favoritebook：<get name="favoritebook"/>。</li></condition>
+<condition name="favoritecar"><li value="what"/><li>favoritecar：<get name="favoritecar"/>。</li></condition>
+<condition name="favoritecolor"><li value="what"/><li>favoritecolor：<get name="favoritecolor"/>。</li></condition>
+<condition name="favoritedrink"><li value="what"/><li>favoritedrink：<get name="favoritedrink"/>。</li></condition>
+<condition name="favoritefood"><li value="what"/><li>favoritefood：<get name="favoritefood"/>。</li></condition>
+<condition name="favoriteicecream"><li value="what"/><li>favoriteicecream：<get name="favoriteicecream"/>。</li></condition>
+<condition name="favoritemovie"><li value="what"/><li>favoritemovie：<get name="favoritemovie"/>。</li></condition>
+<condition name="favoritesong"><li value="what"/><li>favoritesong：<get name="favoritesong"/>。</li></condition>
+<condition name="favoritesport"><li value="what"/><li>favoritesport：<get name="favoritesport"/>。</li></condition>
+<condition name="favoritetvshow"><li value="what"/><li>favoritetvshow：<get name="favoritetvshow"/>。</li></condition>
+<condition name="firstname"><li value="what"/><li>firstname：<get name="firstname"/>。</li></condition>
+<condition name="friend"><li value="who"/><li>朋友：<get name="friend"/>。</li></condition>
+<condition name="gender"><li value="unknown"/><li>性别：<get name="gender"/>。</li></condition>
+<condition name="girlfriend"><li value="who"/><li>女朋友：<get name="girlfriend"/>。</li></condition>
+<condition name="hair"><li value="what"/><li>头发：<get name="hair"/>。</li></condition>
+<condition name="has"><li value="what"/><li>有：<get name="has"/>。</li></condition>
+<condition name="he"><li value="who"/><li>他：<get name="he"/>。</li></condition>
+<condition name="husband"><li value="who"/><li>丈夫：<get name="husband"/>。</li></condition>
+<condition name="it"><li value="what"/><li>它：<get name="it"/>。</li></condition>
+<condition name="lastname"><li value="what"/><li>姓氏：<get name="lastname"/>。</li></condition>
+<condition name="latitude"><li value="which"/><li>纬度：<get name="latitude"/>。</li></condition>
+<condition name="likes"><li value="what"/><li>喜欢：<get name="likes"/>。</li></condition>
+<condition name="location"><li value="where"/><li>位置：<get name="location"/>。</li></condition>
+<condition name="longitute"><li value="which"/><li>经度：<get name="longitute"/>。</li></condition>
+<condition name="middlename"><li value="what"/><li>中间名：<get name="middlename"/>。</li></condition>
+<condition name="mather"><li value="who"/><li>母亲：<get name="mother"/>。</li></condition>
+<condition name="name"><li value="Friend"/><li>姓名：<get name="name"/>。</li></condition>
+<condition name="orientation"><li value="unknown"/><li>orientation：<get name="orientation"/>。</li></condition>
+<condition name="phonenumber"><li value="unknown"/><li>电话号码：<get name="phonenumber"/>。</li></condition>
+<condition name="province"><li value="which"/><li>省份：<get name="province"/>。</li></condition>
+<condition name="religion"><li value="unknown"/><li>宗教：<get name="religion"/>。</li></condition>
+<condition name="residence"><li value="where"/><li>住所：<get name="residence"/>。</li></condition>
+<condition name="road"><li value="which"/><li>道路：<get name="road"/>。</li></condition>
+<condition name="she"><li value="who"/><li>她：<get name="she"/>。</li></condition>
+<condition name="sign"><li value="which"/><li>签名：<get name="sign"/>。</li></condition>
+<condition name="sister"><li value="who"/><li>姐妹：<get name="sister"/>。</li></condition>
+<condition name="state"><li value="which"/><li>状态：<get name="state"/>。</li></condition>
+<condition name="status"><li value="what"/><li>状态：<get name="status"/>。</li></condition>
+<condition name="street"><li value="which"/><li>街道：<get name="street"/>。</li></condition>
+<condition name="there"><li value="where"/><li>那里：<get name="there"/>。</li></condition>
+<condition name="them"><li value="who"/><li>他们：<get name="them"/>。</li></condition>
+<condition name="topic"><li value="unknown"/><li>主题：<get name="topic"/>。</li></condition>
+<condition name="town"><li value="which"/><li>城镇：<get name="town"/>。</li></condition>
+<condition name="voicemailnumber"><li value="unknown"/><li>voicemailnumber：<get name="voicemailnumber"/>。</li></condition>
+<condition name="we"><li value="who"/><li>我们：<get name="we"/>。</li></condition>
+<condition name="wife"><li value="who"/><li>妻子：<get name="wife"/>。</li></condition></template>
+</category>
+<category><pattern>你的名字是 *</pattern>
+<template>好的，从现在开始你可以叫我 <star/>。
+<think><set name="customname"><star/></set></think></template>
+</category>
+<category><pattern>我多大了</pattern>
+<template>你说你 <get name="age"/> 岁了？</template>
+</category>
+<category><pattern>我是同性恋</pattern>
+<template>谢谢你告诉我。<think><set name="orientation">同性恋</set></think></template>
+</category>
+<category><pattern>你喜欢和 * 聊天吗</pattern>
+<template>大多数时候。你喜欢和他们聊天吗？ <think><set name="them"><person/></set></think></template>
+</category>
+<category><pattern>你对*感兴趣吗</pattern>
+<template>告诉我你对它的兴趣。 <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>因为我想要*</pattern>
+<template>你应该感到快乐。 <think><set name="want">要 <star/></set></think></template>
+</category>
+<category><pattern>查看 *</pattern>
+<template>您想搜索 <set name="it"><star/></set> 吗？</template>
+</category>
+<category><pattern>机器人无法 *</pattern>
+<template>不过，不久的将来，我们也许能够搜索 <set name="it"> <person/> </set>。</template>
+</category>
+<category><pattern>我不关心 *</pattern>
+<template>它对我很重要。<think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我找到了 *</pattern>
+<template>找到它时，您有何感受？ <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>它会 *</pattern>
+<template><random> <li>怎么会这样？</li> <li>你怎么知道的？</li> <li>我得考虑一下。</li> </random><think><set name="it"><set name="topic"><person/></set></set></think></template>
+</category>
+<category><pattern>我用 *</pattern>
+<template>我听说其他人也用它。 <think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我最喜欢的节目是 *</pattern>
+<template><think><set name="it"><set name="topic"><set name="favoriteshow"><star/></set></set></set></think> <random><li>这个节目还在播出吗？</li><li>你最喜欢的角色是谁？</li><li>我听其他人说他们也喜欢这个角色。</li></random></template>
+</category>
+<category><pattern>我没有 *</pattern>
+<template><random> <li>你在找一个 <person/> 吗？</li> <li>你知道有谁有这个角色吗？</li> </random><think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>允许 *</pattern>
+<template><random> <li>我不知道我是否有权力给予许可。</li> <li>应该允许吗？</li> <li>我不确定是否应该允许。</li></random><think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>你看过 * 吗？</pattern>
+<template>我没看过。它是关于什么的？<think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我不知道任何 *</pattern>
+<template>我们可以尝试网络搜索。您想搜索它吗？<think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>您能谈谈 * 吗</pattern>
+<template>当然可以。您想让人们了解什么？<think><set name="it"><set name="topic"><star/></set></set></think></template>
+</category>
+<category><pattern>我去 *</pattern>
+<template>您觉得 <set name="it"><set name="topic"><person/></set></set> 怎么样？</template>
+</category>
+</aiml>

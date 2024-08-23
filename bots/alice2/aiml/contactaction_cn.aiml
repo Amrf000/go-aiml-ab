@@ -1,0 +1,931 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- 文件：contactaction.aiml -->
+<!-- 作者：Richard S. Wallace 博士 -->
+<!-- 最后修改时间：2014 年 7 月 19 日 -->
+<!-- -->
+<!-- 此 AIML 文件是 ALICE2 0.0.5 聊天机器人知识库的一部分。 -->
+<!-- -->
+<!-- ALICE2 大脑版权所有 &copy; 2014，由 ALICE AI 基金会所有。 -->
+<!-- -->
+<!-- ALICE2 大脑根据 GNU Lesser General -->
+<!-- 公共许可证条款发布，由自由软件基金会发布。 -->
+<!-- -->
+<!-- 本文件分发时不附带任何担保；甚至不附带 -->
+<!-- 适销性或特定用途适用性的默示担保。 -->
+<!-- -->
+<!-- 更多信息请参阅 http://www.alicebot.org -->
+<!-- -->
+<category><pattern>* S * 号码是 *</pattern>
+<template><srai>CONTACTINIT</srai>
+<think>
+<set name="contactname"><star/></set>
+<set name="contacttype"><star index="2"/></set>
+<set name="contacturi"><star index="3"/></set>
+<set name="learnpattern">拨号号码</set>
+</think>
+<srai>添加</srai></template>
+</category>
+<category><pattern><set>name</set> S * 号码是 *</pattern>
+<template><srai>CONTACTINIT</srai>
+<think>
+<set name="contactname"><star/></set>
+<set name="contacttype"><star index="2"/></set>
+<set name="contacturi"><star index="3"/></set>
+<set name="learnpattern">拨号号码</set>
+</think>
+<srai>添加</srai></template>
+</category>
+<topic name="请求添加新联系人">
+<category><pattern>*</pattern><that>您想添加一个吗</that>
+<template><think><set name="topic">未知</set></think>
+<srai>联系人完成</srai> <srai><star/></srai></template>
+</category></topic>
+
+<topic name="请求添加新联系人">
+<category><pattern>*</pattern><that>您想添加 * 作为联系人吗</that>
+<template><think><set name="topic">未知</set>
+</think>
+<srai>联系人完成</srai> <srai><star/></srai></template>
+</category></topic>
+<category><pattern>告诉 *</pattern>
+<template><srai>联系初始信息</srai>
+<think><set name="contactname"><star/></set>
+<set name="messagebody"><response/></set>
+</think>
+<srai>SMSACTION</srai></template>
+</category>
+<category><pattern>发送电子邮件</pattern>
+<template><srai>联系调试信息电子邮件</srai>
+<srai>联系初始信息</srai>
+<srai>电子邮件操作</srai></template>
+</category>
+<category><pattern>ADDINFO CONTACTID</pattern>
+<template><srai>CONTACTDEBUGINFO ADDINFO CONTACT</srai>
+<think>
+<set name="contacturi"><srai>DENORMALIZE <get name="contacturi"/></srai></set>
+<condition name="modecom">
+<li value="ADD">
+<condition name="contacttype" value="unknown"><set name="contacttype">home</set></condition>
+</li>
+<li value="SMS">
+<condition name="contacttype" value="unknown"><set name="contacttype">mobile</set></condition>
+</li>
+<li value="CALL">
+<condition name="contacttype" value="unknown"><set name="contacttype">mobile</set></condition>
+</li>
+<li value="EMAIL">
+<condition name="contacttype" value="unknown"><set name="contacttype">home</set></condition>
+</li>
+<li>
+<condition name="contacttype" value="unknown"><set name="contacttype">home</set></condition>
+</li>
+</condition>
+<condition><name>learnpattern</name>
+<li><value>拨号号码</value>
+
+<srai>添加信息显示名称 <get name="displayname"/> 拨号号码 <get name="contacturi"/> 电话类型 <get name="contacttype"/> 电子邮件地址未知 电子邮件类型未知 生日 <get name="contactbirthday"/></srai>
+</li>
+<li><value>电子邮件显示名称</value>
+<srai>添加信息显示名称 <get name="displayname"/> 拨号号码未知 电话类型未知 电子邮件类型 <get name="contacttype"/> 生日 <get name="contactbirthday"/></srai>
+</li>
+<li>
+<srai>添加信息显示名称 <get name="displayname"/> 拨号号码未知 手机类型未知 电子邮件地址未知 电子邮件地址类型未知 生日未知</srai>
+</li>
+</condition>
+
+</think>
+我记得 <get name="displayname"/> 的 <lowercase><get name="contacttype"/></lowercase> <condition name="learnpattern"><li value="DIALNUMBER">电话号码</li><li value="EMAILADDRESS">电子邮件地址</li></condition> 是 <get name="contacturi"/>。</template>
+</category>
+<category><pattern>请求添加新联系人姓名</pattern>
+<template><think><set name="topic">请求添加新联系人姓名</set>
+</think>
+您想将 <get name="contactname"/> 添加为联系人吗？</template>
+</category>
+<category><pattern>请求CONTACTNAME</pattern>
+<template><srai>CONTACTDEBUGINFO ASK CONTACTNAME</srai>
+<think>
+<set name="topic">ASKING CONTACTNAME</set>
+</think>
+你想<lowercase><get name="modecom"/></lowercase>谁？</template>
+</category>
+<category><pattern>询问 MESSAGEBODY</pattern>
+<template><think>
+<set name="savedtopic"><get name="topic"/></set>
+<set name="topic">询问 MESSAGEBODY</set>
+</think>
+您要向 <get name="displayname"/> 发送什么消息？</template>
+</category>
+<category><pattern>CONTACTDIALOG</pattern>
+<template><srai>CONTACTDEBUGINFO CONTACTDIALOG</srai>
+<think>
+<set name="multipleids"><srai>MULTIPLEIDS <get name="contactname"/></srai></set>
+<set name="multiplenames"><srai>MULTIPLENAMES <get name="contactname"/></srai></set>
+<set name="contactlist"><srai>CONTACTLIST <get name="multipleids"/></srai><item>以上都不是</item></set>
+<set name="topic">获取所选联系人</set>
+</think>
+<oob><dialog><title>哪个联系人？</title><list><get name="contactlist"/></list></dialog></oob>
+您有多个名为 <get name="contactname"/> 的联系人：<get name="multiplenames"/>。您想向哪一个联系人发送
+<lowercase><get name="modecom"/></lowercase>？</template>
+</category>
+<category><pattern>CONTACTDIALOG *</pattern>
+<template><think><set name="contactname"><star/></set>
+<set name="modecom">呼叫</set>
+</think>
+<srai>CONTACTDIALOG</srai></template>
+</category>
+<topic name="获取所选联系人">
+<category><pattern>_</pattern><that>* 您希望* 一个</that>
+<template><think>
+<set name="topic"><get name="unknown"/></set>
+<set name="selectedcontact"><star/></set>
+<set name="contactname"><get name="selectedcontact"/></set>
+<set name="contactid"><srai>联系人 ID <get name="selectedcontact"/></srai></set><srai>设置所有联系人信息</srai>
+</think>
+<srai>记住熟悉的名称</srai>
+<condition name="selectedcontact">
+<li value="以上都不是"><srai>联系人完成</srai> <srai>NORESP</srai></li>
+<li><condition name="contactid">
+<li value="unknown"><srai><star/></srai></li>
+<li><srai>恢复操作 <get name="modecom"/></srai></li>
+</condition>
+</li>
+</condition></template>
+</category></topic>
+
+<topic name="询问 MESSAGEBODY">
+<category><pattern>_</pattern><that>您要向 * 发送什么消息</that>
+<template><think>
+<set name="topic">unknown</set>
+<set name="messagebody"><star/></set>
+</think>
+<srai>恢复操作 <get name="modecom"/></srai></template>
+</category></topic>
+<topic name="询问 CONTACTURI">
+<category><pattern>_</pattern><that>* 代表什么意思 *</that>
+<template><think>
+<set name="topic">未知</set>
+<set name="contacturi"><star/></set>
+<set name="isaphonenumber"><srai>ISAPHONENUMBER <get name="contacturi"/></srai></set>
+<set name="isanemailaddress"><srai>ISANEMAILADDRESS <get name="contacturi"/></srai></set>
+<set name="isacontacturi"><srai>LOGICALOR <get name="isanemailaddress"/> <get name="isaphonenumber"/></srai></set>
+<condition name="isanemailaddress" value="true"><set name="emailaddress"><get name="contacturi"/></set> <set name="learnpattern">EMAILADDRESS</set></condition>
+<condition name="isaphonenumber" value="true">
+<set name="dialnumber"><srai>FORMATPHONENUMBER <get name="contacturi"/></srai></set>
+<set name="learnpattern">DIALNUMBER</set></condition>
+</think>
+<condition name="isacontacturi">
+<li value="true">
+<srai>ADDINFO CONTACTID</srai> <srai>RESUMEACTION <get name="modecom"/></srai></li>
+<li>我没有将 <get name="contacturi"/> 识别为电话号码或电子邮件地址。 <srai>联系完成</srai> <srai><star/></srai></li>
+</condition></template>
+</category></topic>
+
+<topic name="询问联系人姓名">
+<category><pattern>_</pattern><that>您想*谁</that>
+<template><think>
+<set name="topic">未知</set>
+<set name="contactname"><star/></set>
+<set name="isshortanswer"><srai>ISSHORTANSWER <star/></srai></set>
+</think>
+<condition name="isshortanswer">
+<li value="true"><srai>恢复操作 <get name="modecom"/></srai></li>
+<li><srai>联系完成</srai> <srai><star/></srai></li>
+</condition></template>
+</category></topic>
+<category><pattern>EMAILACTION</pattern>
+<template><srai>CONTACTDEBUGINFO EMAILACTION</srai>
+<think>
+<set name="modecom">EMAIL</set>
+</think>
+<condition name="checkednameoruri">
+<li value="false"><srai>解决 NAMEORURI</srai></li>
+<li><condition name="contactname">
+<li value="unknown"><srai>询问 CONTACTNAME</srai></li>
+<li><condition name="checkedhimher">
+<li value="false"><srai>解决 HIMHER</srai></li>
+
+<li><condition name="checkedfamiliarname">
+<li value="false"><srai>解决 FAMILIARNAME</srai></li>
+<li><condition name="contactid">
+<li value="unknown"><srai>解决CONTACTNAME</srai></li>
+<li><condition name="contacturi">
+<li value="unknown"><srai>解决 CONTACTURI</srai></li>
+<li><condition name="messagebody">
+<li value="unknown"><srai>询问 MESSAGEBODY</srai></li>
+<li><oob><email><to><get name="contacturi"/></to><subject>使用 CallMom 撰写消息！</subject><body><get name="messagebody"/></body></email></oob>现在将“<get name="messagebody"/>”发送到 <get name="displayname"/>。 <srai>联系完成</srai> </li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition></template>
+</category>
+<category><pattern>调试联系人</pattern>
+<template><set name="debugcontact">true</set></template>
+</category>
+<category><pattern>联系完成</pattern>
+<template><think>
+<set name="topic"><get name="savedtopic"/></set>
+</think>
+<srai>联系起始谓词</srai></template>
+</category>
+<category><pattern>拨号号码未知 *</pattern>
+<template><think>
+<set name="dialnumber"><srai>拨号号码移动 <star/></srai></set>
+<condition name="dialnumber" value="unknown">
+<set name="dialnumber"><srai>拨号号码主页 <star/></srai></set>
+</condition>
+<condition name="dialnumber" value="unknown">
+<set name="dialnumber"><srai>拨号号码工作 <star/></srai></set>
+</condition>
+<condition name="dialnumber" value="unknown">
+<set name="dialnumber"><srai>拨号号码自定义 <star/></srai></set>
+</condition>
+</think>
+<get name="dialnumber"/></template>
+</category>
+<category><pattern>新联系人</pattern>
+<template><srai>CONTACTDEBUGINFO 添加联系人</srai>
+<srai>CONTACTINIT</srai>
+<srai>添加</srai></template>
+</category>
+<category><pattern>新联系人*</pattern>
+<template><srai>CONTACTINIT</srai>
+<think>
+<set name="contactname"><star/></set>
+</think>
+<srai>添加</srai></template>
+</category>
+<topic name="请求添加新联系人URI">
+<category><pattern>是</pattern><that>您想添加一个吗</that>
+<template><think>
+<set name="topic">请求联系人URI</set>
+</think>
+<condition name="modecom">
+<li value="EMAIL"><get name="contactname"/>?</li>
+<li value="CALL"><get name="contactname"/> 的电话号码是多少？</li>
+<li value="SMS"><get name="contactname"/> 的手机号码是多少？</li>
+<li value="ADD"><get name="contactname"/> 的手机号码是多少？</li>
+<li><srai>CONTACTFINALIZE</srai> <srai>NORESP</srai></li>
+</condition></template>
+</category></topic>
+<topic name="请求添加新联系人姓名">
+<category><pattern>是</pattern><that>您想将 * 添加为联系人吗</that>
+<template><think><set name="topic">未知</set>
+<set name="displayname"><get name="contactname"/></set>
+</think>
+<think>
+<srai>添加信息显示名称 <get name="contactname"/> 拨号号码未知 手机类型未知 电子邮件地址未知 电子邮件地址类型未知 生日未知</srai>
+</think>
+我已将 <get name="contactname"/> 保存到您的联系人中。
+<srai>恢复操作 <get name="modecom"/></srai></template>
+</category></topic>
+
+<category><pattern>联系</pattern>
+<template><think>
+<set name="savedtopic"><get name="topic"/></set>
+</think>
+<srai>联系谓词</srai></template>
+</category>
+<category><pattern>联系谓词</pattern>
+<template><think>
+<set name="checkedfamiliarname">false</set>
+<set name="checkedhimher">false</set>
+<set name="checkednameoruri">false</set>
+<set name="contactid">unknown</set>
+<set name="contactaddress">unknown</set>
+<set name="contactbirthday">unknown</set>
+<set name="contactname">unknown</set>
+<set name="contactquery">未知</set>
+<set name="contacttype">未知</set>
+<set name="contacturi">未知</set>
+<set name="dialnumber">未知</set>
+<set name="displayname">未知</set>
+<set name="emailaddress">未知</set>
+<set name="externalname">未知</set>
+<set name="familiarcontactid">未知</set>
+<set name="familiarcontactname">未知</set>
+<set name="familiarname">未知</set>
+<set name="familiarpredicate">未知</set>
+<set name="familiarpronoun">未知</set>
+<set name="forceaddcontact">false</set>
+<set name="isacontacturi">false</set>
+<set name="isanemailaddress">false</set>
+<set name="isaphonenumber">false</set>
+<set name="isafamiliarname">false</set>
+<set name="learnpattern">未知</set>
+<set name="messagebody">未知</set>
+<set name="modecom">未知</set>
+<set name="multipleids">false</set>
+<set name="topic">未知</set>
+</think></template>
+</category>
+<category><pattern>NEWCONTACTID</pattern>
+<template><condition name="contactcount">
+<li value="unknown">CMContactID<set name="contactcount">0</set></li>
+<li>CMContactID<set name="contactcount"><srai>SUCCESSOR <get name="contactcount"/></srai></set></li>
+</condition></template>
+</category>
+<category><pattern>RESOLVE NAMEORURI</pattern>
+<template><srai>CONTACTDEBUGINFO RESOLVE NAMEORURI</srai>
+<think>
+<set name="checkednameoruri">true</set>
+<set name="isaphonenumber"><srai>ISAPHONENUMBER <get name="contactname"/></srai></set>
+<set name="isanemailaddress"><srai>ISANEMAILADDRESS <get name="contactname"/></srai></set>
+</think>
+<think>
+<condition name="modecom">
+<li value="EMAIL">
+<condition name="isanemailaddress" value="true">
+<set name="contactid">undefined</set>
+<set name="displayname"><set name="emailaddress"><set name="contacturi"><get name="contactname"/></set></set></set>
+</condition>
+</li>
+<li>
+<condition name="isaphonenumber" value="true">
+<set name="contactid">undefined</set>
+&gt;<set name="displayname"><set name="dialnumber"><set name="contacturi"><srai>FORMATPHONENUMBER <get name="contactname"/></srai></set></set></set>
+</condition>
+</li>
+</condition>
+</think>
+<srai>RESUMEACTION <get name="modecom"/></srai></template>
+</category>
+<category><pattern>解决联系人名称</pattern>
+<template><srai>CONTACTDEBUGINFO 解决联系人名称</srai>
+<think>
+<set name="contactid"><srai>联系人 ID <get name="contactname"/></srai></set>
+<set name="multipleids"><srai>多个 ID <get name="contactname"/></srai></set></think>
+<condition name="multipleids">
+<li value="false">
+<condition name="contactid">
+<li value="unknown">
+<condition name="modecom">
+<li value="QUERY"><think><set name="contactid">undefined</set><set name="externalname"><get name="contactname"/></set></think> <srai>恢复操作 <get name="modecom"/></srai></li>
+<li>
+<condition name="forceaddcontact">
+<li value="false"><srai>请求添加新联系人姓名</srai></li>
+<li><think><set name="displayname"><get name="contactname"/></set></think>
+<srai>添加信息显示名称 <get name="contactname"/> 拨号号码未知 手机类型未知 电子邮件地址未知 电子邮件地址类型未知 生日未知</srai>
+<srai>恢复操作 <get name="modecom"/></srai></li>
+</condition>
+</li>
+</condition>
+</li>
+<li><srai>设置所有联系人信息</srai> <srai>恢复操作 <get name="modecom"/></srai></li>
+</condition>
+</li>
+<li><srai>联系人对话框</srai></li>
+</condition></template>
+</category>
+<category>
+<pattern>解决熟悉的名称</pattern>
+<template><srai>CONTACTDEBUGINFO 解决熟悉的名称</srai>
+<think>
+<set name="checkedfamiliarname">true</set>
+<set name="familiarname"><get name="contactname"/></set>
+<set name="familiarpredicate"><srai>熟悉的名称 <get name="familiarname"/></srai></set>
+<set name="familiarpronoun"><srai>熟悉的名称 <get name="familiarname"/></srai></set>
+<set name="isafamiliarname"><srai>ISAFAMILIARNAME <get name="familiarname"/></srai></set>
+<set name="familiarcontactname"><srai>GETFAMILIARNAME</srai></set>
+<set name="familiarcontactid"><srai>CONTACTID <get name="familiarname"/></srai></set>
+<condition name="familiarcontactname" value="who"><set name="familiarcontactname">unknown</set></condition>
+</think>
+<!--
+解析 familiarname:
+contactname = <get name="contactname"/>.
+familiarname = <get name="familiarname"/>.
+isafamiliarname = <get name="isafamiliarname"/>.
+familiarpredicate = <get name="familiarpredicate"/>.
+familiarcontactname = <get name="familiarcontactname"/>.
+familiarcontactid = <get name="familiarcontactid"/>.
+-->
+<condition name="familiarcontactid">
+<li value="unknown">
+<condition name="familiarcontactname">
+<li value="unknown">
+<condition name="isafamiliarname">
+<li value="true">
+<srai>询问熟悉的联系人姓名</srai>
+</li>
+<li><srai>恢复操作 <get name="modecom"/></srai></li>
+</condition>
+</li>
+<li><think><set name="contactname"><get name="familiarcontactname"/></set></think> <srai>恢复操作 <get name="modecom"/></srai>
+</li>
+</condition>
+</li>
+<li><think><set name="contactname"><get name="familiarname"/></set></think>
+<srai>恢复操作 <get name="modecom"/></srai>
+</li>
+</condition></template>
+</category>
+<category><pattern>解决他</pattern>
+<template><srai>CONTACTDEBUGINFO 解决他</srai>
+<think>
+<set name="checkedhimher">true</set>
+</think>
+<condition name="contactname">
+<li value="him">
+<condition name="he">
+<li value="who">“他”指的是谁？ <think><set name="topic">询问代词引用</set></think></li>
+<li><think><set name="contactname"><get name="he"/></set></think>
+<srai>恢复操作 <get name="modecom"/></srai></li>
+</condition>
+</li>
+<li value="her">
+<condition name="she">
+<li value="who">“她”指的是谁？ <think><set name="topic">询问代词引用</set></think></li>
+<li><think><set name="contactname"><get name="she"/></set></think>
+<srai>恢复操作 <get name="modecom"/></srai></li>
+</condition>
+</li>
+<li>
+<think><srai>SETHESHE <get name="contactname"/></srai></think>
+<srai>恢复操作 <get name="modecom"/></srai></li>
+</condition></template>
+</category>
+<topic name="询问代词引用">
+<category><pattern>_</pattern><that>他指的是谁</that>
+<template><think><set name="he"><star/></set>
+<set name="topic">未知</set>
+<set name="contactname"><star/></set>
+</think>
+好的。他是<star/>。<srai>恢复行动 <get name="modecom"/></srai></template>
+</category>
+</topic>
+
+<topic name="询问代词引用">
+<category><pattern>_</pattern><that>她指的是谁</that>
+<template><think><set name="she"><star/></set>
+<set name="contactname"><star/></set>
+<set name="topic">unknown</set></think>
+好的。她是<star/>。<srai>恢复操作 <get name="modecom"/></srai></template>
+</category></topic>
+
+<topic name="询问代词引用">
+<category><pattern>$MY *</pattern><that>他指的是谁</that>
+<template><think><set name="he"><star/></set>
+<set name="contactname"><star/></set>
+<set name="topic">unknown</set></think>
+好的。他是<star/>。 <srai>恢复行动 <get name="modecom"/></srai></template>
+</category></topic>
+
+<topic name="询问代词引用">
+<category><pattern>$MY *</pattern><that>她指的是谁</that>
+<template><think><set name="she"><star/></set>
+<set name="contactname"><star/></set>
+<set name="topic">未知</set></think>
+好的。她是 <star/>。<srai>恢复行动 <get name="modecom"/></srai></template>
+</category></topic>
+
+<category>
+<pattern>RESOLVE CONTACTURI</pattern>
+<template><srai>CONTACTDEBUGINFO RESOLVE CONTACTURI</srai>
+<think><set name="contactid"><srai>CONTACTID <get name="contactname"/></srai></set></think>
+<condition name="contactid">
+<li value="unknown">
+<condition name="forceaddcontact">
+<li value="false">我在您的联系人中未找到 <get name="contactname"/>。 <srai>请求添加新联系人姓名</srai></li>
+<li><think><set name="displayname"><get name="contactname"/></set></think>
+<srai>恢复操作 <get name="modecom"/></srai></li>
+</condition>
+</li>
+<li><think><set name="displayname"><srai>显示名称 <get name="contactid"/></srai></set></think>
+<condition name="modecom">
+<li value="EMAIL">
+<think>
+<set name="emailaddress"><set name="contacturi"><srai>EMAILADDRESS <get name="contacttype"/> <get name="contactid"/></srai></set></set></think>
+<condition name="contacturi">
+<li value="unknown">
+<think><set name="topic">请求添加新联系人 URI</set></think>
+您尚未添加 <condition name="contacttype"><li value="unknown">一个</li><li>一个 <get name="contacttype"/></li></condition> 电子邮件地址，用于 <get name="displayname"/> 联系人。您想添加一个吗？
+</li>
+<li><srai>设置所有联系人信息</srai> <srai>恢复操作 <get name="modecom"/></srai></li>
+</condition>
+</li>
+<li><think><set name="dialnumber"><set name="contacturi"><srai>拨号号码 <get name="contacttype"/> <get name="contactid"/></srai></set></set></think>
+<condition name="contacturi">
+<li value="unknown">
+<think><set name="topic">请求添加新联系人</set></think>
+您尚未将 <condition name="contacttype"><li value="unknown">电话</li><li><get name="contacttype"/></li></condition> 号码添加到您的联系人中。要添加一个吗？
+</li>
+<li><srai>设置所有联系信息</srai> <srai>恢复操作 <get name="modecom"/></srai></li>
+</condition>
+</li>
+</condition>
+</li>
+</condition></template>
+</category>
+<category><pattern>拨号</pattern>
+<template><srai>CONTACTDEBUGINFO 呼叫</srai>
+<srai>CONTACTINIT</srai>
+<srai>呼叫操作</srai></template>
+</category>
+<category><pattern>添加</pattern>
+<template><srai>CONTACTDEBUGINFO 添加</srai>
+<think>
+<set name="modecom">添加</set>
+<set name="forceaddcontact">true</set>
+</think>
+<condition name="checkedfamiliarname">
+<li value="false"><srai>解决熟悉名称</srai></li>
+<li>
+<condition name="contactname">
+<li value="unknown"><srai>询问联系人名称</srai></li>
+<li><condition name="contactid">
+<li value="unknown"><srai>解决联系人姓名</srai></li>
+<li><condition name="contacturi">
+<li value="unknown"><srai>解决联系人 URI</srai></li>
+<li><srai>添加信息联系人 ID</srai>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition></template>
+</category>
+<category><pattern>呼叫操作</pattern>
+<template><srai>联系调试信息呼叫操作</srai>
+<think>
+<set name="modecom">呼叫</set>
+</think>
+<condition name="checkednameoruri">
+<li value="false"><srai>解决姓名或URI</srai></li>
+<li><condition name="contactname">
+<li value="unknown"><srai>询问联系人姓名</srai></li>
+<li><condition name="checkedhimher">
+<li value="false"><srai>解决他</srai></li>
+<li><condition name="checkedfamiliarname">
+<li value="false"><srai>解决熟悉姓名</srai></li>
+<li><condition name="contactid">
+<li value="unknown"><srai>解决CONTACTNAME</srai></li>
+<li><condition name="contacturi">
+<li value="unknown"><srai>RESOLVE CONTACTURI</srai></li>
+<li><oob><dial><get name="contacturi"/></dial></oob> 现在拨打 <get name="displayname"/>。 <srai>CONTACTFINALIZE</srai></li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</template>
+</category>
+<category><pattern>EMAILADDRESS 未知 *</pattern>
+<template><think>
+<set name="emailaddress"><srai>EMAILADDRESS 主页 <star/></srai></set>
+<condition name="emailaddress" value="unknown">
+<set name="emailaddress"><srai>EMAILADDRESS 工作 <star/></srai></set>
+</condition>
+<condition name="emailaddress" value="unknown">
+<set name="emailaddress"><srai>EMAILADDRESS 自定义 <star/></srai></set>
+</condition>
+</think>
+<get name="emailaddress"/></template>
+</category>
+<category><pattern>QUERYINFO 外部</pattern>
+<template><srai>CONTACTDEBUGINFO QUERTYINFO CONTACTID</srai>
+<condition name="contactquery">
+<li value="DISPLAYNAME"><sraix service="pannous"><get name="contactname"/> 的真实姓名是什么</sraix></li>
+<li value="BIRTHDAY"><sraix service="pannous"><get name="contactname"/> 的生日是什么时候</sraix></li>
+<li value="DIALNUMBER"><sraix service="pannous"><get name="contactname"/> 的电话号码是什么</sraix></li>
+<li value="EMAILADDRESS"><sraix service="pannous"><get name="contactname"/> 的电子邮件地址是什么</sraix></li>
+<li><sraix service="pannous"><get name="contactname"/> 是谁></sraix>
+</li>
+</condition></template>
+</category>
+<category><pattern>QUERYINFO CONTACTID</pattern>
+<template><srai>CONTACTDEBUGINFO QUERTYINFO CONTACTID</srai>
+<think><set name="displayname"><srai>DISPLAYNAME <get name="contactid"/></srai></set>
+<set name="contacttype"><lowercase><get name="contacttype"/></lowercase></set>
+<set name="contactbirthday"><srai>CONTACTBIRTHDAY <get name="contactid"/></srai></set>
+<set name="dialnumber">
+<srai>DIALNUMBER <get name="contacttype"/> <get name="contactid"/></srai></set>
+<set name="emailaddress">
+<srai>EMAILADDRESS <get name="contacttype"/> <get name="contactid"/></srai></set>
+</think>
+<condition name="contactquery">
+<li value="DISPLAYNAME">
+<condition name="displayname">
+<li value="unknown"><get name="contactname"/> 的全名是 <get name="contactname"/>。</li>
+<li><get name="contactname"/> 的全名是 <get name="displayname"/>。</li>
+</condition>
+</li>
+<li value="BIRTHDAY">
+<condition name="contactbirthday">
+<li value="unknown">您的联系人中没有 <get name="displayname"/> 的生日。</li>
+<li><get name="displayname"/> 的生日是 <get name="contactbirthday"/>。</li>
+</condition>
+</li>
+<li value="DIALNUMBER">
+<condition name="dialnumber">
+<li value="unknown">我找不到 <condition name="contacttype"><li value="unknown">电话</li><li><get name="contacttype"/></li></condition> 号码 <get name="displayname"/> 在您的联系人中。</li>
+<li><get name="displayname"/> 的 <condition name="contacttype"><li value="unknown">电话</li><li><get name="contacttype"/></li></condition> 号码是 <get name="dialnumber"/>。</li>
+</condition>
+</li>
+<li value="EMAILADDRESS">
+<condition name="emailaddress">
+<li value="unknown">我在您的联系人中找不到 <condition name="contacttype"><li value="unknown">一个</li><li>一个 <get name="contacttype"/></li></condition> 电子邮件地址 <get name="displayname"/>。</li>
+<li><get name="displayname"/> 的 <condition name="contacttype"><li value="unknown"/><li><get name="contacttype"/></li></condition> 电子邮件地址是 <get name="emailaddress"/>。</li>
+</condition>
+</li>
+<li>我不确定你在问什么。
+<!--
+显示名称：<srai>DISPLAYNAME <get name="contactid"/></srai>
+拨号号码手机：<srai>DIALNUMBER MOBILE <get name="contactid"/></srai>
+拨号号码家庭：<srai>DIALNUMBER HOME <get name="contactid"/></srai>
+电子邮件地址家庭：<srai>EMAILADDRESS HOME <get name="contactid"/></srai>
+电子邮件地址工作：<srai>EMAILADDRESS WORK <get name="contactid"/></srai>
+生日：<srai>CONTACTBIRTHDAY <get name="contactid"/></srai>
+-->
+</li>
+</condition></template>
+</category>
+<category><pattern>$EMAIL *</pattern>
+<template><srai>CONTACTINIT</srai>
+<think><set name="contactname"><star/></set></think>
+<srai>EMAILACTION</srai></template>
+</category>
+<category><pattern>$EMAIL * AT *</pattern>
+<template><srai>CONTACTINIT</srai>
+<think><set name="contactname"><star/></set>
+<set name="contacttype"><star index="2"/></set>
+</think>
+<srai>EMAILACTION</srai> <srai>CONTACTFINALIZE</srai></template>
+</category>
+<category><pattern>$EMAIL * AT * DOT *</pattern>
+<template><srai>CONTACTINIT</srai>
+<think><set name="contactname"><star/> at <star index="2"/> dot <star index="3"/></set></think>
+<srai>EMAILACTION</srai></template>
+</category>
+<category><pattern>$EMAIL * MESSAGEBODY *</pattern>
+<template><srai>CONTACTINIT</srai>
+<think><set name="contactname"><star/></set>
+<set name="messagebody"><star index="2"/></set>
+</think>
+<srai>EMAILACTION</srai></template>
+</category>
+<category><pattern>$EMAIL MESSAGEBODY *</pattern>
+<template><srai>联系初始信息</srai>
+<think>
+<set name="messagebody"><star/></set>
+</think>
+<srai>电子邮件操作</srai></template>
+</category>
+<category><pattern>呼叫</pattern>
+<template><srai>拨号</srai></template>
+</category>
+<category><pattern>给我打电话 *</pattern>
+<template><srai>联系调试信息 <star/></srai>
+<srai>联系初始信息</srai>
+<think><set name="contactname">我</set>
+<set name="contacttype"><star index="2"/></set>
+</think>
+<srai>呼叫操作</srai></template>
+</category>
+<category><pattern>呼叫*</pattern>
+<template><srai>CONTACTDEBUGINFO CALL <star/></srai>
+<srai>CONTACTINIT</srai>
+<think><set name="contactname"><star/></set></think>
+<srai>CALLACTION</srai></template>
+</category>
+<category><pattern>CALL * AT *</pattern>
+<template><srai>CONTACTDEBUGINFO CALL <star/></srai>
+<srai>CONTACTINIT</srai>
+<think><set name="contactname"><star/></set>
+<set name="contacttype"><star index="2"/></set>
+</think>
+<srai>CALLACTION</srai></template>
+</category>
+<category><pattern>添加联系人</pattern>
+<template><srai>新联系人</srai></template>
+</category>
+<category><pattern>SMSACTION</pattern>
+<template><srai>CONTACTDEBUGINFO SMSACTION</srai>
+<think>
+<set name="modecom">SMS</set>
+</think>
+<condition name="checkednameoruri">
+<li value="false"><srai>解决NAMEORURI</srai></li>
+<li><condition name="contactname">
+<li value="unknown"><srai>询问联系人姓名</srai></li>
+<li><condition name="checkedhimher">
+<li value="false"><srai>解决他</srai></li>
+<li><condition name="checkedfamiliarname">
+<li value="false"><srai>解决熟悉姓名</srai></li>
+<li><condition name="contactid">
+<li value="unknown"><srai>解决联系人姓名</srai></li>
+<li><condition name="contacturi">
+<li value="unknown"><srai>解决联系人URI</srai></li>
+<li><condition name="messagebody">
+<li value="unknown"><srai>询问消息主体</srai></li>
+<li><oob><sms><recipient><get name="contacturi"/></recipient><message><get name="messagebody"/></message></sms></oob> 现在向 <get name="displayname"/> 发送“<get name="messagebody"/>”。<srai>CONTACTFINALIZE</srai></li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition></li></condition></template>
+</category>
+<category><pattern>CONTACTDEBUGINFO *</pattern>
+<template><condition name="debugcontact" value="true">
+<star/>:
+checkedfamiliarname: <get name="checkedfamiliarname"/>。
+checkedhimher: <get name="checkedhimher"/>。
+checkednameoruri: <get name="checkednameoruri"/>。
+contactid: <get name="contactid"/>。
+contactname: <get name="contactname"/>。
+contactquery: <get name="contactquery"/>。
+contacttype: <get name="contacttype"/>。
+contacturi: <get name="contacturi"/>。
+dialnumber: <get name="dialnumber"/>。
+displayname: <get name="displayname"/>。
+emailaddress: <get name="emailaddress"/>。
+externalname: <get name="externalname"/>。
+familiarcontactid: <get name="familiarcontactid"/>。
+熟悉联系人名称：<get name="familiarcontactname"/>。
+熟悉名称：<get name="familiarname"/>。
+熟悉谓词：<get name="familiarpredicate"/>。
+熟悉代词：<get name="familiarpronoun"/>
+forceaddcontact：<get name="forceaddcontact"/>。
+isaphonenumber：<get name="isaphonenumber"/>。
+isanemailaddress：<get name="isanemailaddress"/>。
+isacontacturi：<get name="isacontacturi"/>。
+isafamiliarname：<get name="isafamiliarname"/>。
+learnpattern：<get name="learnpattern"/>。
+messagebody：<get name="messagebody"/>。
+modecom：<get name="modecom"/>。
+multipleids：<get name="multipleids"/>。
+savedtopic：<get name="savedtopic"/>。
+主题：<get name="topic"/>。
+</condition></template>
+</category>
+<category><pattern>设置所有联系信息</pattern>
+<template><think>
+<set name="displayname"><srai>显示名称 <get name="contactid"/></srai></set>
+<set name="dialnumber"><srai>拨号号码 <get name="contacttype"/> <get name="contactid"/></srai></set>
+<set name="emailaddress"><srai>电子邮件地址 <get name="contacttype"/> <get name="contactid"/></srai></set>
+<set name="contactbirthday"><srai>联系生日 <get name="contacttype"/> <get name="contactid"/></srai></set>
+</think></template>
+</category>
+<category><pattern>* 的生日是什么时候</pattern>
+<template><srai>联系信息</srai>
+<think>
+<set name="contactname"><star/></set>
+<set name="contactquery">生日</set>
+</think>
+<srai>查询操作</srai></template>
+</category>
+<category><pattern>他的生日是什么时候</pattern>
+<template><srai>联系</srai>
+<think>
+<set name="contactname">他</set>
+<set name="contactquery">生日</set>
+</think>
+<srai>查询操作</srai></template>
+</category>
+<category><pattern>她的生日是什么时候</pattern>
+<template><srai>联系</srai>
+<think>
+<set name="contactname">她</set>
+<set name="contactquery">生日</set>
+</think>
+<srai>查询操作</srai></template>
+</category>
+<category><pattern>我的电话号码是什么</pattern>
+<template><srai>我的未知号码是什么</srai></template>
+</category>
+<category><pattern>我的 * 号码是什么</pattern>
+<template><srai>我的 <star/> 号码是什么</srai></template>
+</category>
+<category><pattern>* 电话号码是什么</pattern>
+<template><srai><star/> 的未知号码是什么</srai></template>
+</category>
+<category><pattern>什么是 * S * 号码</pattern>
+<template><srai>CONTACTINIT</srai>
+<think>
+<set name="contactname"><star/></set>
+<set name="contacttype"><star index="2"/></set>
+<set name="contactquery">拨号号码</set>
+</think>
+<srai>查询操作</srai></template>
+</category>
+<category><pattern>逗号分隔符 *</pattern>
+<template><srai>显示名称 <star/></srai></template>
+</category>
+<category><pattern>逗号分隔符 * *</pattern>
+<template><srai>显示名称 <star/></srai>, <srai>逗号分隔符 <star index="2"/></srai></template>
+</category>
+<category><pattern>多个名称 *</pattern>
+<template><think>
+<set name="multipleids"><srai>多个 ID <star/></srai></set>
+</think>
+<condition name="multipleids">
+<li value="false">false</li>
+<li><srai>逗号分隔名称 <get name="multipleids"/></srai></li>
+</condition></template>
+</category>
+<category><pattern>联系人列表 *</pattern>
+<template><item><srai>显示名称 <star/></srai></item></template>
+</category>
+<category><pattern>联系人列表 * *</pattern>
+<template><srai>联系人列表 <star/></srai><srai>联系人列表 <star index="2"/></srai></template>
+</category>
+<category><pattern>恢复操作查询</pattern>
+<template><srai>查询操作</srai></template>
+</category>
+<category><pattern>恢复操作呼叫</pattern>
+<template><srai>呼叫操作</srai></template>
+</category>
+<category><pattern>恢复操作 *</pattern>
+<template>已停止处理。</template>
+</category>
+<category><pattern>恢复操作电子邮件</pattern>
+<template><srai>电子邮件操作</srai></template>
+</category>
+<category><pattern>恢复操作短信</pattern>
+<template><srai>短信操作</srai></template>
+</category>
+<category><pattern>恢复操作添加</pattern>
+<template><srai>添加</srai></template>
+</category>
+<category><pattern>查询操作</pattern>
+<template><srai>联系调试信息查询操作</srai>
+<think>
+<set name="modecom">查询</set>
+</think>
+<condition name="checkedfamiliarname">
+<li value="false"><srai>解决熟悉名称</srai></li>
+<li>
+<condition name="contactname">
+<li value="unknown"><srai>询问联系人名称</srai></li>
+<li><condition name="checkedhimher">
+<li value="false"><srai>解决他</srai></li>
+<li><condition name="contactid">
+<li value="unknown"><srai>解决联系人名称</srai></li>
+<li><condition name="externalname">
+<li value="unknown">
+<srai>QUERYINFO CONTACTID</srai>
+</li>
+<li><srai>QUERYINFO EXTERNAL</srai></li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition>
+</li>
+</condition></template>
+</category>
+<category><pattern>* 多大了</pattern>
+<template><srai><star/> 的生日是什么时候</srai></template>
+</category>
+<category><pattern>$SMS</pattern>
+<template><srai>CONTACTDEBUGINFO SMS</srai>
+<srai>CONTACTINIT</srai>
+<srai>SMSACTION</srai></template>
+</category>
+<category><pattern>$SMS SMESSAGE *</pattern>
+<template><srai>CONTACTINIT</srai>
+<think>
+<set name="messagebody"><star/></set>
+</think>
+<srai>SMSACTION</srai></template>
+</category>
+<category><pattern>$SMS *</pattern>
+<template><srai>CONTACTINIT</srai>
+<think><set name="contactname"><star/></set></think>
+<srai>SMSACTION</srai></template>
+</category>
+<category><pattern>$SMS * SMESSAGE *</pattern>
+<template><srai>CONTACTINIT</srai>
+<think><set name="contactname"><star/></set>
+<set name="messagebody"><star index="2"/></set>
+</think>
+<srai>SMSACTION</srai></template>
+</category>
+<category><pattern>TESTCALL *</pattern>
+<template>现在拨打 <star/>。 <oob><dial><star/></dial></oob></template>
+</category>
+</aiml>

@@ -351,7 +351,7 @@ func (ab *AB) TerminalInteractionStep(request, textLine string, c Category, alic
 		}
 	}
 	var botThinks string
-	pronouns := []string{"he", "she", "it", "we", "they"}
+	pronouns := []string{"he", "she", "it", "we", "they", "他", "她", "它", "我们", "他们"}
 	for _, p := range pronouns {
 		if strings.Contains(textLine, "<"+p+">") {
 			textLine = strings.Replace(textLine, "<"+p+">", "", -1)
