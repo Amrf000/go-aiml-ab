@@ -147,7 +147,7 @@ func (c *Category) Validate() bool {
 		validationMessage += "Badly formatted <template> "
 		return false
 	}
-	if !strings.HasSuffix(c.Filename, ".aiml") {
+	if !strings.HasSuffix(c.Filename, ".xml") {
 		validationMessage += "Filename suffix should be .aiml "
 		return false
 	}

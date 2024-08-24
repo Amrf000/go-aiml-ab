@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- 文件：contactfunctions.aiml -->
+<!-- 作者：Richard S. Wallace 博士 -->
+<!-- 最后修改时间：2014 年 7 月 19 日 -->
+<!-- -->
+<!-- 此 AIML 文件是 ALICE2 0.0.5 聊天机器人知识库的一部分。 -->
+<!-- -->
+<!-- ALICE2 大脑版权所有 &copy; 2014，由 ALICE AI 基金会所有。 -->
+<!-- -->
+<!-- ALICE2 大脑根据 GNU Lesser General -->
+<!-- 公共许可证条款发布，由自由软件基金会发布。 -->
+<!-- -->
+<!-- 本文件分发时不附带任何担保；甚至不附带 -->
+<!-- 适销性或特定用途适用性的默示担保。 -->
+<!-- -->
+<!-- 更多信息请参阅 http://www.alicebot.org -->
+<!-- -->
+<category><pattern>联系人 ID *</pattern>
+<template><contactid><star/></contactid></template>
+</category>
+<category><pattern>多个 ID *</pattern>
+<template><multipleids><star/></multipleids></template>
+</category>
+<category><pattern>添加信息显示名称 * 拨号号码 * 手机类型 * 电子邮件地址 * 电子邮件类型 * 生日 *</pattern>
+<template><addinfo>
+<displayname><star/></displayname>
+<dialnumber><srai>DENORMALIZE <star index="2"/></srai></dialnumber>
+<phonetype><star index="3"/></phonetype>
+<emailaddress><srai>DENORMALIZE <star index="4"/></srai></emailaddress>
+<emailtype><star index="5"/></emailtype>
+<birthday><star index="6"/></birthday>
+</addinfo></template>
+</category>
+<category><pattern>显示名称 *</pattern>
+<template><displayname><star/></displayname></template>
+</category>
+<category><pattern>拨号号码 * *</pattern>
+<template><dialnumber><type><star/></type><id><star index="2"/></id></dialnumber></template>
+</category>
+<category><pattern>拨号号码 *</pattern>
+<template>未知</template>
+</category>
+<category><pattern>联系人生日 *</pattern>
+<template><contactbirthday><star/></contactbirthday></template>
+</category>
+<category><pattern>电子邮件地址 * *</pattern>
+<template><emailaddress><type><star/></type><id><star index="2"/></id></emailaddress></template>
+</category>
+<category><pattern>EMAILADDRESS *</pattern>
+<template>未知</template>
+</category>
+</aiml>

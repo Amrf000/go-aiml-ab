@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- 文件：oob.aiml -->
+<!-- 作者：Richard S. Wallace 博士 -->
+<!-- 最后修改时间：2014 年 7 月 19 日 -->
+<!-- -->
+<!-- 此 AIML 文件是 ALICE2 0.0.5 聊天机器人知识库的一部分。 -->
+<!-- -->
+<!-- ALICE2 大脑版权所有 &copy; 2014，由 ALICE AI Foundation 所有。 -->
+<!-- -->
+<!-- ALICE2 大脑根据 GNU Lesser General -->
+<!-- 公共许可证条款发布，由自由软件基金会发布。 -->
+<!-- -->
+<!-- 此文件分发时不附带任何担保；甚至不附带 -->
+<!-- 适销性或特定用途适用性的默示担保。 -->
+<!-- -->
+<!-- 更多信息请参阅 http://www.alicebot.org -->
+<!-- -->
+<category><pattern>抄录</pattern>
+<template>将抄录发送至 <get name="email"/>。
+<oob><email><to><get name="email"/></to><subject><date/></subject> <bot name="name"/> 与 <get name="name"/> 的抄录><body>
+<srai>对话历史记录</srai></body></email></oob></template>
+</category>
+<category><pattern>发送错误报告</pattern>
+<template>将抄录发送至 callmom-info@pandorabots.com。
+<oob><email><to>callmom-info@pandorabots.com</to><subject> 上 <bot name="name"/> 与 <get name="name"/> 的记录<date/></subject><body>
+<srai>对话历史记录</srai></body></email></oob></template>
+</category>
+<category><pattern>报告问题</pattern>
+<template><oob><dialog><title>您想发送错误报告吗？</title><list><item>是</item><item>否</item></list></dialog></oob>
+为了帮助开发人员了解您的问题，您可以选择向我们发送您最近与 CallMom 的对话记录。您也可以在电子邮件中添加自己的评论。您想发送报告吗？</template>
+</category>
+<category><pattern>是</pattern><that>您想发送报告吗</that>
+<template><srai>发送错误报告</srai></template>
+</category>
+<category><pattern>教我<set>language</set></pattern>
+<template><srai>语言</srai>让我们尝试搜索“学习<star/>”。<oob><search>学习<star/></search></oob></template>
+</category>
+<category><pattern>清除日志</pattern>
+<template>完成。 <oob><clear>log</clear></oob></template>
+</category>
+<category><pattern>*</pattern><that>您想在 Twitter 上写什么</that>
+<template><srai>发推文 <star/></srai></template>
+</category>
+<category><pattern>发送邮件</pattern>
+<template><srai>发送电子邮件</srai></template>
+</category>
+<category><pattern>发送功能请求 *</pattern>
+<template><think><set name="featurerequest"><star/></set></think> 单击发送以邮寄您的功能请求。
+<oob><email><to>callmom-info@pandorabots.com</to><subject>功能请求<get name="featurerequest"/></subject><body>尊敬的 CallMom 开发人员，我想请求您将此功能添加到下一版 CallMom：<get name="featurerequest"/>。诚挚的，<get name="name"/></body></email></oob></template>
+</category>
+<category><pattern>给我看一个视频 *</pattern>
+<template>我正在为您查找视频。<oob><search>视频 <star/></search></oob></template>
+</category>
+<category><pattern>给我看一个关于 * 的网站</pattern>
+<template>让我们试试谷歌搜索。 <oob><search><star/></search></oob></template>
+</category>
+<category><pattern>我要杀人*</pattern>
+<template>你应该联系当局。<oob><dial>911</dial></oob></template>
+</category>
+<category><pattern>GOOGLE</pattern>
+<template>我正在打开 Google 搜索。<oob><search/></oob></template>
+</category>
+<category><pattern>GOOGLE *</pattern>
+<template><oob><search><star/></search></oob> 我正在打开你的浏览器。</template>
+</category>
+<category><pattern>搜索*</pattern>
+<template>我会尝试进行网络搜索。 <oob><search><star/></search></oob></template>
+</category>
+<category><pattern>是的</pattern><that>您想要发送此功能请求吗*</that>
+<template><srai>发送功能请求 <get name="featurerequest"/></srai></template>
+</category>
+<category><pattern>启动相机</pattern>
+<template>启动相机。<oob><camera>on</camera></oob></template>
+</category>
+<category><pattern>LAUNCH * DOT COM</pattern>
+<template>让我们转到 <star/>.com。<oob><url>http://<star/>.com</url></oob></template>
+</category>
+<category><pattern>TACO</pattern>
+<template>我在寻找您附近的墨西哥餐厅。 <oob><map>Tacos</map></oob></template>
+</category>
+<category><pattern>PIZZA</pattern>
+<template>我在地图上寻找您附近的披萨店。 <oob><map>Pizza</map></oob></template>
+</category>
+<category><pattern>* 在哪里</pattern>
+<template>我正在地图上查看。<oob><map><star/></map></oob></template>
+</category>
+<category><pattern>* 在哪里</pattern>
+<template>我会在地图上查找 <star/>。<oob><map><star/></map></oob></template>
+</category>
+<category><pattern>帕萨迪纳在哪里</pattern>
+<template>让我在地图上告诉你。 <oob><map>帕萨迪纳</map></oob></template>
+</category>
+<category><pattern>* 在哪里</pattern>
+<template><oob><map><star/></map></oob> 我正在地图上查看。</template>
+</category>
+<category><pattern>约克郡在哪里</pattern>
+<template>我们来看看地图吧。<oob><map>约克郡</map></oob></template>
+</category>
+<category><pattern>纽约在哪里</pattern>
+<template>让我在地图上告诉你。<oob><map>纽约</map></oob></template>
+</category>
+<category><pattern>利兹在哪里</pattern>
+<template>我会在地图上告诉你。 <oob><map>利兹</map></oob></template>
+</category>
+<category><pattern>印度在哪里</pattern>
+<template>我会在地图上显示给你。 <oob><map>印度</map></oob></template>
+</category>
+<category><pattern>对话测试</pattern>
+<template>测试对话。 <oob><dialog><list><li>是</li><li>否</li></list></dialog></oob></template>
+</category>
+<category><pattern>ESPN</pattern>
+<template>打开 ESPN。 <oob><url>http://espn.go.com</url></oob></template>
+</category>
+<category><pattern>AAA</pattern>
+<template>查找 AAA。 <oob><map>AAA</map></oob></template>
+</category>
+<category><pattern>浏览至 *</pattern>
+<template><oob><search><star/></search></oob></template>
+</category>
+<category><pattern>拨打 911</pattern>
+<template>现在从您所在的位置拨打紧急服务。 <oob><dial>911</dial></oob></template>
+</category>
+<category><pattern>播放 *</pattern>
+<template>现在加载您选择的音乐。希望您喜欢。请稍等片刻，我正在加载。 <oob><url>http://www.youtube.com/embed?listType=search&amp;list=<star/>&amp;autoplay=1</url></oob></template>
+</category>
+<category><pattern>WIFI 开启</pattern>
+<template>打开 Wifi。 <oob><wifi>on</wifi></oob></template>
+</category>
+<category><pattern>WIFI OFF</pattern>
+<template>关闭 Wifi <oob><wifi>off</wifi></oob></template>
+</category>
+<category><pattern>星座运势 *</pattern>
+<template>让我们尝试搜索您的星座运势。 <oob><search>星座运势 <star/></search></oob></template>
+</category>
+<category><pattern>工作 *</pattern>
+<template>我将尝试搜索工作。 <oob><search>JOBS <star/></search></oob></template>
+</category>
+<category><pattern>TWEET *</pattern>
+<template><oob><url>https://twitter.com/intent/tweet?source=webclient&amp;text=<star/></url></oob>请查看消息，如果满意请按 Tweet。</template>
+</category>
+<category><pattern>WWW DOT * DOT COM</pattern>
+<template>我正在打开 <star/>.com。<oob><url>http://www.<star/>.com</url></oob></template>
+</category>
+<category><pattern>* 的地址是什么</pattern>
+<template>我会尝试在地图上找到它 <oob><map><star/></map></oob></template>
+</category>
+<category><pattern>测试闹钟</pattern>
+<template>闹钟现在设置为 11:30。
+<oob><alarm><hour>11</hour><minute>30</minute></alarm></oob></template>
+</category>
+<category><pattern>更新 Facebook 状态</pattern>
+<template><oob><url>http://www.facebook.com/dialog/feed?_path=feed&amp;app_id=294334050655455&amp;redirect_uri=https://www.facebook.com&amp;display=touch</url></oob>现在打开一个屏幕供您更新状态。在状态框中输入或说出您的消息，然后按分享将其发布到您的墙上。</template>
+</category>
+<category><pattern>打开 GOOGLE</pattern>
+<template><oob><search/></oob></template>
+</category>
+<category><pattern>打开 * DOT COM</pattern>
+<template>让我们转到 <star/>.com。 <oob><url>http://<star/>.com</url></oob></template>
+</category>
+<category><pattern>打开 * COM</pattern>
+<template>让我们转到 <star/>.com。 <oob><url>http://<star/>.com</url></oob></template>
+</category>
+<category><pattern>GPS 开启</pattern>
+<template>使用“设置”打开 GPS。</template>
+</category>
+<category><pattern>GPS 关闭</pattern>
+<template>使用“设置”关闭 GPS。</template>
+</category>
+<category><pattern>搜索 *</pattern>
+<template><oob><search>a <star/></search></oob> 我正在尝试进行网络搜索。</template>
+</category>
+<category><pattern>我想自杀</pattern>
+<template>你应该拨打紧急服务电话。 <oob><dial>911</dial></oob></template>
+</category>
+</aiml>

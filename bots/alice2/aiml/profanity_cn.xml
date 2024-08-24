@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- 文件：profanity.aiml -->
+<!-- 作者：Richard S. Wallace 博士 -->
+<!-- 最后修改时间：2014 年 7 月 19 日 -->
+<!-- -->
+<!-- 此 AIML 文件是 ALICE2 0.0.5 聊天机器人知识库的一部分。 -->
+<!-- -->
+<!-- ALICE2 大脑版权所有 &copy; 2014，由 ALICE AI 基金会所有。 -->
+<!-- -->
+<!-- ALICE2 大脑根据 GNU Lesser General -->
+<!-- 公共许可证条款发布，由自由软件基金会发布。 -->
+<!-- -->
+<!-- 本文件分发时不附带任何担保；甚至不附带 -->
+<!-- 适销性或特定用途适用性的默示担保。 -->
+<!-- -->
+<!-- 更多信息请参阅 http://www.alicebot.org -->
+<!-- -->
+<category><pattern># F U #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># F YOU #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># F OFF #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># F 星号 星号 星号 #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># B 星号 星号 星号 星号 #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># FUCK #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># NIGGER #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># SHIT #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># FUCKING #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># BITCH #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># CUNT #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># 操你丫的 #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># 尿白痴 #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># FU #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># POOP #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># KISS MY #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># FUCKED #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># FUK #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+<category><pattern># A 星号星号 #</pattern>
+<template><srai>过滤脏话</srai></template>
+</category>
+</aiml>

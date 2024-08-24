@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- 文件：roman.aiml -->
+<!-- 作者：Richard S. Wallace 博士 -->
+<!-- 最后修改时间：2014 年 7 月 19 日 -->
+<!-- -->
+<!-- 此 AIML 文件是 ALICE2 0.0.5 聊天机器人知识库的一部分。 -->
+<!-- -->
+<!-- ALICE2 大脑版权所有 &copy; 2014，由 ALICE AI 基金会所有。 -->
+<!-- -->
+<!-- ALICE2 大脑根据 GNU Lesser General -->
+<!-- 公共许可证条款发布，由自由软件基金会发布。 -->
+<!-- -->
+<!-- 本文件分发时不附带任何担保；甚至不附带 -->
+<!-- 适销性或特定用途适用性的默示担保。 -->
+<!-- -->
+<!-- 更多信息请参阅 http://www.alicebot.org -->
+<!-- -->
+<category><pattern>ROMAN <set>numbername</set></pattern>
+<template><srai>ROMAN <map><name>name2number</name><star/></map></srai></template>
+</category>
+<category><pattern>ROMAN *</pattern>
+<template><think><set var="ex"><explode><star/></explode></set></think>
+<condition var="ex">
+<li><value><star/></value>我不知道 <srai>IMPLODE <star/></srai> 在 Roman 中是什么意思。</li>
+<li><srai>ROMAN <explode><star/></explode></srai></li>
+</condition></template>
+</category>
+<category><pattern>ROMAN <set>digit</set></pattern>
+<template><think><set var="d"><star/></set></think>
+<condition var="d">
+<li value="1">I</li>
+<li value="2">II</li>
+<li value="3">III</li>
+<li value="4">IV</li>
+<li value="5">V</li>
+<li value="6">VI</li>
+<li value="7">VII</li>
+<li value="8">VIII</li>
+<li value="9">IX</li>
+<li/>
+</condition></template>
+</category>
+<category><pattern>罗马 <set>number</set> <set>number</set></pattern>
+<template><think><set var="d"><star/></set></think>
+<condition var="d">
+<li value="1">X</li>
+<li value="2">XX</li>
+<li value="3">XXX</li>
+<li value="4">XL</li>
+<li value="5">L</li>
+<li value="6">LX</li>
+<li value="7">LXX</li>
+<li value="8">LXXX</li>
+<li value="9">XC</li>
+<li/>
+</condition><srai>罗马 <star index="2"/></srai></template>
+</category>
+<category><pattern>罗马 <set>number</set> <set>number</set> <set>number</set></pattern>
+<template><think><set var="d"><star/></set></think>
+<condition var="d">
+<li value="1">C</li>
+<li value="2">CC</li>
+<li value="3">CCC</li>
+<li value="4">CD</li>
+<li value="5">D</li>
+<li value="6">DC</li>
+<li value="7">DCC</li>
+<li value="8">DCCC</li>
+<li value="9">CM</li>
+<li/>
+</condition><srai>罗马<star index="2"/> <star index="3"/></srai></template>
+</category>
+<category><pattern>罗马字母 <set>number</set> <set>number</set> <set>number</set> <set>number</set></pattern>
+<template><think><set var="d"><star/></set></think>
+<condition var="d">
+<li value="1">M</li>
+<li value="2">MM</li>
+<li value="3">MMM</li>
+<li value="4">MMMM</li><li value="5">D</li>
+<li value="6">MMMMM</li>
+<li value="7">MMMMMM</li>
+<li value="8">MMMMMMM</li>
+<li value="9">MMMMMMMM</li>
+<li/>
+</condition><srai>罗马字母 <star index="2"/> <star index="3"/> <star index="4"/></srai></template>
+</category>
+</aiml>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- 文件: animal.aiml -->
+<!-- 作者: Dr. Richard S. Wallace -->
+<!-- 最后修改日期: 2014年7月19日 -->
+<!--  -->
+<!-- 此AIML文件是ALICE2 0.0.5聊天机器人知识库的一部分。 -->
+<!--  -->
+<!-- ALICE2大脑版权所有 &copy; 2014年 由ALICE AI基金会。 -->
+<!--  -->
+<!-- ALICE2大脑根据GNU宽通用公共许可证（由自由软件基金会发布）条款发布。 -->
+<!--  -->
+<!-- 此文件在没有任何担保的情况下分发；甚至不包括适销性或特定用途适用性的隐含担保。 -->
+<!--  -->
+<!-- 更多信息请参见 http://www.alicebot.org -->
+<!--  -->
+<category><pattern>单数 <set>animals</set></pattern>
+<template><uniq><subj>?singular</subj><pred>有复数形式</pred><obj><star/></obj></uniq></template>
+</category>
+<category><pattern>复数 <set>animal</set></pattern>
+<template><uniq><subj><star/></subj><pred>有复数形式</pred><obj>?plural</obj></uniq></template>
+</category>
+<category><pattern><set>animals</set></pattern>
+<template><star/> 是 <uniq><subj>?subj</subj><pred>有复数形式</pred><obj><star/></obj></uniq> 的复数形式。</template>
+</category>
+<category><pattern>声音 <set>animal</set></pattern>
+<template><star/> 说 <uniq><subj><star/></subj><pred>声音</pred><obj>?sound</obj></uniq>。</template>
+</category>
+<category><pattern>集合名词 <set>animal</set></pattern>
+<template>一群 <star/> 被称为 <uniq><subj><star/></subj><pred>集合名词</pred><obj>?collective</obj></uniq>。</template>
+</category>
+<category><pattern>腿 <set>animal</set></pattern>
+<template>一只 <star/> 有 <uniq><subj><star/></subj><pred>腿</pred><obj>?sound</obj></uniq> 条腿。</template>
+</category>
+<category><pattern>某种动物 <set>animal</set> 说什么 ^</pattern>
+<template><srai>声音 <star/></srai></template>
+</category>
+<category><pattern>某些动物 <set>animals</set> 说什么 ^</pattern>
+<template><srai>声音 <srai>单数 <star/></srai></srai></template>
+</category>
+<category><pattern>某种动物发出什么声音 # <set>animal</set> ^</pattern>
+<template><srai>声音 <star index="2"/></srai></template>
+</category>
+<category><pattern>某些动物发出什么声音 # <set>animal</set> ^</pattern>
+<template><srai>声音 <srai>单数 <star index="2"/></srai></srai></template>
+</category>
+<category><pattern>某种动物怎么发声 # <set>animal</set> ^</pattern>
+<template><srai>声音 <star index="2"/></srai></template>
+</category>
+<category><pattern>某种动物有几条腿 # <set>animal</set> ^</pattern>
+<template><srai>腿 <star index="2"/></srai></template>
+</category>
+<category><pattern>某些动物有几条腿 # <set>animals</set> ^</pattern>
+<template><srai>腿 <srai>单数 <star index="2"/></srai></srai></template>
+</category>
+<category><pattern>多少条腿 # <set>number</set> <set>animals</set> # <set>number</set> <set>animals</set> ^</pattern>
+<template><think>
+<set var="number1"><star index="2"/></set>
+<set var="animal1"><srai>单数 <star index="3"/></srai></set>
+<set var="legs1"><uniq><subj><get var="animal1"/></subj><pred>腿</pred><obj>?legs1</obj></uniq></set>
+<set var="number2"><star index="5"/></set>
+<set var="animal2"><srai>单数 <star index="6"/></srai></set>
+<set var="legs2"><uniq><subj><get var="animal2"/></subj><pred>腿</pred><obj>?legs2</obj></uniq></set>
+<set var="formula"><get var="number1"/>*<get var="legs1"/>+<get var="number2"/>*<get var="legs2"/></set>
+</think>
+<srai>四舍五入 <srai>结果是 <get var="formula"/></srai></srai> 条腿。</template>
+</category>
+<category><pattern>多少条腿 # <set>number</set> <set>animals</set> ^</pattern>
+<template><think>
+<set var="number1"><star index="2"/></set>
+<set var="animal1"><srai>单数 <star index="3"/></srai></set>
+<set var="legs1"><uniq><subj><get var="animal1"/></subj><pred>腿</pred><obj>?legs1</obj></uniq></set>
+<set var="formula"><get var="number1"/>*<get var="legs1"/></set>
+</think>
+<srai>四舍五入 <srai>结果是 <get var="formula"/></srai></srai> 条腿。</template>
+</category>
+<category><pattern>_ 1 <set>animal</set> *</pattern>
+<template><srai><star/> 1 <srai>复数 <star index="2"/></srai> <star index="3"/></srai></template>
+</category>
+<category><pattern>_ 1 <set>animal</set></pattern>
+<template><srai><star/> 1 <srai>复数 <star index="2"/></srai></srai></template>
+</category>
+</aiml>

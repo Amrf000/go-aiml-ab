@@ -143,11 +143,11 @@ func GetGlossFromInputStream(bot *ab.Bot, in *os.File) {
 		}
 	}
 
-	d := ab.NewCategory(0, "WNDEF *", "*", "*", "unknown", "wndefs0.aiml")
+	d := ab.NewCategory(0, "WNDEF *", "*", "*", "unknown", "wndefs0.xml")
 	bot.Brain.AddCategory(d)
 	for word, gloss := range def {
 		gloss += "."
-		c := ab.NewCategory(0, "WNDEF "+word, "*", "*", gloss, "wndefs0.aiml")
+		c := ab.NewCategory(0, "WNDEF "+word, "*", "*", gloss, "wndefs0.xml")
 		// fmt.Println(c.InputThatTopic() + ":" + c.GetTemplate() + ":" + c.GetFilename())
 		node := bot.Brain.FindNode(c)
 		if node != nil {

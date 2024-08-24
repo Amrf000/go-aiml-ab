@@ -130,8 +130,8 @@ func NewBotWithAction(name, path, action string) *Bot {
 		}
 	}
 
-	b := NewCategory(0, "PROGRAM VERSION", "*", "*", ProgramNameVersion, "update.aiml")
-	// Input: "*", That: "*", Topic: "*", Template: ProgramNameVersion, Filename: "update.aiml"
+	b := NewCategory(0, "PROGRAM VERSION", "*", "*", ProgramNameVersion, "update.xml")
+	// Input: "*", That: "*", Topic: "*", Template: ProgramNameVersion, Filename: "update.xml"
 	bot.Brain.AddCategory(b)
 	bot.Brain.NodeStats()
 	bot.LearnfGraph.NodeStats()
@@ -214,7 +214,7 @@ func (bot *Bot) AddMoreCategories(file string, moreCategories []*Category) {
 //		if file.IsDir() {
 //			continue
 //		}
-//		if strings.HasSuffix(strings.ToLower(file.Name()), ".aiml") {
+//		if strings.HasSuffix(strings.ToLower(file.Name()), ".xml") {
 //			fmt.Println(file.Name())
 //			moreCategories := AIMLToCategories(filepath.Join(bot.AimlPath, file.Name()))
 //			if err != nil {
@@ -312,11 +312,11 @@ func (bot *Bot) AddCategoriesFromAIML() int {
 		if file.IsDir() {
 			continue
 		}
-		if strings.HasSuffix(strings.ToUpper(file.Name()), ".AIML") {
+		if strings.HasSuffix(strings.ToUpper(file.Name()), ".XML") {
 			if TraceMode {
 				fmt.Println(file.Name())
 			}
-			//if file.Name() == "client_profile.aiml" {
+			//if file.Name() == "client_profile.xml" {
 			//	nn := 0
 			//	nn++
 			//}
@@ -444,8 +444,8 @@ func (bot *Bot) WriteAIMLIFFiles() {
 		fmt.Println("writeAIMLIFFiles")
 	}
 	fileMap := make(map[string]*os.File)
-	b := NewCategory(0, "BRAIN BUILD", "*", "*", time.Now().String(), "update.aiml")
-	// {Input: "*", That: "*", Topic: "*", Template: time.Now().String(), Filename: "update.aiml"}
+	b := NewCategory(0, "BRAIN BUILD", "*", "*", time.Now().String(), "update.xml")
+	// {Input: "*", That: "*", Topic: "*", Template: time.Now().String(), Filename: "update.xml"}
 	bot.Brain.AddCategory(b)
 	brainCategories := bot.Brain.GetCategories()
 	sort.Slice(brainCategories, func(i, j int) bool {
@@ -483,8 +483,8 @@ func (bot *Bot) WriteAIMLFiles() {
 		fmt.Println("writeAIMLFiles")
 	}
 	fileMap := make(map[string]*os.File)
-	b := NewCategory(0, "BRAIN BUILD", "*", "*", time.Now().String(), "update.aiml")
-	// {Input: "*", That: "*", Topic: "*", Template: time.Now().String(), Filename: "update.aiml"}
+	b := NewCategory(0, "BRAIN BUILD", "*", "*", time.Now().String(), "update.xml")
+	// {Input: "*", That: "*", Topic: "*", Template: time.Now().String(), Filename: "update.xml"}
 	bot.Brain.AddCategory(b)
 	brainCategories := bot.Brain.GetCategories()
 	sort.Slice(brainCategories, func(i, j int) bool {

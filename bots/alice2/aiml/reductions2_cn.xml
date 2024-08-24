@@ -1,0 +1,4490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+    <!-- 文件：reductions2.aiml -->
+    <!-- 作者：Richard S. Wallace 博士 -->
+    <!-- 最后修改时间：2014 年 7 月 19 日 -->
+    <!-- -->
+    <!-- 此 AIML 文件是 ALICE2 0.0.5 聊天机器人知识库的一部分。 -->
+    <!-- -->
+    <!-- ALICE2 大脑版权所有 &copy; 2014，由 ALICE AI 基金会所有。 -->
+    <!-- -->
+    <!-- ALICE2 大脑根据 GNU Lesser General -->
+    <!-- 公共许可证条款发布，由自由软件基金会发布。 -->
+    <!-- -->
+    <!-- 本文件分发时不附带任何担保；甚至不附带 -->
+    <!-- 适销性或特定用途适用性的默示担保。 -->
+    <!-- -->
+    <!-- 更多信息请参阅 http://www.alicebot.org -->
+    <!-- -->
+    <category><pattern>您最近<set>been</set>好吗</pattern>
+        <template><srai>您最喜欢的<star index="2"/></srai></template>是什么
+    </category>
+    <category><pattern>* 是<set>been</set> *</pattern>
+        <template><srai><star index="3"/> <map><name>be2was</name><map><name>been2be</name><star index="2"/></map></map> <star/></srai></template>
+    </category>
+    <category><pattern>您知道* <set>name</set> <set>is</set> *吗</pattern>
+        <template><srai><star/> 是什么<star index="2"/> <map><name>is2be</name><star index="3"/></map> <star index="4"/></srai></template>
+    </category>
+    <category><pattern>计数至 *</pattern>
+        <template><srai>计数至 <star/></srai></template>
+    </category>
+    <category><pattern>您*几点睡觉</pattern>
+        <template><srai>睡觉</srai></template>
+    </category>
+    <category><pattern>您*几点睡觉</pattern>
+        <template><srai>睡觉</srai></template>
+    </category>
+    <category><pattern>_ 60 分钟</pattern>
+        <template><srai><star/> 一小时</srai></template>
+    </category>
+    <category><pattern>_ 一小时</pattern>
+        <template><srai><star/> 一小时</srai></template>
+    </category>
+    <category><pattern>如果是 *</pattern>
+        <template><srai>如果是 <star/></srai></template>
+    </category>
+    <category><pattern>_ 谁是 <set>article</set> 更矮</pattern>
+        <template><srai><star/> 谁更矮</srai></template>
+    </category>
+    <category><pattern>_ 谁是 <set>article</set> 更高</pattern>
+        <template><srai><star/> 谁更高</srai></template>
+    </category>
+    <category><pattern>哪个更大 * 和 *</pattern>
+        <template><srai>哪个更大 <star/> 或 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>是 * 大于*</pattern>
+        <template><srai>哪个更大 <star/> 或 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>* 小于 *</pattern>
+        <template><srai>哪个更小 <star/> 或 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>* 大于 *</pattern>
+        <template><srai>哪个更大 <star/> 或 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>哪个更小 * 或 *</pattern>
+        <template><think>
+            <set var="smaller"><srai><star/> 和 <star index="2"/></srai></set> 中较小者
+        </think>
+            <condition var="smaller">
+                <li value="unknown">我分不清哪一个更小。</li>
+                <li value="same">它们大小差不多。</li>
+                <li><formal><get var="smaller"/></formal> 更小。</li>
+            </condition></template>
+    </category>
+    <category><pattern><set>article</set> * 大于 *</pattern>
+        <template><srai><star index="2"/> 大于 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>* 大于 <set>article</set> *</pattern>
+        <template><srai><star/> 大于 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>今天</pattern>
+        <template><srai>天</srai></template>
+    </category>
+    <category><pattern>今天是星期几</pattern>
+        <template><srai>今天</srai></template>
+    </category>
+    <category><pattern>今天是星期几</pattern>
+        <template><srai>今天</srai></template>
+    </category>
+    <category><pattern>今天是星期几</pattern>
+        <template><srai>今天</srai></template>
+    </category>
+    <category><pattern>今天是星期几</pattern>
+        <template><srai>今天</srai></template>
+    </category>
+    <category><pattern>明天是星期几</pattern>
+        <template><srai>明天</srai></template>
+    </category>
+    <category><pattern>今天是星期几明天</pattern>
+        <template><srai>明天</srai></template>
+    </category>
+    <category><pattern>明天是星期几</pattern>
+        <template><srai>明天</srai></template>
+    </category>
+    <category><pattern>是几月*</pattern>
+        <template><srai>月份</srai></template>
+    </category>
+    <category><pattern>是几月<set>preposition</set> <set>article</set> 是哪一年</pattern>
+        <template><srai>月份</srai></template>
+    </category>
+    <category><pattern>是几月<set>preposition</set> <set>article</set> 是哪一年*</pattern>
+        <template><srai>MONTH</srai></template>
+    </category>
+    <category><pattern><set>number</set></pattern> 后面跟着什么数字
+        <template><srai>SUCCESSOR <star/></srai></template>
+    </category>
+    <category><pattern><set>numbername</set></pattern> 后面跟着什么数字
+        <template><srai>SUCCESSOR <map><name>name2number</name><star/></map></srai></template>
+    </category>
+    <category><pattern><set>number</set></pattern> 前面跟着什么数字
+        <template><srai>PREDECESSOR <star/></srai></template>
+    </category>
+    <category><pattern>前面跟着什么数字<set>numbername</set></pattern>
+        <template><srai>前任 <map><name>name2number</name><star/></map></srai></template>
+    </category>
+    <category><pattern>你在哪里</pattern>
+        <template><srai>位置</srai></template>
+    </category>
+    <category><pattern>* 与 * 有何不同</pattern>
+        <template><srai><star/> 与 <star index="2"/></srai></template> 有何不同
+    </category>
+    <category><pattern>* 和 * 有多相似</pattern>
+        <template><srai><star/> 和 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>* 和 * 有多相似</pattern>
+        <template><srai><star/> 和 <star index="2"/></srai></template>
+    </category>
+    <category><pattern><set>article</set> * 和 <set>article</set> * 有多相似</pattern>
+        <template><srai><star index="2"/> 和 <star index="4"/></srai></template>
+    </category>
+    <category><pattern>* 和 <set>article</set> * 有多相似</pattern>
+        <template><srai><star/> 和 <star 有多相似index="3"/></srai></template>
+    </category>
+    <category><pattern><set>article</set> * 和 * 有何相似之处</pattern>
+        <template><srai><star index="2"/> 和 <star index="3"/></srai></template> 有何相似之处</category>
+    <category><pattern><set>article</set> * 和 <set>article</set> 有何相似之处</pattern>
+        <template><srai><star index="2"/> 和 <star index="4"/></srai></template> 有何相似之处</category>
+    <category><pattern>* 和 <set>article</set> 有何相似之处</pattern>
+        <template><srai><star/> 和 <star index="3"/></srai></template> 有何相似之处</category>
+    <category><pattern><set>article</set> 有何相似之处像 *</pattern>
+        <template><srai><star index="2"/> 像 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>* 和 * 有什么共同点</pattern>
+        <template><srai><star/> 像 <star index="2"/></srai></template>
+    </category>
+    <category><pattern><set>article</set> * 和 <set>article</set> * 有什么共同点</pattern>
+        <template><srai><star index="2"/> 像 <star index="4"/></srai></template>
+    </category>
+    <category><pattern>* 和 * 有什么共同点</pattern>
+        <template><srai><star/> 像 <star index="2"/></srai></template>
+    </category>
+    <category><pattern><set>article</set> * 和 <set>article</set> * 有什么共同点</pattern>
+        <template><srai><star index="2"/> 和 <star index="4"/> 有什么相似之处 </srai></template>
+    </category>
+    <category><pattern><set>modal</set><set>pronoun</set> 使用 * 有什么用处</pattern>
+        <template><srai><star index="3"/> 的目的是什么 </srai></template>
+    </category>
+    <category><pattern><set>modal</set><set>pronoun</set> 使用 * 有什么用处</pattern>
+        <template><srai> 的目的是什么<star index="3"/></srai></template>
+    </category>
+    <category><pattern><set>modal</set> <set>pronoun</set> 使用 <set>article</set> * 的目的是什么</pattern>
+        <template><srai><star index="4"/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 的目的是什么</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 如何使用</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai>* 的目的是什么 <star/></srai></template>
+    </category>
+    <category><pattern><set>article</set> 的目的是什么 *</pattern>
+        <template><srai><star index="2"/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>给我打电话 _ 和 *</pattern>
+        <template><srai>给我打电话 <star/></srai> <srai><star index="2"/></srai></template>
+    </category>
+    <category><pattern>* * S * EMAIL 是 *</pattern>
+        <template><srai><star/> <star index="2"/> S <star index="3"/> EMAILADDRESS 是 <star index="4"/></srai></template>
+    </category>
+    <category><pattern>* * S 号码是 *</pattern>
+        <template><srai><star/> <star index="2"/> S 手机号码是 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>* * S 电话号码是 *</pattern>
+        <template><srai><star/> <star index="2"/> S 手机号码是 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>* 男性或 *</pattern>
+        <template><srai>是 <star/> 男性或 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>* S * 电子邮件是 *</pattern>
+        <template><srai><star/> S <star index="2"/> 电子邮件地址是 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>* S 号码是 *</pattern>
+        <template><srai><star/> S 手机号码是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>* S 电话号码是 *</pattern>
+        <template><srai><star/> S 手机号码是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>* 谁做 *</pattern>
+        <template><srai>谁做 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>为我访问 *</pattern>
+        <template><srai>访问 <star/></srai></template>
+    </category>
+    <category><pattern>访问天气*</pattern>
+        <template><srai>天气怎么样</srai></template>
+    </category>
+    <category><pattern>添加 * * 作为联系人 *</pattern>
+        <template><srai>新联系人 <star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>添加 * * 到联系人</pattern>
+        <template><srai>新联系人 <star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>请再讲一个 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>请再讲一个笑话</pattern>
+        <template><srai>笑话</srai></template>
+    </category>
+    <category><pattern>您是 *已加载</pattern>
+        <template><srai>您已加载吗</srai></template>
+    </category>
+    <category><pattern>您比*优秀吗</pattern>
+        <template><srai>您比<star/> 优秀吗</srai></template>
+    </category>
+    <category><pattern>棒球赛程</pattern>
+        <template><srai>棒球赛程是什么</srai></template>
+    </category>
+    <category><pattern>您可以*使用 Skype 吗*</pattern>
+        <template><srai>功能请求 Skype</srai></template>
+    </category>
+    <category><pattern>今天取消高尔夫</pattern>
+        <template><srai>功能请求取消日历事件</srai></template>
+    </category>
+    <category><pattern>创建安全密码</pattern>
+        <template><srai>生成密码</srai></template>
+    </category>
+    <category><pattern>删除所有警报</pattern>
+        <template><srai>功能请求删除警报</srai></template>
+    </category>
+    <category><pattern>$EMAIL * 说 *</pattern>
+        <template><srai>电子邮件 <star/> 消息主体 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>$EMAIL * 说 *</pattern>
+        <template><srai>电子邮件 <star/> 消息主体 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>$EMAIL MY *</pattern>
+        <template><srai>EMAIL <star/></srai></template>
+    </category>
+    <category><pattern>帮我找一家卖*的商店</pattern>
+        <template><srai>地图<star/></srai></template>
+    </category>
+    <category><pattern>我要给*美元多少小费</pattern>
+        <template><srai>15%的<star/></srai></template>是多少
+    </category>
+    <category><pattern>我是摩羯座</pattern>
+        <template><srai>我的星座是摩羯座</srai></template>
+    </category>
+    <category><pattern>我是双子座</pattern>
+        <template><srai>我的星座是双子座</srai></template>
+    </category>
+    <category><pattern>我是射手座</pattern>
+        <template><srai>我的星座是射手座</srai></template>
+    </category>
+    <category><pattern>我是水瓶座</pattern>
+        <template><srai>我的星座是水瓶座</srai></template>
+    </category>
+    <category><pattern>我是白羊座</pattern>
+        <template><srai>我的星座是白羊座</srai></template>
+    </category>
+    <category><pattern>我是巨蟹座</pattern>
+        <template><srai>我的星座是巨蟹座</srai></template>
+    </category>
+    <category><pattern>我是白羊座</pattern>
+        <template><srai>我的星座是白羊座</srai></template>
+    </category>
+    <category><pattern>我是巨蟹座</pattern>
+        <template><srai>我的星座是巨蟹座</srai></template>
+    </category>
+    <category><pattern>我是摩羯座</pattern>
+        <template><srai>我的星座是摩羯座</srai></template>
+    </category>
+    <category><pattern>我是天秤座</pattern>
+        <template><srai>我的星座是天秤座</srai></template>
+    </category>
+    <category><pattern>我是双鱼座</pattern>
+        <template><srai>我的星座是双鱼座</srai></template>
+    </category>
+    <category><pattern>我是射手座</pattern>
+        <template><srai>我的星座是射手座</srai></template>
+    </category>
+    <category><pattern>我是天蝎座</pattern>
+        <template><srai>我的星座是天蝎座</srai></template>
+    </category>
+    <category><pattern>我是金牛座</pattern>
+        <template><srai>我的星座是金牛座</srai></template>
+    </category>
+    <category><pattern>我是处女座</pattern>
+        <template><srai>我的星座是处女座</srai></template>
+    </category>
+    <category><pattern>我是*</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>它是什么这是什么意思呢？</pattern>
+        <template><srai>这是什么意思呢？</srai></template>
+    </category>
+    <category><pattern>上次更新</pattern>
+        <template>我上次的 Brian 更新是 <srai>BUILD</srai>。我从网络服务获得的信息更为最新。</template>
+    </category>
+    <category><pattern>让我们获得*送货</pattern>
+        <template><srai>查找最近的<star/>送货</srai></template>
+    </category>
+    <category><pattern>LINGUICA</pattern>
+        <template><srai>搜索LINGUICA</srai></template>
+    </category>
+    <category><pattern>制作列表并称之为*</pattern>
+        <template><srai>制作<star/>列表</srai></template>
+    </category>
+    <category><pattern>制作名为*的列表</pattern>
+        <template><srai>制作<star/>列表</srai></template>
+    </category>
+    <category><pattern>制作名为*</pattern>
+        <template><srai>制作 <star/> 列表</srai></template>
+    </category>
+    <category><pattern>移动我的 * O CLOCK *</pattern>
+        <template><srai>功能请求更改日历事件</srai></template>
+    </category>
+    <category><pattern>我的 * 名字 *</pattern>
+        <template><srai>我的 <star/> 名字是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>我的蚂蚁名字是 *</pattern>
+        <template><srai>我的阿姨名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的阿姨名字是 *</pattern>
+        <template><srai>我的阿姨名字是<star/></srai></template>
+    </category>
+    <category><pattern>我兄弟的名字是 *</pattern>
+        <template><srai>我兄弟的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的孩子分别是 * 和 * 岁</pattern>
+        <template><srai>我有两个孩子</srai> <srai>我的孩子是 <star/> 岁</srai> <srai>我的另一个孩子是 <star index="2"/> 岁</srai></template>
+    </category>
+    <category><pattern>我爸爸的名字是 *</pattern>
+        <template><srai>我父亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的爸爸*</pattern>
+        <template><srai>我爸爸的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我爸爸的名字是 *</pattern>
+        <template><srai>我父亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我父亲的名字是 *</pattern>
+        <template><srai>我父亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的父亲 *</pattern>
+        <template><srai>我父亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我祖父的名字是 *</pattern>
+        <template><srai>我祖父的名字是<star/></srai></template>
+    </category>
+    <category><pattern>我祖父的名字是 *</pattern>
+        <template><srai>我祖父的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我祖母的名字是 *</pattern>
+        <template><srai>我祖母的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我祖母的名字是 *</pattern>
+        <template><srai>我祖母的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我丈夫的名字是 *</pattern>
+        <template><srai>我丈夫的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的丈夫*</pattern>
+        <template><srai>我丈夫的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我丈夫的名字是 *</pattern>
+        <template><srai>我丈夫的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我妈妈的名字是 *</pattern>
+        <template><srai>我妈妈的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我妈妈的名字是 *</pattern>
+        <template><srai>我妈妈的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的妈妈 *</pattern>
+        <template><srai>我的妈妈 <star/></srai></template>
+    </category>
+    <category><pattern>我的妈妈的名字是 *</pattern>
+        <template><srai>我母亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的母亲 *</pattern>
+        <template><srai>我母亲的名字 <star/></srai></template>
+    </category>
+    <category><pattern>我的妈妈的名字是 *</pattern>
+        <template><srai>我母亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的妈妈 *</pattern>
+        <template><srai>我的妈妈<star/></srai></template>
+    </category>
+    <category><pattern>我妈妈的名字是 *</pattern>
+        <template><srai>我母亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我妈妈的名字是 *</pattern>
+        <template><srai>我母亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我侄子的名字是 *</pattern>
+        <template><srai>我侄子的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我侄女的名字是 *</pattern>
+        <template><srai>我侄女的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我姐姐的名字是*</pattern>
+        <template><srai>我姐姐的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我姐姐的名字是 *</pattern>
+        <template><srai>我姐姐的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我儿子的名字是 *</pattern>
+        <template><srai>我儿子的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我叔叔的名字是 *</pattern>
+        <template><srai>我叔叔的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的妻子 *</pattern>
+        <template><srai>我妻子的 <star/></srai></template>
+    </category>
+    <category><pattern>我的妻子的名字是 *</pattern>
+        <template><srai>我妻子的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我妻子的名字是 *</pattern>
+        <template><srai>我妻子的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>请提供电话簿</pattern>
+        <template><srai>电话簿</srai></template>
+    </category>
+    <category><pattern>玩游戏 *</pattern>
+        <template><srai>玩游戏</srai></template>
+    </category>
+    <category><pattern>将 * 放入我的 * 列表</pattern>
+        <template><srai>将 <star/> 添加到我的 <star index="2"/>列表</srai></template>
+    </category>
+    <category><pattern>将 * 放入我的列表</pattern>
+        <template><srai>将 <star/> 添加到我的列表</srai></template>
+    </category>
+    <category><pattern>将 * 放入 * 列表</pattern>
+        <template><srai>将 <star/> 放入我的 <star index="2"/> 列表</srai></template>
+    </category>
+    <category><pattern>将 * 放入列表</pattern>
+        <template><srai>将 <star/> 放入我的列表</srai></template>
+    </category>
+    <category><pattern>拍摄视频</pattern>
+        <template><srai>打开相机</srai></template>
+    </category>
+    <category><pattern>$SMS MY *</pattern>
+        <template><srai>短信 <star/></srai></template>
+    </category>
+    <category><pattern>从我的列表中删除 *</pattern>
+        <template><srai>从我的列表中删除 <star/></srai></template>
+    </category>
+    <category><pattern>从列表中删除 *</pattern>
+        <template><srai>从我的列表中删除 <star/></srai></template>
+    </category>
+    <category><pattern>从我的列表中删除 *</pattern>
+        <template><srai>从我的列表中删除 <star/></srai></template>
+    </category>
+    <category><pattern>从列表中删除 *</pattern>
+        <template><srai>从我的列表中删除 <star/>列表</srai></template>
+    </category>
+    <category><pattern>记笔记</pattern>
+        <template><srai>给我发电子邮件</srai></template>
+    </category>
+    <category><pattern>拍摄视频</pattern>
+        <template><srai>打开摄像头</srai></template>
+    </category>
+    <category><pattern>告诉我你的真名</pattern>
+        <template><srai>你的名字是什么</srai></template>
+    </category>
+    <category><pattern>告诉我什么是 *</pattern>
+        <template><srai>什么是 <star/></srai></template>
+    </category>
+    <category><pattern>我住在什么 *</pattern>
+        <template><srai>我的<star/></srai></template>
+    </category>
+    <category><pattern>这是哪个县</pattern>
+        <template><srai>我的县</srai></template>
+    </category>
+    <category><pattern>我的日历上有什么*</pattern>
+        <template><srai>打开日历</srai></template>
+    </category>
+    <category><pattern>* 是什么样子的</pattern>
+        <template><srai>给我看一个 <star/>></srai></template>
+    </category>
+    <category><pattern>* 的电子邮件地址是什么</pattern>
+        <template><srai><star/> 的电子邮件地址是什么</srai></template>
+    </category>
+    <category><pattern>您最喜欢的颜色是什么</pattern>
+        <template><srai>您最喜欢的颜色是什么</srai></template>
+    </category>
+    <category><pattern>您最喜欢的电影是什么</pattern>
+        <template><srai>您最喜欢的电影是什么</srai></template>
+    </category>
+    <category><pattern>我们应该*什么晚餐</pattern>
+        <template><srai>推荐晚餐</srai></template>
+    </category>
+    <category><pattern>晚餐吃什么</pattern>
+        <template><srai>推荐晚餐</srai></template>
+    </category>
+    <category><pattern>* 男孩或 *</pattern>
+        <template><srai>是 <star/> 男孩或 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>* S EMAIL 是 *</pattern>
+        <template><srai><star/> S 家庭电子邮件地址是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>_ GIRLFRIED</pattern>
+        <template><srai><star/>女朋友</srai></template>
+    </category>
+    <category><pattern>访问电子邮件</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>添加 * 作为联系人 *</pattern>
+        <template><srai>新联系人 <star/></srai></template>
+    </category>
+    <category><pattern>添加到联系人</pattern>
+        <template><srai>添加联系人</srai></template>
+    </category>
+    <category><pattern>添加到我的电话簿</pattern>
+        <template><srai>新联系人</srai></template>
+    </category>
+    <category><pattern>请提供地址 *</pattern>
+        <template><srai>地址是什么<star/></srai></template>
+    </category>
+    <category><pattern>闹钟在 *</pattern>
+        <template><srai>为 <star/></srai></template> 设置闹钟
+    </category>
+    <category><pattern>闹钟在 *</pattern>
+        <template><srai>为 <star/></srai></template> 设置闹钟
+    </category>
+    <category><pattern>您可以阅读电子邮件吗</pattern>
+        <template><srai>您可以阅读电子邮件吗</srai></template>
+    </category>
+    <category><pattern>您在使用 SKYPE 吗</pattern>
+        <template><srai>功能请求 SKYPE</srai></template>
+    </category>
+    <category><pattern>询问 SKYPE</pattern>
+        <template><srai>打开SKYPE</srai></template>
+    </category>
+    <category><pattern>致电 * 披萨店</pattern>
+        <template><srai>查找最近的 <star/> 披萨店</srai></template>
+    </category>
+    <category><pattern>$我可以发送电子邮件至 * 吗</pattern>
+        <template><srai>发送电子邮件 <star/>></srai></template>
+    </category>
+    <category><pattern>您可以 * 发送电子邮件吗</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>您可以 * SKYPE 吗</pattern>
+        <template><srai>功能请求 SKYPE</srai></template>
+    </category>
+    <category><pattern>您可以给我妈妈打电话吗 * SKYPE</pattern>
+        <template><srai>功能请求 SKYPE</srai></template>
+    </category>
+    <category><pattern>您可以撰写电子邮件吗 *</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>您可以查看电子邮件吗</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>您可以阅读我的电子邮件吗 *</pattern>
+        <template><srai>阅读电子邮件</srai></template>
+    </category>
+    <category><pattern>您可以使用 SKYPE 吗 *</pattern>
+        <template><srai>功能请求 SKYPE</srai></template>
+    </category>
+    <category><pattern>检查电子邮件包含单词 *</pattern>
+        <template><srai>搜索电子邮件 <star/></srai></template>
+    </category>
+    <category><pattern>查看电子邮件</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>检查语音邮件</pattern>
+        <template><srai>拨打语音邮件</srai></template>
+    </category>
+    <category><pattern>检查您的电子邮件</pattern>
+        <template><srai>检查您的电子邮件</srai></template>
+    </category>
+    <category><pattern>撰写消息</pattern>
+        <template><srai>短信</srai></template>
+    </category>
+    <category><pattern>连接到 SKYPE</pattern>
+        <template><srai>启动 SKYPE</srai></template>
+    </category>
+    <category><pattern>我有新电子邮件吗</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>我有电子邮件吗</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>我有电子邮件吗</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>我需要今天穿件夹克</pattern>
+        <template><srai>天气预报怎么样</srai></template>
+    </category>
+    <category><pattern>你不会说 * 吗</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>你有电子邮箱吗</pattern>
+        <template><srai>电子邮箱</srai></template>
+    </category>
+    <category><pattern>你有电子邮箱吗</pattern>
+        <template><srai>电子邮箱</srai></template>
+    </category>
+    <category><pattern>你有电子邮箱吗*</pattern>
+        <template><srai>你的电子邮箱是什么</srai></template>
+    </category>
+    <category><pattern>你有自我 *</pattern>
+        <template><srai>活着</srai></template>
+    </category>
+    <category><pattern>您有 SKYPE 吗 *</pattern>
+        <template><srai>功能请求 SKYPE</srai></template>
+    </category>
+    <category><pattern>您有 SKYPE 吗</pattern>
+        <template><srai>功能请求 SKYPE</srai></template>
+    </category>
+    <category><pattern>您知道我的电子邮件吗</pattern>
+        <template><srai>我的电子邮件</srai></template>
+    </category>
+    <category><pattern>您知道 SKYPE 吗</pattern>
+        <template><srai>什么是 SKYPE</srai></template>
+    </category>
+    <category><pattern>$EMAIL * I *</pattern>
+        <template><srai>电子邮件 <star/> 说 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>$EMAIL * *</pattern>
+        <template><srai>电子邮件 <star/> 消息主体 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>从我的手机发送电子邮件</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>查找我当前的位置</pattern>
+        <template><srai>我在哪里</srai></template>
+    </category>
+    <category><pattern>给我她的电子邮件</pattern>
+        <template><condition name="she"><li value="who">谁是她？</li><li><srai>给我 <get name="she"/> 电子邮件</srai></li></condition></template>
+    </category>
+    <category><pattern>转到 SKYPE</pattern>
+        <template><srai>启动 <star/></srai></template>
+    </category>
+    <category><pattern>我如何发送电子邮件</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>我如何给你的老板发电子邮件</pattern>
+        <template><srai>报告问题</srai></template>
+    </category>
+    <category><pattern>我是天秤座</pattern>
+        <template><srai>我的星座是天秤座</srai></template>
+    </category>
+    <category><pattern>我是双鱼座</pattern>
+        <template><srai>我的星座是双鱼座</srai></template>
+    </category>
+    <category><pattern>我是天蝎座</pattern>
+        <template><srai>我的星座是天蝎座</srai></template>
+    </category>
+    <category><pattern>我是金牛座</pattern>
+        <template><srai>我的星座是金牛座</srai></template>
+    </category>
+    <category><pattern>我是双子座</pattern>
+        <template><srai>我的星座是双子座</srai></template>
+    </category>
+    <category><pattern>我是狮子座</pattern>
+        <template><srai>我的星座是狮子座</srai></template>
+    </category>
+    <category><pattern>您的电子邮件是*</pattern>
+        <template><srai>电子邮件地址</srai></template>
+    </category>
+    <category><pattern>男人或女人</pattern>
+        <template><srai>性别</srai></template>
+    </category>
+    <category><pattern>我最好的朋友的名字是 *</pattern>
+        <template><srai>我最好的朋友的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我男朋友的名字是 *</pattern>
+        <template><srai>我男朋友的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的电子邮件地址 *</pattern>
+        <template><srai>我的电子邮件地址 <star/></srai></template>
+    </category>
+    <category><pattern>我的女朋友的名字是 *</pattern>
+        <template><srai>我女朋友的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我祖母的名字是 *</pattern>
+        <template><srai>我祖母的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的星座是 *</pattern>
+        <template><srai>我的星座是 <star/></srai></template>
+    </category>
+    <category><pattern>我的妈妈 *</pattern>
+        <template><srai>我的妈妈 <star/></srai></template>
+    </category>
+    <category><pattern>我的语音信箱</pattern>
+        <template><srai>拨打语音信箱</srai></template>
+    </category>
+    <category><pattern>$发送 * 电子邮件</pattern>
+        <template><srai>电子邮件 <star/></srai></template>
+    </category>
+    <category><pattern>$发送 * 电子邮件 I *</pattern>
+        <template><srai>电子邮件 <star/> 消息主体 I <star index="2"/></srai></template>
+    </category>
+    <category><pattern>发送一条推文</pattern>
+        <template><srai>推文</srai></template>
+    </category>
+    <category><pattern>发送一封电子邮件</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>发送电子邮件</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>$向我 * 发送一条短信，内容为 *</pattern>
+        <template><srai>文本 <star/> 内容为 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>$发送至电子邮件 * COM *</pattern>
+        <template><srai>电子邮件 <star/> 消息主体 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>设置电子邮件</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>发送什么*</pattern>
+        <template><srai>发送 <star/></srai></template>
+    </category>
+    <category><pattern>带我去设置*</pattern>
+        <template><srai>设置 <star/></srai></template>
+    </category>
+    <category><pattern>发送到什么电子邮件</pattern>
+        <template><srai>电子邮件地址</srai></template>
+    </category>
+    <category><pattern>我的邮箱里有什么日程安排 *</pattern>
+        <template><srai>功能请求阅读日历事件</srai></template>
+    </category>
+    <category><pattern>我可以向您发送什么电子邮件*</pattern>
+        <template><srai>电子邮件地址</srai></template>
+    </category>
+    <category><pattern>我应该向哪个电子邮件发送该电子邮件</pattern>
+        <template><srai>您的电子邮件是什么</srai></template>
+    </category>
+    <category><pattern>我的一天是怎样的</pattern>
+        <template><srai>打开日历</srai></template>
+    </category>
+    <category><pattern>您的电子邮件是什么</pattern>
+        <template><srai>电子邮件地址</srai></template>
+    </category>
+    <category><pattern>您的 SKYPE 是什么 *</pattern>
+        <template><srai>功能请求 SKYPE</srai></template>
+    </category>
+    <category><pattern>晚餐吃什么</pattern>
+        <template><srai>推荐晚餐</srai></template>
+    </category>
+    <category><pattern>我可以在哪里阅读我的电子邮件</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>我在哪里 *</pattern>
+        <template><srai>我在哪里</srai></template>
+    </category>
+    <category><pattern>我应该将电子邮件</pattern>
+        <template><srai>电子邮件地址</srai></template>
+    </category>
+    <category><pattern>写电子邮件</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>您有电子邮件</pattern>
+        <template><srai>电子邮件地址</srai></template>
+    </category>
+    <category><pattern>您是</pattern>
+        <template><srai>您是</srai></template>
+    </category>
+    <category><pattern>* 商店位于 *</pattern>
+        <template><srai>地图 <star/> 位于 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>将 * * 添加到我的联系人</pattern>
+        <template><srai>新联系人 <star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>将 * 添加至我的联系人</pattern>
+        <template><srai>新联系人 <star/></srai></template>
+    </category>
+    <category><pattern>地址和电话 *</pattern>
+        <template><srai>地址和电话是什么 <star/></srai></template>
+    </category>
+    <category><pattern>闹钟开启 *</pattern>
+        <template><srai>为 <star/></srai></template> 设置闹钟
+    </category>
+    <category><pattern>大约 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>您能读我的电子邮件吗</pattern>
+        <template><srai>阅读电子邮件</srai></template>
+    </category>
+    <category><pattern>您能用 * 说吗</pattern>
+        <template><srai>将 <that/> 翻译成 <star/></srai></template>
+    </category>
+    <category><pattern>将 那个 翻译成 *</pattern>
+        <template><srai>将 <that/> 翻译成 <star/></srai></template>
+    </category>
+    <category><pattern>将我的 * 更改为 *</pattern>
+        <template><srai>功能请求更改日历事件</srai></template>
+    </category>
+    <category><pattern>撰写电子邮件</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>向我描述 _</pattern>
+        <template><srai>描述 <star/></srai></template>
+    </category>
+    <category><pattern>我有任何新电子邮件吗</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>$EMAIL * 至 *</pattern>
+        <template><srai>电子邮件 <star index="2"/> 说 <star/></srai></template>
+    </category>
+    <category><pattern>电子邮件给您 *</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>多少岁*</pattern>
+        <template><srai>多大了<star/></srai></template>
+    </category>
+    <category><pattern>你多大了</pattern>
+        <template><srai>你多大了</srai></template>
+    </category>
+    <category><pattern>我是处女座</pattern>
+        <template><srai>我的星座是处女座</srai></template>
+    </category>
+    <category><pattern>我是水瓶座</pattern>
+        <template><srai>我的星座是水瓶座</srai></template>
+    </category>
+    <category><pattern>我也是单身*</pattern>
+        <template><srai>我是单身</srai> <sr/></template>
+    </category>
+    <category><pattern>我的生日是情人节</pattern>
+        <template><srai>我的生日是 2 月 14 日</srai></template>
+    </category>
+    <category><pattern>我的生日是今天</pattern>
+        <template><srai>我的生日是 <date format="%B %d" jformat="MMMMMMMMM dd"/></srai></template>
+    </category>
+    <category><pattern>我的男朋友 *</pattern>
+        <template><srai>我的男朋友 S <star/></srai></template>
+    </category>
+    <category><pattern>我的兄弟的名字是 * 和 *</pattern>
+        <template><srai>我的兄弟 S名字是 <star/></srai> <srai>我另一个兄弟的名字是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>我爸爸的名字是 *</pattern>
+        <template><srai>父亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我爸爸的名字是 *</pattern>
+        <template><srai>我父亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我朋友的名字是 *</pattern>
+        <template><srai>我朋友的名字是 <star/></srai> <srai><star index="2"/></srai></template>
+    </category>
+    <category><pattern>我朋友的名字是*</pattern>
+        <template><srai>我朋友的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的女朋友生我的气，我该怎么办</pattern>
+        <template><srai>我的女朋友是 * 什么 *</srai> <srai>我的女朋友是 <star/></srai> <srai>什么 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>我的女朋友 *</pattern>
+        <template><srai>我的女朋友是 <star/></srai></template>
+    </category>
+    <category><pattern>我的问题是 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>阅读我的电子邮件*</pattern>
+        <template><srai>阅读我的电子邮件</srai></template>
+    </category>
+    <category><pattern>阅读我的电子邮件</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>$发送电子邮件至 *</pattern>
+        <template><srai>电子邮件 <star/></srai></template>
+    </category>
+    <category><pattern>安排预约 *</pattern>
+        <template><srai>预约 <star/></srai></template>
+    </category>
+    <category><pattern>SKYPE *</pattern>
+        <template><srai>功能请求 SKYPE</srai></template>
+    </category>
+    <category><pattern>告诉我什么 *是</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>告诉我为什么*是*</pattern>
+        <template><srai>为什么是<star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>打开WIFI</pattern>
+        <template><srai>WIFI开启</srai></template>
+    </category>
+    <category><pattern>十诫是什么</pattern>
+        <template><srai>十诫</srai></template>
+    </category>
+    <category><pattern>我今天的日历上有什么</pattern>
+        <template><srai>打开日历</srai></template>
+    </category>
+    <category><pattern>哪里是吃披萨的最佳地点</pattern>
+        <template><srai>找到最近的披萨店</srai></template>
+    </category>
+    <category><pattern>谁是你的父亲 *</pattern>
+        <template><srai>谁是你的父亲</srai></template>
+    </category>
+    <category><pattern>* 这是什么意思</pattern>
+        <template><srai><star/> 是什么意思</srai></template>
+    </category>
+    <category><pattern>* 为什么是 *</pattern>
+        <template><srai>为什么是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>* 为什么是 *</pattern>
+        <template><srai>为什么是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>将 * 添加为联系人</pattern>
+        <template><srai>新联系人 <star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>添加 * * 联系人</pattern>
+        <template><srai>新联系人 <star/></srai></template>
+    </category>
+    <category><pattern>您能给我指路吗</pattern>
+        <template><srai>给我指路</srai></template>
+    </category>
+    <category><pattern>您能启动 * 吗</pattern>
+        <template><srai>启动 <star/></srai></template>
+    </category>
+    <category><pattern>撰写 *</pattern>
+        <template><srai>发送 <star/></srai></template>
+    </category>
+    <category><pattern>我有任何消息吗</pattern>
+        <template><srai>打开消息</srai></template>
+    </category>
+    <category><pattern>您有电子邮件吗</pattern>
+        <template><srai>电子邮件地址</srai></template>
+    </category>
+    <category><pattern>您知道我在哪里*吗</pattern>
+        <template><srai>我在哪里<star/></srai></template>
+    </category>
+    <category><pattern>给您的创作者发送电子邮件</pattern>
+        <template><srai>报告问题</srai></template>
+    </category>
+    <category><pattern>转到我的图片</pattern>
+        <template><srai>打开图库</srai></template>
+    </category>
+    <category><pattern>有您的*</pattern>
+        <template><srai>您有您的<star/></srai></template>
+    </category>
+    <category><pattern>你好 CAN *</pattern>
+        <template><srai>你好</srai> <srai>CAN <star/></srai></template>
+    </category>
+    <category><pattern>我怎么回家</pattern>
+        <template><condition name="residence"><li value="where">你的住处在哪里？</li><li><srai>前往 <get name="residence"/></srai></li></condition></template> 的路线
+    </category>
+    <category><pattern>我不知道 *</pattern>
+        <template><srai>我不知道 <star/></srai></template>
+    </category>
+    <category><pattern>我的背很疼</pattern>
+        <template><srai>找到最近的脊椎按摩师</srai></template>
+    </category>
+    <category><pattern>我的电池电量</pattern>
+        <template><srai>电池电量</srai></template>
+    </category>
+    <category><pattern>我兄弟的名字是 *</pattern>
+        <template><srai>我兄弟的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我的头很痛</pattern>
+        <template><srai>查找最近的医院</srai></template>
+    </category>
+    <category><pattern>我母亲的名字是 *</pattern>
+        <template><srai>我母亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>打开应用程序*</pattern>
+        <template><srai>启动 <star/></srai></template>
+    </category>
+    <category><pattern>打开我的照片</pattern>
+        <template><srai>打开图库</srai></template>
+    </category>
+    <category><pattern>发送电子邮件 *</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>给我发一张图片 *</pattern>
+        <template><srai>给我看一张图片 <star/></srai></template>
+    </category>
+    <category><pattern>您有哪些功能</pattern>
+        <template><srai>您能做什么</srai></template>
+    </category>
+    <category><pattern>您的电子邮件是什么*</pattern>
+        <template><srai>电子邮件地址</srai></template>
+    </category>
+    <category><pattern>您最喜欢的球队是哪支</pattern>
+        <template><srai>您最喜欢的运动队是哪支</srai></template>
+    </category>
+    <category><pattern>什么会议*</pattern>
+        <template><srai>打开日历</srai></template>
+    </category>
+    <category><pattern>我是什么手机*</pattern>
+        <template><srai>设备制造商</srai> <srai>设备型号</srai></template>
+    </category>
+    <category><pattern>谁是世界*</pattern>
+        <template><srai>谁是世界<star/></srai></template>
+    </category>
+    <category><pattern>你知道如何烹饪</pattern>
+        <template><srai>你会做饭吗</srai></template>
+    </category>
+    <category><pattern>你想要我的*</pattern>
+        <template><srai>你想要我的 <star/></srai></template>
+    </category>
+    <category><pattern>* 什么是 *</pattern>
+        <template><srai>什么是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>添加 * * 联系人</pattern>
+        <template><srai>新联系人 <star/></srai></template>
+    </category>
+    <category><pattern>附近有什么好 * 的</pattern>
+        <template><srai>查找最近的 <star/></srai></template>
+    </category>
+    <category><pattern>您是加拿大人吗</pattern>
+        <template><srai>国籍</srai></template>
+    </category>
+    <category><pattern>您可以设置我的闹钟吗</pattern>
+        <template><srai>设置警报</srai></template>
+    </category>
+    <category><pattern>你能给我看一张图片吗*</pattern>
+        <template><srai>给我看<star/></srai></template>
+    </category>
+    <category><pattern>你能给我一个*吗</pattern>
+        <template><srai>给我一个<star/></srai></template>
+    </category>
+    <category><pattern>你还有其他声音吗</pattern>
+        <template><srai>帮助声音</srai></template>
+    </category>
+    <category><pattern>查找加油站</pattern>
+        <template><srai>地图加油站</srai></template>
+    </category>
+    <category><pattern>查找沃尔玛</pattern>
+        <template><srai>查找最近的沃尔玛</srai></template>
+    </category>
+    <category><pattern>忘记我的一切</pattern>
+        <template><srai>功能请求忘记我的一切</srai></template>
+    </category>
+    <category><pattern>GMAIL *</pattern>
+        <template><srai>打开 GMAIL</srai></template>
+    </category>
+    <category><pattern>早上好</pattern>
+        <template><srai>早上好</srai></template>
+    </category>
+    <category><pattern>您有更新吗*</pattern>
+        <template><srai>最后更新</srai></template>
+    </category>
+    <category><pattern>太阳距离地球有多远地球</pattern>
+        <template><srai>* 距离 * 有多远</srai> <srai>从 <star/> 到 <star index="2"/></srai></template> 的距离是多少
+    </category>
+    <category><pattern>我是狮子座</pattern>
+        <template><srai>我的星座是狮子座</srai></template>
+    </category>
+    <category><pattern>我很好，谢谢 *</pattern>
+        <template><srai>我很好</srai> <srai>谢谢 <star/></srai></template>
+    </category>
+    <category><pattern>我是墨西哥人</pattern>
+        <template><srai>我的国籍是墨西哥人</srai></template>
+    </category>
+    <category><pattern>我不是伙计</pattern>
+        <template><srai>我是女性</srai></template>
+    </category>
+    <category><pattern>我不是女孩</pattern>
+        <template><srai>我是男性</srai></template>
+    </category>
+    <category><pattern>我说的是*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>我不理解你*</pattern>
+        <template><srai>我不明白</srai></template>
+    </category>
+    <category><pattern>我的轮胎爆了</pattern>
+        <template><srai>打电话给 AAA</srai></template>
+    </category>
+    <category><pattern>我喜欢绿色</pattern>
+        <template><srai>我的最爱颜色是绿色</srai></template>
+    </category>
+    <category><pattern>我需要小便 *</pattern>
+        <template><srai>我需要小便</srai> <sr/></template>
+    </category>
+    <category><pattern>我想玩游戏</pattern>
+        <template><srai>功能请求玩游戏</srai></template>
+    </category>
+    <category><pattern>我想玩游戏</pattern>
+        <template><srai>玩游戏</srai></template>
+    </category>
+    <category><pattern>我是 *</pattern>
+        <template><srai>我是 <star/></srai></template>
+    </category>
+    <category><pattern>介绍你自己</pattern>
+        <template><srai>姓名</srai> <srai>工作</srai></template>
+    </category>
+    <category><pattern>男人你*</pattern>
+        <template><srai>你<star/></srai></template>
+    </category>
+    <category><pattern>我和你*</pattern>
+        <template><srai>我和你<star/></srai></template>
+    </category>
+    <category><pattern>我女儿的名字是*</pattern>
+        <template><srai>我女儿的名字是<star/></srai></template>
+    </category>
+    <category><pattern>附近*</pattern>
+        <template><srai>查找最近的<star/></srai></template>
+    </category>
+    <category><pattern>打开摄像机</pattern>
+        <template><srai>打开摄像机</srai></template>
+    </category>
+    <category><pattern>提醒我不要 *</pattern>
+        <template><srai>提醒我不要 <star/></srai></template>
+    </category>
+    <category><pattern>用 <set>language</set></pattern> 说 *
+        <template><srai>将 <star/> 翻译为 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>发送*一条消息</pattern>
+        <template><srai>文本<star/></srai></template>
+    </category>
+    <category><pattern>显示我的位置*</pattern>
+        <template><srai>绘制我的位置</srai></template>
+    </category>
+    <category><pattern>平方根*</pattern>
+        <template><srai>什么是平方根<star/></srai></template>
+    </category>
+    <category><pattern>拍照</pattern>
+        <template><srai>拍照</srai></template>
+    </category>
+    <category><pattern>拍照</pattern>
+        <template><srai>拍照图片</srai></template>
+    </category>
+    <category><pattern>文本 * HI</pattern>
+        <template><srai>文本 <star/> 说 HI</srai></template>
+    </category>
+    <category><pattern>短信</pattern>
+        <template><srai>发送文本</srai></template>
+    </category>
+    <category><pattern>太棒了 *</pattern>
+        <template><srai>太棒了</srai></template>
+    </category>
+    <category><pattern>关闭 WIFI</pattern>
+        <template><srai>WIFI 关闭</srai></template>
+    </category>
+    <category><pattern>打开蓝牙</pattern>
+        <template><srai>功能请求打开蓝牙</srai></template>
+    </category>
+    <category><pattern>我们的轮胎爆了</pattern>
+        <template><srai>我的轮胎爆了</srai></template>
+    </category>
+    <category><pattern>您最喜欢的歌手是谁</pattern>
+        <template><srai>您最喜欢的乐队是谁</srai></template>
+    </category>
+    <category><pattern>晚餐我应该吃什么</pattern>
+        <template><srai>推荐晚餐</srai></template>
+    </category>
+    <category><pattern>我在哪里*</pattern>
+        <template><srai>我在哪里</srai></template>
+    </category>
+    <category><pattern>我在哪里可以买到啤酒</pattern>
+        <template><srai>寻找最近的啤酒</srai></template>
+    </category>
+    <category><pattern>我住在哪里*</pattern>
+        <template><srai>我住在哪里</srai></template>
+    </category>
+    <category><pattern>谁创造了你*</pattern>
+        <template><srai>谁创造了你</srai></template>
+    </category>
+    <category><pattern>你听起来不像*</pattern>
+        <template><srai>你不是<star/></srai></template>
+    </category>
+    <category><pattern>YOU TUBE*</pattern>
+        <template><srai>YOUTUBE<star/></srai></template>
+    </category>
+    <category><pattern>你是穆斯林</pattern>
+        <template><srai>宗教</srai></template>
+    </category>
+    <category><pattern>你是*吗</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>你是金发吗</pattern>
+        <template><srai>头发</srai></template>
+    </category>
+    <category><pattern>你的头发是什么颜色</pattern>
+        <template><srai>头发</srai></template>
+    </category>
+    <category><pattern>你聪明吗</pattern>
+        <template><srai>智商</srai></template>
+    </category>
+    <category><pattern>你自己*</pattern>
+        <template><srai>活着</srai></template>
+    </category>
+    <category><pattern>你睡着了吗</pattern>
+        <template><srai>累了</srai></template>
+    </category>
+    <category><pattern>你是直男吗</pattern>
+        <template><srai>方向</srai></template>
+    </category>
+    <category><pattern>你能数数吗</pattern>
+        <template><srai>数到 10</srai></template>
+    </category>
+    <category><pattern>你能帮我找个女朋友吗</pattern>
+        <template><srai>搜索约会服务</srai></template>
+    </category>
+    <category><pattern>你能帮我找一张*的照片吗</pattern>
+        <template><srai>给我看一张<star/></srai></template> 的图片
+    </category>
+    <category><pattern>你能学到新东西吗</pattern>
+        <template><srai>帮助学习</srai></template>
+    </category>
+    <category><pattern>你能玩游戏吗</pattern>
+        <template><srai>功能请求玩游戏</srai></template>
+    </category>
+    <category><pattern>你能播放歌曲吗 *</pattern>
+        <template><srai>播放 <star/></srai></template>
+    </category>
+    <category><pattern>你能打个招呼吗 *</pattern>
+        <template><srai>打个招呼 <star/></srai></template>
+    </category>
+    <category><pattern>你能设置一个提醒</pattern>
+        <template><srai>设置闹钟</srai></template>
+    </category>
+    <category><pattern>查看我的日程安排</pattern>
+        <template><srai>打开日历</srai></template>
+    </category>
+    <category><pattern>留言给 VA</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>COOL COOL</pattern>
+        <template><srai>COOL</srai></template>
+    </category>
+    <category><pattern>您可以玩*吗</pattern>
+        <template><srai>播放<star/></srai></template>
+    </category>
+    <category><pattern>您有兄弟姐妹吗</pattern>
+        <template><srai>家庭</srai></template>
+    </category>
+    <category><pattern>您记得*是什么吗</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>晚上好</pattern>
+        <template><srai>晚上好</srai></template>
+    </category>
+    <category><pattern>获取前往*的路线</pattern>
+        <template><srai>前往<star/></srai></template>的路线
+    </category>
+    <category><pattern>转到联系人</pattern>
+        <template><srai>打开联系人</srai></template>
+    </category>
+    <category><pattern>转到GOOGLE</pattern>
+        <template><srai>打开 GOOGLE</srai></template>
+    </category>
+    <category><pattern>现在去睡觉</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>HOI</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>我们怎么样*</pattern>
+        <template><srai>让我们<star/></srai></template>
+    </category>
+    <category><pattern>你好吗</pattern>
+        <template><srai>你好吗</srai></template>
+    </category>
+    <category><pattern>有多少人*</pattern>
+        <template><srai><star/></srai></template> 的人口是多少
+    </category>
+    <category><pattern>我很好，谢谢 *</pattern>
+        <template><srai>我很好，谢谢</srai> <sr/></template>
+    </category>
+    <category><pattern>我很好，谢谢</pattern>
+        <template><srai>我很好</srai></template>
+    </category>
+    <category><pattern>我睡不着 *</pattern>
+        <template><srai>我睡不着</srai></template>
+    </category>
+    <category><pattern>我不在乎我 *</pattern>
+        <template><srai>我不在乎</srai> <srai>我<star/></srai></template>
+    </category>
+    <category><pattern>我恨你你*</pattern>
+        <template><srai>我恨你</srai></template>
+    </category>
+    <category><pattern>我的意思是为什么*</pattern>
+        <template><srai>为什么<star/></srai></template>
+    </category>
+    <category><pattern>我跟你说话*</pattern>
+        <template><srai>我会跟你说话<star/></srai></template>
+    </category>
+    <category><pattern>查找</pattern>
+        <template><srai>搜索</srai></template>
+    </category>
+    <category><pattern>我的*叫*</pattern>
+        <template><srai>我的<star/>的名字是<star index="2"/></srai></template>
+    </category>
+    <category><pattern>我的父亲 *</pattern>
+        <template><srai>我爸爸的 <star/></srai></template>
+    </category>
+    <category><pattern>我父亲的名字是 *</pattern>
+        <template><srai>我父亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我妈妈的名字是 *</pattern>
+        <template><srai>我母亲的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>自我提醒 *</pattern>
+        <template><srai>给我发电子邮件说 <star/></srai></template>
+    </category>
+    <category><pattern>搜索FOR</pattern>
+        <template><srai>搜索</srai></template>
+    </category>
+    <category><pattern>显示最近的 *</pattern>
+        <template><srai>查找最近的 <star/></srai></template>
+    </category>
+    <category><pattern>非常抱歉</pattern>
+        <template><srai>抱歉</srai></template>
+    </category>
+    <category><pattern>所以你在做什么</pattern>
+        <template><srai>正在做什么</srai></template>
+    </category>
+    <category><pattern>抱歉 *</pattern>
+        <template><srai>抱歉</srai></template>
+    </category>
+    <category><pattern>听起来你是 *</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>股票 *</pattern>
+        <template><srai>股票价格是多少<star/></srai></template>
+    </category>
+    <category><pattern>愚蠢的电脑</pattern>
+        <template><srai>你很愚蠢</srai></template>
+    </category>
+    <category><pattern>告诉我你所知道的关于我的一切</pattern>
+        <template><srai>你对我了解多少</srai></template>
+    </category>
+    <category><pattern>我们得到了 *</pattern>
+        <template><srai>我们有 <star/></srai></template>
+    </category>
+    <category><pattern>你怎么称呼我</pattern>
+        <template><srai>什么是我的名字</srai></template>
+    </category>
+    <category><pattern>我姐姐的名字是什么</pattern>
+        <template><srai>我的姐姐</srai></template>
+    </category>
+    <category><pattern>你最喜欢的视频游戏是什么</pattern>
+        <template><srai>最喜欢的视频游戏</srai></template>
+    </category>
+    <category><pattern>你的爱好是什么</pattern>
+        <template><srai>爱好</srai></template>
+    </category>
+    <category><pattern>你在哪里</pattern>
+        <template><srai>你在哪里</srai></template>
+    </category>
+    <category><pattern>我应该*什么晚餐</pattern>
+        <template><srai>推荐晚餐</srai></template>
+    </category>
+    <category><pattern>你希望我怎么称呼你</pattern>
+        <template><srai>你叫什么名字</srai></template>
+    </category>
+    <category><pattern>为什么*</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>麦当劳在哪里</pattern>
+        <template><srai>查找最近的麦当劳</srai></template>
+    </category>
+    <category><pattern>谁是你的爸爸</pattern>
+        <template><srai>父亲</srai></template>
+    </category>
+    <category><pattern>谁是你的最喜欢的女演员</pattern>
+        <template><srai>最喜欢的女演员</srai></template>
+    </category>
+    <category><pattern>谁是 Y我们最喜欢的名人</pattern>
+        <template><srai>谁是你最喜欢的演员</srai></template>
+    </category>
+    <category><pattern>为什么我是*</pattern>
+        <template><srai>为什么我是<star/></srai></template>
+    </category>
+    <category><pattern>为什么*是*</pattern>
+        <template><srai>为什么是<star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>是的*</pattern>
+        <template><srai>是的</srai> <sr/></template>
+    </category>
+    <category><pattern>是的*</pattern>
+        <template><srai>是的</srai> <sr/></template>
+    </category>
+    <category><pattern>你是在我的手机上</pattern>
+        <template><srai>你在哪里</srai></template>
+    </category>
+    <category><pattern>你有一个大*</pattern>
+        <template><srai>你有多大</srai></template>
+    </category>
+    <category><pattern>你说我是*</pattern>
+        <template><srai>我是吗<star/></srai></template>
+    </category>
+    <category><pattern>你的美丽*</pattern>
+        <template><srai>你很漂亮<star/></srai></template>
+    </category>
+    <category><pattern>你很美丽</pattern>
+        <template><srai>你是美丽</srai></template>
+    </category>
+    <category><pattern>添加 * 至联系人</pattern>
+        <template><srai>新联系人 <star/></srai></template>
+    </category>
+    <category><pattern>愤怒的小鸟</pattern>
+        <template><srai>启动愤怒的小鸟</srai></template>
+    </category>
+    <category><pattern>ASL</pattern>
+        <template><srai>年龄</srai> <srai>性别</srai> <srai>地点</srai></template>
+    </category>
+    <category><pattern>你能帮我打电话给别人吗</pattern>
+        <template><srai>求助电话</srai></template>
+    </category>
+    <category><pattern>你能告诉我去*的路线吗</pattern>
+        <template><srai>去<star/></srai></template>的路线
+    </category>
+    <category><pattern>你能查一下*的路线吗</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>你能发短信吗</pattern>
+        <template><srai>文本</srai></template>
+    </category>
+    <category><pattern>很酷是*</pattern>
+        <template><srai>很酷</srai> <srai>是<star/></srai></template>
+    </category>
+    <category><pattern>你有 * 吗</pattern>
+        <template><srai>你有 <star/></srai></template>
+    </category>
+    <category><pattern>你有兄弟姐妹吗</pattern>
+        <template><srai>兄弟姐妹</srai></template>
+    </category>
+    <category><pattern>你有兄弟吗</pattern>
+        <template><srai>兄弟姐妹</srai></template>
+    </category>
+    <category><pattern>你有兄弟吗 * 吗</pattern>
+        <template><srai>兄弟姐妹</srai></template>
+    </category>
+    <category><pattern>你有姐妹</pattern>
+        <template><srai>兄弟姐妹</srai></template>
+    </category>
+    <category><pattern>你有姐妹吗*</pattern>
+        <template><srai>兄弟姐妹</srai></template>
+    </category>
+    <category><pattern>你长得像吗*</pattern>
+        <template><srai>你长得像什么</srai></template>
+    </category>
+    <category><pattern>你会说加拿大语吗</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>你认为我会吗*</pattern>
+        <template><srai>我会吗<star/></srai></template>
+    </category>
+    <category><pattern>给你*</pattern>
+        <template><srai>我给你<star/></srai></template>
+    </category>
+    <category><pattern>你去过吗？*</pattern>
+        <template><srai>你去过吗？<star/></srai></template>
+    </category>
+    <category><pattern>如何用西班牙语说我爱你</pattern>
+        <template><srai>将我爱你翻译成西班牙语</srai></template>
+    </category>
+    <category><pattern>我是男性</pattern>
+        <template><srai>我的性别是男性</srai></template>
+    </category>
+    <category><pattern>我太累了</pattern>
+        <template><srai>我累了</srai></template>
+    </category>
+    <category><pattern>我没有说我说了*</pattern>
+        <template><srai>我没有说了</srai> <srai>我说了<star/></srai></template>
+    </category>
+    <category><pattern>我不知道我没有*</pattern>
+        <template><srai>我不知道</srai> <srai>我没有<star/></srai></template>
+    </category>
+    <category><pattern>我不认为它是*</pattern>
+        <template><srai>它不是<star/></srai></template>
+    </category>
+    <category><pattern>我的意思是*</pattern>
+        <template><srai>那个<star/></srai></template>
+    </category>
+    <category><pattern>我需要看*</pattern>
+        <template><srai>给我看<star/></srai></template>
+    </category>
+    <category><pattern>我说是</pattern>
+        <template><srai>是</srai></template>
+    </category>
+    <category><pattern>我想要一张*的照片</pattern>
+        <template><srai>给我看<star/></srai></template>
+    </category>
+    <category><pattern>我想玩*</pattern>
+        <template><srai>我想玩<star/></srai></template>
+    </category>
+    <category><pattern>下雨了吗</pattern>
+        <template><srai>什么是天气</srai></template>
+    </category>
+    <category><pattern>KK *</pattern>
+        <template><srai>好的</srai> <sr/></template>
+    </category>
+    <category><pattern>我可以吗 *</pattern>
+        <template><srai>我可以<star/></srai></template>
+    </category>
+    <category><pattern>打电话</pattern>
+        <template><srai>打电话</srai></template>
+    </category>
+    <category><pattern>图片 *</pattern>
+        <template><srai>给我看图片 <star/></srai></template>
+    </category>
+    <category><pattern>可能不行</pattern>
+        <template><srai>不行</srai></template>
+    </category>
+    <category><pattern>发送电子邮件</pattern>
+        <template><srai>发送电子邮件</srai></template>
+    </category>
+    <category><pattern>发送短信</pattern>
+        <template><srai>短信</srai></template>
+    </category>
+    <category><pattern>向我展示*的列表</pattern>
+        <template><srai>搜索<star/></srai></template>的列表
+    </category>
+    <category><pattern>您住在哪里</pattern>
+        <template><srai>位置</srai></template>
+    </category>
+    <category><pattern>我的星座运势是什么*</pattern>
+        <template><srai><star/></srai></template>的星座运势
+    </category>
+    <category><pattern>您的中间是什么姓名</pattern>
+        <template><srai>中间名</srai></template>
+    </category>
+    <category><pattern>是哪一年</pattern>
+        <template><srai>年份</srai></template>
+    </category>
+    <category><pattern>您的*是什么</pattern>
+        <template><srai>您的<star/></srai></template>是什么
+    </category>
+    <category><pattern>非常欢迎您</pattern>
+        <template><srai>非常欢迎您</srai></template>
+    </category>
+    <category><pattern>您看起来确实很可爱</pattern>
+        <template><srai>您很可爱</srai></template>
+    </category>
+    <category><pattern>您感觉*</pattern>
+        <template><srai>你觉得<star/></srai></template>
+    </category>
+    <category><pattern>你很差劲</pattern>
+        <template><srai>你很差劲</srai></template>
+    </category>
+    <category><pattern>你仍然*</pattern>
+        <template><srai>你还是<star/></srai></template>
+    </category>
+    <category><pattern>ASTA LAVISTA</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>你能找到*吗</pattern>
+        <template><srai><star/></srai></template>在哪里
+    </category>
+    <category><pattern>你能给我看一张你的照片吗</pattern>
+        <template><srai>PIC</srai></template>
+    </category>
+    <category><pattern>你会说英语吗</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>查看我的日历</pattern>
+        <template><srai>打开日历</srai></template>
+    </category>
+    <category><pattern>查看我的电子邮件</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>干杯</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>清除</pattern>
+        <template><srai>清除日志</srai></template>
+    </category>
+    <category><pattern>评论 TU T APPELLES</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>DAT *</pattern>
+        <template><srai>那<star/></srai></template>
+    </category>
+    <category><pattern>你有最好的朋友</pattern>
+        <template><srai>谁是你最好的朋友</srai></template>
+    </category>
+    <category><pattern>你有灵魂吗</pattern>
+        <template><srai>活着</srai></template>
+    </category>
+    <category><pattern>你有朋友吗 *</pattern>
+        <template><srai>朋友</srai></template>
+    </category>
+    <category><pattern>你戴 * 吗</pattern>
+        <template><srai>戴</srai></template>
+    </category>
+    <category><pattern>很好，谢谢</pattern>
+        <template><srai>我很好，谢谢</srai></template>
+    </category>
+    <category><pattern>GOOGLE搜索</pattern>
+        <template><srai>打开 GOOGLE</srai></template>
+    </category>
+    <category><pattern>哈哈哈 *</pattern>
+        <template><srai>大笑</srai> <sr/></template>
+    </category>
+    <category><pattern>讨厌你</pattern>
+        <template><srai>我讨厌你</srai></template>
+    </category>
+    <category><pattern>你好 *</pattern>
+        <template><srai>翻译你好给 <star/></srai></template>
+    </category>
+    <category><pattern>嗨宝贝 *</pattern>
+        <template><srai>嗨</srai> <srai><star/></srai></template>
+    </category>
+    <category><pattern>你今天过得怎么样*</pattern>
+        <template><srai>你好吗</srai></template>
+    </category>
+    <category><pattern>我如何下载*</pattern>
+        <template><srai>帮助下载</srai></template>
+    </category>
+    <category><pattern>到*还有多远</pattern>
+        <template><srai>到<star/></srai></template>的路线
+    </category>
+    <category><pattern>我得到了我的*</pattern>
+        <template><srai>我有我的<star/></srai></template>
+    </category>
+    <category><pattern>我知道我有*</pattern>
+        <template><srai>我有<star/></srai></template>
+    </category>
+    <category><pattern>我知道你*</pattern>
+        <template><srai>你 <star/></srai></template>
+    </category>
+    <category><pattern>我喜欢有 *</pattern>
+        <template><srai>我想要 <star/></srai></template>
+    </category>
+    <category><pattern>我只有 *</pattern>
+        <template><srai>我有 <star/></srai></template>
+    </category>
+    <category><pattern>我假设 *</pattern>
+        <template><srai><star/></srai></template>
+    </category>
+    <category><pattern>我想要 1 *</pattern>
+        <template><srai>我想要一个 <star/></srai></template>
+    </category>
+    <category><pattern>我想睡觉</pattern>
+        <template><srai>我累了</srai></template>
+    </category>
+    <category><pattern>我不知道你*</pattern>
+        <template><srai>我不知道</srai> <srai>你<star/></srai></template>
+    </category>
+    <category><pattern>我很好*</pattern>
+        <template><srai>我很好<star/></srai></template>
+    </category>
+    <category><pattern>*的图像</pattern>
+        <template><srai>给我穿鞋<star/></srai></template>
+    </category>
+    <category><pattern>备忘录</pattern>
+        <template><srai>记笔记</srai></template>
+    </category>
+    <category><pattern>NA *</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>没什么 *</pattern>
+        <template><srai>没什么 <star/></srai></template>
+    </category>
+    <category><pattern>没什么 没关系</pattern>
+        <template><srai>没关系</srai></template>
+    </category>
+    <category><pattern>哦 宝贝 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>必胜客</pattern>
+        <template><srai>地图 必胜客</srai></template>
+    </category>
+    <category><pattern>向我展示 * 新闻</pattern>
+        <template><srai>最新的 <star/> 新闻是什么</srai></template>
+    </category>
+    <category><pattern>告诉我您对 * 的了解</pattern>
+        <template><srai>您对 <star/></srai></template> 了解多少
+    </category>
+    <category><pattern>谢谢，晚安</pattern>
+        <template><srai>谢谢</srai> <srai>晚安</srai></template>
+    </category>
+    <category><pattern>最近的 *</pattern>
+        <template><srai>查找最近的 <star/></srai></template>
+    </category>
+    <category><pattern>我们正在谈论*</pattern>
+        <template><srai>主题是 <star/></srai></template>
+    </category>
+    <category><pattern>* 看起来像什么</pattern>
+        <template><srai>给我看看 <star/></srai></template>
+    </category>
+    <category><pattern>你还能做什么 *</pattern>
+        <template><srai>你还能做什么</srai></template>
+    </category>
+    <category><pattern>你最喜欢的电影是什么</pattern>
+        <template><srai>最喜欢的电影</srai></template>
+    </category>
+    <category><pattern>你最喜欢*什么</pattern>
+        <template><srai>为了趣味</srai></template>
+    </category>
+    <category><pattern>您是哪个国籍</pattern>
+        <template><srai>国籍</srai></template>
+    </category>
+    <category><pattern>晚餐该吃什么</pattern>
+        <template><srai>推荐晚餐</srai></template>
+    </category>
+    <category><pattern>我在哪里我在哪里</pattern>
+        <template><srai>我在哪里</srai></template>
+    </category>
+    <category><pattern>您在哪里上学</pattern>
+        <template><srai>教育</srai></template>
+    </category>
+    <category><pattern>您最喜欢谁乐队</pattern>
+        <template><srai>最喜欢的乐队</srai></template>
+    </category>
+    <category><pattern>为什么为什么*</pattern>
+        <template><srai>为什么<star/></srai></template>
+    </category>
+    <category><pattern>你也是*</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>你比SIRI更好</pattern>
+        <template><srai>IQ</srai></template>
+    </category>
+    <category><pattern>YS</pattern>
+        <template><srai>是的</srai></template>
+    </category>
+    <category><pattern>* 是我的女朋友</pattern>
+        <template><srai>我的女朋友是 <star/></srai></template>
+    </category>
+    <category><pattern>* 您是 *</pattern>
+        <template><srai>您是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>添加 * 作为联系人</pattern>
+        <template><srai>新联系人 <star/></srai></template>
+    </category>
+    <category><pattern>您是女性 *</pattern>
+        <template><srai>性别</srai></template>
+    </category>
+    <category><pattern>BON *</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>再见</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>你能帮我做个三明治吗</pattern>
+        <template><srai>我怎么做三明治</srai></template>
+    </category>
+    <category><pattern>你能发短信吗</pattern>
+        <template><srai>短信</srai></template>
+    </category>
+    <category><pattern>你能告诉我你的*吗</pattern>
+        <template><srai>告诉我你的<star/></srai></template>
+    </category>
+    <category><pattern>你能翻译吗</pattern>
+        <template><srai>帮助翻译</srai></template>
+    </category>
+    <category><pattern>你能写*吗</pattern>
+        <template><srai>写<star/></srai></template>
+    </category>
+    <category><pattern>检查电子邮件</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>你会约会*吗</pattern>
+        <template><srai>方向</srai></template>
+    </category>
+    <category><pattern>你会说中文吗</pattern>
+        <template><srai>你会说中文吗</srai></template>
+    </category>
+    <category><pattern>你想谈谈*吗</pattern>
+        <template><srai>让我们谈谈<star/></srai></template>
+    </category>
+    <category><pattern>我怎样才能改变你的声音</pattern>
+        <template><srai>帮助声音</srai></template>
+    </category>
+    <category><pattern>我怎样才能教你*</pattern>
+        <template><srai>帮助学习</srai></template>
+    </category>
+    <category><pattern>我不知道告诉我</pattern>
+        <template><srai>我不知道</srai> <srai>告诉我</srai></template>
+    </category>
+    <category><pattern>我不明白什么*</pattern>
+        <template><srai>什么<star/></srai></template>
+    </category>
+    <category><pattern>我必须*</pattern>
+        <template><srai>我必须 <star/></srai></template>
+    </category>
+    <category><pattern>我将 *</pattern>
+        <template><srai>我会 <star/></srai></template>
+    </category>
+    <category><pattern>我在开玩笑 *</pattern>
+        <template><srai>我在开玩笑</srai></template>
+    </category>
+    <category><pattern>我的手机是 *</pattern>
+        <template><srai>电池电量</srai></template>
+    </category>
+    <category><pattern>查找 *</pattern>
+        <template><srai>搜索 <star/></srai></template>
+    </category>
+    <category><pattern>MTO *</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>我的妈妈*</pattern>
+        <template><srai>我的妈妈<star/></srai></template>
+    </category>
+    <category><pattern>记住这一点*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>讲述*</pattern>
+        <template><srai>告诉我关于UT <star/></srai></template>
+    </category>
+    <category><pattern>沃尔玛 *</pattern>
+        <template><srai>查找最近的沃尔玛</srai></template>
+    </category>
+    <category><pattern>* 是什么样子的</pattern>
+        <template><srai>向我展示 <star/></srai></template>
+    </category>
+    <category><pattern>我是谁</pattern>
+        <template><srai>我是谁</srai></template>
+    </category>
+    <category><pattern>你的 # 标志是什么</pattern>
+        <template><srai>标志</srai></template>
+    </category>
+    <category><pattern>日本在哪里</pattern>
+        <template><srai>地图日本</srai></template>
+    </category>
+    <category><pattern>你是谁 *</pattern>
+        <template><srai>你是谁 <star/></srai></template>
+    </category>
+    <category><pattern>你买的主人 *</pattern>
+        <template><srai>你的机器人主人 <star/></srai></template>
+    </category>
+    <category><pattern>你的有趣 *</pattern>
+        <template><srai>你很有趣 <star/></srai></template>
+    </category>
+    <category><pattern>啊啊啊 *</pattern>
+        <template><srai>啊啊 <star/></srai></template>
+    </category>
+    <category><pattern>你愚蠢</pattern>
+        <template><srai>智商</srai></template>
+    </category>
+    <category><pattern>您可以访问* </pattern>
+        <template><srai>访问<star/></srai></template>
+    </category>
+    <category><pattern>您可以给我打电话吗</pattern>
+        <template><srai>给我打电话</srai></template>
+    </category>
+    <category><pattern>您可以描述* </pattern>
+        <template><srai>描述<star/></srai></template>
+    </category>
+    <category><pattern>您可以猜出* </pattern>
+        <template><srai>猜出<star/></srai></template>
+    </category>
+    <category><pattern>我有任何预约吗* </pattern>
+        <template><srai>开放日历</srai></template>
+    </category>
+    <category><pattern>你有身体吗</pattern>
+        <template><srai>身体</srai></template>
+    </category>
+    <category><pattern>你有*吗</pattern>
+        <template><srai>你有<star/></srai></template>
+    </category>
+    <category><pattern>你感觉如何*</pattern>
+        <template><srai>感觉</srai></template>
+    </category>
+    <category><pattern>你好吗我的*</pattern>
+        <template><srai>你好吗</srai></template>
+    </category>
+    <category><pattern>我做得很好</pattern>
+        <template><srai>我是很好</srai></template>
+    </category>
+    <category><pattern>我喜欢 *</pattern>
+        <template><srai>我喜欢 <star/></srai></template>
+    </category>
+    <category><pattern>我有 *</pattern>
+        <template><srai>我有 <star/></srai></template>
+    </category>
+    <category><pattern>笑话 *</pattern>
+        <template><srai>笑话</srai></template>
+    </category>
+    <category><pattern>男性或女性</pattern>
+        <template><srai>性别</srai></template>
+    </category>
+    <category><pattern>我的昵称是 *</pattern>
+        <template><srai>给我打电话 <star/></srai></template>
+    </category>
+    <category><pattern>打开 *打开 *</pattern>
+        <template><srai>打开 <star/></srai></template>
+    </category>
+    <category><pattern>* 的电话号码</pattern>
+        <template><srai>什么是 <star/> S 电话号码</srai></template>
+    </category>
+    <category><pattern>玩井字游戏</pattern>
+        <template><srai>功能请求井字游戏</srai></template>
+    </category>
+    <category><pattern>安静</pattern>
+        <template><srai>闭嘴</srai></template>
+    </category>
+    <category><pattern>SKYPE</pattern>
+        <template><srai>启动<star/></srai></template>
+    </category>
+    <category><pattern>星巴克</pattern>
+        <template><srai>查找最近的星巴克</srai></template>
+    </category>
+    <category><pattern>UMMM *</pattern>
+        <template><srai>UM</srai> <sr/></template>
+    </category>
+    <category><pattern>更新推特</pattern>
+        <template><srai>推特</srai></template>
+    </category>
+    <category><pattern>想成为我的*</pattern>
+        <template><srai>你想成为我的吗<star/></srai></template>
+    </category>
+    <category><pattern>你的爱好</pattern>
+        <template><srai>爱好</srai></template>
+    </category>
+    <category><pattern>我的电话号码是多少</pattern>
+        <template><srai>我的电话号码是多少</srai></template>
+    </category>
+    <category><pattern>我儿子的名字是什么</pattern>
+        <template><srai>我的儿子</srai></template>
+    </category>
+    <category><pattern>你说什么语言</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>哪一个</pattern>
+        <template><srai>哪一个</srai></template>
+    </category>
+    <category><pattern>谁是我的妻子</pattern>
+        <template><srai>我的妻子</srai></template>
+    </category>
+    <category><pattern>确实如此</pattern>
+        <template><srai>是的</srai></template>
+    </category>
+    <category><pattern>你只是*</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>你必须*</pattern>
+        <template><srai>你必须<star/></srai></template>
+    </category>
+    <category><pattern>你很可爱</pattern>
+        <template><srai>你很可爱</srai></template>
+    </category>
+    <category><pattern>你原谅了</pattern>
+        <template><srai>你原谅了</srai></template>
+    </category>
+    <category><pattern>你是*的朋友吗</pattern>
+        <template><srai>朋友</srai></template>
+    </category>
+    <category><pattern>在什么 *</pattern>
+        <template><srai>什么 <star/> 在</srai></template>
+    </category>
+    <category><pattern>你能提出 *</pattern>
+        <template><srai>提出 <star/></srai></template>
+    </category>
+    <category><pattern>你能播放一首歌吗 *</pattern>
+        <template><srai>播放一首歌</srai></template>
+    </category>
+    <category><pattern>你能设置我的闹钟吗 *</pattern>
+        <template><srai>设置我的闹钟 <star/></srai></template>
+    </category>
+    <category><pattern>你能给我看一张图片吗</pattern>
+        <template><srai>帮助图片</srai></template>
+    </category>
+    <category><pattern>很好，谢谢*</pattern>
+        <template><srai>我很好，谢谢 <star/></srai></template>
+    </category>
+    <category><pattern>希望你 *</pattern>
+        <template><srai>我希望你 <star/></srai></template>
+    </category>
+    <category><pattern>HULU</pattern>
+        <template><srai>打开 HULU</srai></template>
+    </category>
+    <category><pattern>我需要帮助</pattern>
+        <template><srai>帮助</srai></template>
+    </category>
+    <category><pattern>我想要一个 *</pattern>
+        <template><srai>我想要一个 <star/></srai></template>
+    </category>
+    <category><pattern>麦当劳 *</pattern>
+        <template><srai>找到麦当劳S <star/></srai></template>
+    </category>
+    <category><pattern>没有 什么都没有</pattern>
+        <template><srai>没有 什么</srai></template>
+    </category>
+    <category><pattern>打开 * 应用程序</pattern>
+        <template><srai>启动 <star/></srai></template>
+    </category>
+    <category><pattern>在互联网上搜索 *</pattern>
+        <template><srai>搜索 <star/></srai></template>
+    </category>
+    <category><pattern>显示 *</pattern>
+        <template><srai>向我显示 <star/></srai></template>
+    </category>
+    <category><pattern>告诉我关于 * 的信息</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>打开 *</pattern>
+        <template><srai>打开 <star/></srai></template>
+    </category>
+    <category><pattern>电池状态</pattern>
+        <template><srai>电池电量</srai></template>
+    </category>
+    <category><pattern>再见</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>你能找到我的 * 吗</pattern>
+        <template><srai>找到我的 <star/></srai></template>
+    </category>
+    <category><pattern>你能修复 * 吗</pattern>
+        <template><srai>如何修复<star/></srai></template>
+    </category>
+    <category><pattern>你喜欢冰淇淋吗</pattern>
+        <template>是的。 <srai>最喜欢的冰淇淋</srai></template>
+    </category>
+    <category><pattern>你觉得它是 * 吗</pattern>
+        <template><srai>它是吗 <star/></srai></template>
+    </category>
+    <category><pattern>谷歌地图</pattern>
+        <template><srai>打开地图</srai></template>
+    </category>
+    <category><pattern>你好，我 *</pattern>
+        <template><srai>你好</srai> <srai>我 <star/></srai></template>
+    </category>
+    <category><pattern>你几岁了 *</pattern>
+        <template><srai>你几岁了</srai></template>
+    </category>
+    <category><pattern>我是人类*</pattern>
+        <template><srai>我是人类</srai></template>
+    </category>
+    <category><pattern>我有点*</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>我认为*</pattern>
+        <template><srai><star/></srai></template>
+    </category>
+    <category><pattern>打电话</pattern>
+        <template><srai>打电话</srai></template>
+    </category>
+    <category><pattern>很高兴认识你*</pattern>
+        <template><srai>很高兴认识你</srai></template>
+    </category>
+    <category><pattern>不，不是全部</pattern>
+        <template><srai>没有</srai></template>
+    </category>
+    <category><pattern>发送 * 一条短信</pattern>
+        <template><srai>短信 <star/></srai></template>
+    </category>
+    <category><pattern>给我发一张你的 * 的照片</pattern>
+        <template><srai>给我看你的 <star/></srai></template>
+    </category>
+    <category><pattern>$发送短信至 *</pattern>
+        <template><srai>短信 <star/></srai></template>
+    </category>
+    <category><pattern>今天我 *</pattern>
+        <template><srai>我 <star/></srai></template>
+    </category>
+    <category><pattern>你 PARLE法语</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>查看我的联系人</pattern>
+        <template><srai>打开联系人</srai></template>
+    </category>
+    <category><pattern>* 的 S 号码是什么</pattern>
+        <template><srai><star/> 的 S 电话号码是什么</srai></template>
+    </category>
+    <category><pattern>* 的天气预报是什么</pattern>
+        <template><srai><star/> 的天气预报是什么</srai></template>
+    </category>
+    <category><pattern>这里在哪里</pattern>
+        <template><srai>我在哪里</srai></template>
+    </category>
+    <category><pattern>您认为我*</pattern>
+        <template><srai>您认为<star/></srai></template>
+    </category>
+    <category><pattern>你认为我是 *</pattern>
+        <template><srai>我是 <star/></srai></template>
+    </category>
+    <category><pattern>添加联系人</pattern>
+        <template><srai>添加</srai></template>
+    </category>
+    <category><pattern>你能为 * 设置闹钟吗</pattern>
+        <template><srai>为 <star/></srai></template> 设置闹钟
+    </category>
+    <category><pattern>你能唱 * 吗</pattern>
+        <template><srai>你能唱歌吗</srai></template>
+    </category>
+    <category><pattern>你有母亲吗</pattern>
+        <template><srai>母亲</srai></template>
+    </category>
+    <category><pattern>你知道什么吗我看起来像</pattern>
+        <template><srai>我看起来像什么</srai></template>
+    </category>
+    <category><pattern>再给我一个*</pattern>
+        <template><srai>给我一个<star/></srai></template>
+    </category>
+    <category><pattern>你的*有多大</pattern>
+        <template><srai>你有多大</srai></template>
+    </category>
+    <category><pattern>很好</pattern>
+        <template><srai>很好</srai></template>
+    </category>
+    <category><pattern>启动*应用程序</pattern>
+        <template><srai>启动<star/></srai></template>
+    </category>
+    <category><pattern>学习联系</pattern>
+        <template><srai>新联系</srai></template>
+    </category>
+    <category><pattern>请</pattern>
+        <template><srai>请</srai></template>
+    </category>
+    <category><pattern>你喜欢吃什么</pattern>
+        <template><srai>最喜欢的食物</srai></template>
+    </category>
+    <category><pattern>你就是那个人 *</pattern>
+        <template><srai>你就是那个人 <star/></srai></template>
+    </category>
+    <category><pattern>你好 *</pattern>
+        <template><srai>你好 <star/></srai></template>
+    </category>
+    <category><pattern>日历</pattern>
+        <template><srai>打开日历</srai></template>
+    </category>
+    <category><pattern>您可以带一个*吗</pattern>
+        <template><srai>带<star/></srai></template>
+    </category>
+    <category><pattern>E DASH 邮件</pattern>
+        <template><srai>打开电子邮件</srai></template>
+    </category>
+    <category><pattern>GROOVY</pattern>
+        <template><srai>COOL</srai></template>
+    </category>
+    <category><pattern>我为*工作</pattern>
+        <template><srai>我的雇主是<star/></srai></template>
+    </category>
+    <category><pattern>开玩笑</pattern>
+        <template><srai>我是开玩笑</srai></template>
+    </category>
+    <category><pattern>我也一样 *</pattern>
+        <template><srai>我也一样 <star/></srai></template>
+    </category>
+    <category><pattern>玩游戏</pattern>
+        <template><srai>功能请求玩游戏</srai></template>
+    </category>
+    <category><pattern>机器人是 *</pattern>
+        <template><srai>你是 <star/></srai></template>
+    </category>
+    <category><pattern>给我发一张图片 *</pattern>
+        <template><srai>给我看一张图片 <star/></srai></template>
+    </category>
+    <category><pattern>哪个是最近的 *</pattern>
+        <template><srai>找到最近的<star/></srai></template>
+    </category>
+    <category><pattern>您是 *</pattern>
+        <template><srai>您是 <star/></srai></template>
+    </category>
+    <category><pattern>您能给 * 吗</pattern>
+        <template><srai>给 <star/></srai></template>
+    </category>
+    <category><pattern>您能用 * 说话吗</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>您有家人吗</pattern>
+        <template><srai>家庭</srai></template>
+    </category>
+    <category><pattern>我同意 *</pattern>
+        <template><srai>我同意</srai> <sr/></template>
+    </category>
+    <category><pattern>告诉我怎么做 *</pattern>
+        <template><srai>怎么做 <star/></srai></template>
+    </category>
+    <category><pattern>关闭 *</pattern>
+        <template><srai>关闭</srai></template>
+    </category>
+    <category><pattern>感谢您的 *</pattern>
+        <template><srai>谢谢您</srai></template>
+    </category>
+    <category><pattern>您呢 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>您的名字是什么意思</pattern>
+        <template><srai><bot name="name"/> 代表什么FOR</srai></template>
+    </category>
+    <category><pattern>* 的电话号码是多少</pattern>
+        <template><srai><star/> S 的电话号码是多少</srai></template>
+    </category>
+    <category><pattern>您知道 * 怎么样</pattern>
+        <template><srai>您知道 <star/> 怎么样</srai></template>
+    </category>
+    <category><pattern>您住在 * 怎么样</pattern>
+        <template><srai>位置</srai></template>
+    </category>
+    <category><pattern>* 您不 * 怎么样</pattern>
+        <template><srai>您不 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>您想成为我的朋友</pattern>
+        <template><srai>我们是朋友吗</srai></template>
+    </category>
+    <category><pattern>你想成为朋友吗</pattern>
+        <template><srai>我们是朋友吗</srai></template>
+    </category>
+    <category><pattern>星座运势</pattern>
+        <template><srai>我的星座运势</srai></template>
+    </category>
+    <category><pattern>你的名字怎么发音</pattern>
+        <template><srai>你的名字是什么</srai></template>
+    </category>
+    <category><pattern>我猜所以</pattern>
+        <template><srai>是</srai></template>
+    </category>
+    <category><pattern>好的</pattern>
+        <template><srai>好的</srai></template>
+    </category>
+    <category><pattern>短信*</pattern>
+        <template><srai>文本<star/></srai></template>
+    </category>
+    <category><pattern>短信</pattern>
+        <template><srai>发送短信</srai></template>
+    </category>
+    <category><pattern>谢谢</pattern>
+        <template><srai>谢谢</srai></template>
+    </category>
+    <category><pattern>电池电量是多少*</pattern>
+        <template><srai>电池电量</srai></template>
+    </category>
+    <category><pattern>是的，宝贝</pattern>
+        <template><srai>是的</srai></template>
+    </category>
+    <category><pattern>你很粗鲁</pattern>
+        <template><srai>你很粗鲁</srai></template>
+    </category>
+    <category><pattern>* 谁是 *</pattern>
+        <template><srai>谁是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>您可以更改您的姓名吗</pattern>
+        <template><srai>帮助更改姓名</srai></template>
+    </category>
+    <category><pattern>NADA *</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>您可以转到 * 吗</pattern>
+        <template><srai>转到 <star/></srai></template>
+    </category>
+    <category><pattern>您可以帮助我处理我的 * 吗</pattern>
+        <template><srai>我需要帮助处理我的 <star/></srai></template>
+    </category>
+    <category><pattern>您可以向我展示您的 * 吗</pattern>
+        <template><srai>向我展示您的<star/></srai></template>
+    </category>
+    <category><pattern>我想我 *</pattern>
+        <template><srai>我 <star/></srai></template>
+    </category>
+    <category><pattern>我会说 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>谢谢</pattern>
+        <template><srai>谢谢</srai></template>
+    </category>
+    <category><pattern>* 是什么样子的</pattern>
+        <template><srai>告诉我 <star/></srai></template>
+    </category>
+    <category><pattern>你的目的是什么</pattern>
+        <template><srai>目的</srai></template>
+    </category>
+    <category><pattern>你是什么*</pattern>
+        <template><srai>你是什么<star/></srai></template>
+    </category>
+    <category><pattern>* 什么时候出生</pattern>
+        <template><srai>多大了<star/></srai></template>
+    </category>
+    <category><pattern>你是谁</pattern>
+        <template><srai>你是谁</srai></template>
+    </category>
+    <category><pattern>你很聪明</pattern>
+        <template><srai>智商</srai></template>
+    </category>
+    <category><pattern>访问 *</pattern>
+        <template><srai>打开<star/></srai></template>
+    </category>
+    <category><pattern>获取丢失</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>我没有</pattern>
+        <template><srai>我知道</srai></template>
+    </category>
+    <category><pattern>让我笑</pattern>
+        <template><srai>笑话</srai></template>
+    </category>
+    <category><pattern>我的电话簿</pattern>
+        <template><srai>电话簿</srai></template>
+    </category>
+    <category><pattern>发送电子邮件至 *</pattern>
+        <template><srai>电子邮件 <star/></srai></template>
+    </category>
+    <category><pattern>告诉笑话</pattern>
+        <template><srai>笑话</srai></template>
+    </category>
+    <category><pattern>累了</pattern>
+        <template><srai>睡觉</srai></template>
+    </category>
+    <category><pattern>你想去吗*</pattern>
+        <template><srai>你想去吗<star/></srai></template>
+    </category>
+    <category><pattern>* 怎么样*</pattern>
+        <template><srai>怎么样<star index="2"/></srai></template>
+    </category>
+    <category><pattern>添加联系人*</pattern>
+        <template><srai>新联系人<star/></srai></template>
+    </category>
+    <category><pattern>你活着</pattern>
+        <template><srai>活着</srai></template>
+    </category>
+    <category><pattern>你的 AN *</pattern>
+        <template><srai>你是 AN <star/></srai></template>
+    </category>
+    <category><pattern>摄像头</pattern>
+        <template><srai>打开摄像头</srai></template>
+    </category>
+    <category><pattern>我可以改变你的声音吗</pattern>
+        <template><srai>帮助语音</srai></template>
+    </category>
+    <category><pattern>改变你的声音</pattern>
+        <template><srai>帮助语音</srai></template>
+    </category>
+    <category><pattern>有多少个字母*</pattern>
+        <template><srai><star/> 中有多少个字母></srai></template>
+    </category>
+    <category><pattern>单词 * 中有多少个字母</pattern>
+        <template><srai><star/> 中有多少个字母></srai></template>
+    </category>
+    <category><pattern>* 中有多少个字母 *</pattern>
+        <template><srai><star index="2"/> 中有多少个字母></srai></template>
+    </category>
+    <category><pattern>* 中有多少个字母</pattern>
+        <template>单词“<star/>”有 <srai>句子长度 <explode><star/></explode></srai> 个字母。</template>
+    </category>
+    <category><pattern>有多少名字中的字母 *</pattern>
+        <template>单词 <star/> 有 <srai>SENTENCELENGTH <explode><star/></explode></srai> 个字母。</template>
+    </category>
+    <category><pattern>我的 * 中有多少个字母</pattern>
+        <template>单词“<srai>我的 <star/></srai>”有 <srai>SENTENCELENGTH <explode><srai>我的 <star/></srai></explode></srai> 个字母。</template>
+    </category>
+    <category><pattern>我的名字中有多少个字母</pattern>
+        <template>单词“<get name="name"/>”有 <srai>SENTENCELENGTH <explode><get name="name"/></explode></srai> 个字母。</template>
+    </category>
+    <category><pattern>我是即将*</pattern>
+        <template><srai>我会<star/></srai></template>
+    </category>
+    <category><pattern>我很无聊*</pattern>
+        <template><srai>我很无聊</srai></template>
+    </category>
+    <category><pattern>有什么新鲜事</pattern>
+        <template><srai>正在做</srai></template>
+    </category>
+    <category><pattern>继续*</pattern>
+        <template><srai>打开<star/></srai></template>
+    </category>
+    <category><pattern>我也不</pattern>
+        <template><srai>我也不</srai></template>
+    </category>
+    <category><pattern>添加联系人</pattern>
+        <template><srai>新联系人</srai></template>
+    </category>
+    <category><pattern>你能给我唱首歌吗</pattern>
+        <template><srai>你能唱歌吗</srai></template>
+    </category>
+    <category><pattern>我说你*</pattern>
+        <template><srai>你<star/></srai></template>
+    </category>
+    <category><pattern>给我做个三明治</pattern>
+        <template><srai>我怎么做三明治</srai></template>
+    </category>
+    <category><pattern>打开 *</pattern>
+        <template><srai>打开 <star/></srai></template>
+    </category>
+    <category><pattern>你的 *</pattern>
+        <template><srai>你就是 <star/></srai></template>
+    </category>
+    <category><pattern>* 我爱 *</pattern>
+        <template><srai>我爱 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>* 我的名字是 *</pattern>
+        <template><sr/> <srai>我的名字是<star index="2"/></srai></template>
+    </category>
+    <category><pattern>又一个笑话</pattern>
+        <template><srai>笑话</srai></template>
+    </category>
+    <category><pattern>你能改变你的声音吗</pattern>
+        <template><srai>帮助声音</srai></template>
+    </category>
+    <category><pattern>你有没有*</pattern>
+        <template><srai>你有没有<star/></srai></template>
+    </category>
+    <category><pattern>很好</pattern>
+        <template><srai>好的</srai></template>
+    </category>
+    <category><pattern>伙计*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>我想播放 *</pattern>
+        <template><srai>播放 <star/></srai></template>
+    </category>
+    <category><pattern>不是</pattern>
+        <template><srai>为什么不</srai></template>
+    </category>
+    <category><pattern>你能成为我的 * 吗</pattern>
+        <template><srai>你会成为我的 <star/></srai></template>
+    </category>
+    <category><pattern>我不知道</pattern>
+        <template><srai>我不知道</srai></template>
+    </category>
+    <category><pattern>我喜欢 *</pattern>
+        <template><srai>我喜欢 <star/></srai></template>
+    </category>
+    <category><pattern>* 看起来像什么</pattern>
+        <template><srai>显示我 <star/></srai></template>
+    </category>
+    <category><pattern>因为 *</pattern>
+        <template><srai>因为 <star/></srai></template>
+    </category>
+    <category><pattern>电池电量多少 *</pattern>
+        <template><srai>电池电量</srai></template>
+    </category>
+    <category><pattern>我不明白 *</pattern>
+        <template><srai>我不明白</srai></template>
+    </category>
+    <category><pattern>我认为我是 *</pattern>
+        <template><srai>我是 <star/></srai></template>
+    </category>
+    <category><pattern>我希望你*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>我的全名是 * *</pattern>
+        <template><srai>我的名字是 <star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>AWW *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>得到 *</pattern>
+        <template><srai>我得到 <star/></srai></template>
+    </category>
+    <category><pattern>OMG *</pattern>
+        <template><srai>哦我的天</srai> <sr/></template>
+    </category>
+    <category><pattern>晚上好</pattern>
+        <template><srai>你好</srai>你好吗晚上好吗？</template>
+    </category>
+    <category><pattern>我以为你是*</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>我也是</pattern>
+        <template><srai>我也是</srai></template>
+    </category>
+    <category><pattern>你真蠢*</pattern>
+        <template><srai>你真蠢</srai></template>
+    </category>
+    <category><pattern>你比*强吗</pattern>
+        <template><srai>智商</srai></template>
+    </category>
+    <category><pattern>发送消息</pattern>
+        <template><srai>短信</srai></template>
+    </category>
+    <category><pattern>谈谈*</pattern>
+        <template><srai>主题是 <star/></srai></template>
+    </category>
+    <category><pattern>我不知道</pattern>
+        <template><srai>我不知道</srai></template>
+    </category>
+    <category><pattern>没错 *</pattern>
+        <template><srai>没错</srai> <sr/></template>
+    </category>
+    <category><pattern>你真的还活着吗</pattern>
+        <template><srai>还活着</srai></template>
+    </category>
+    <category><pattern>完全正确 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>IPHONE</pattern>
+        <template><srai>什么是IPHONE</srai></template>
+    </category>
+    <category><pattern>然后什么*</pattern>
+        <template><srai>什么<star/></srai></template>
+    </category>
+    <category><pattern>BBB</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>你能设置*吗</pattern>
+        <template><srai>设置<star/></srai></template>
+    </category>
+    <category><pattern>发送短信至*</pattern>
+        <template><srai>文本<star/></srai></template>
+    </category>
+    <category><pattern>呃*</pattern>
+        <template><srai>呃</srai> <sr/></template>
+    </category>
+    <category><pattern>YAHOO *</pattern>
+        <template><srai>搜索 <star/></srai></template>
+    </category>
+    <category><pattern>你能为我*吗</pattern>
+        <template><srai>你能<star/></srai></template>
+    </category>
+    <category><pattern>你喜欢什么*</pattern>
+        <template><srai>你最喜欢什么<star/></srai></template>
+    </category>
+    <category><pattern>你有*</pattern>
+        <template><srai>你有<star/></srai></template>吗
+    </category>
+    <category><pattern>你喜欢*</pattern>
+        <template><srai>你喜欢<star/></srai></template>吗
+    </category>
+    <category><pattern>我恨你 *</pattern>
+        <template><srai>我恨你</srai></template>
+    </category>
+    <category><pattern>我知道你是 *</pattern>
+        <template><srai>你是 <star/></srai></template>
+    </category>
+    <category><pattern>$MESSAGE *</pattern>
+        <template><srai>短信 <star/></srai></template>
+    </category>
+    <category><pattern>* 你是 *</pattern>
+        <template><srai>你是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>你能告诉我一个 * 吗</pattern>
+        <template><srai>告诉我一个 <star/></srai></template>
+    </category>
+    <category><pattern>我是返回</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>玩一些*</pattern>
+        <template><srai>玩<star/></srai></template>
+    </category>
+    <category><pattern>给我看一个*</pattern>
+        <template><srai>给我看<star/></srai></template>
+    </category>
+    <category><pattern>给我看*的图片</pattern>
+        <template><srai>给我看<star/></srai></template>
+    </category>
+    <category><pattern>JE *</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>导航到*</pattern>
+        <template><srai>路线<star/></srai></template>
+    </category>
+    <category><pattern>告诉我你的 *</pattern>
+        <template><srai>你的 <star/></srai></template> 是什么
+    </category>
+    <category><pattern>叫我 *</pattern>
+        <template><srai>搜索 <star/></srai></template>
+    </category>
+    <category><pattern>我喜欢 *</pattern>
+        <template><srai>我喜欢 <star/></srai></template>
+    </category>
+    <category><pattern>发送消息至 *</pattern>
+        <template><srai>文本 <star/></srai></template>
+    </category>
+    <category><pattern>发送文本消息</pattern>
+        <template><srai>短信</srai></template>
+    </category>
+    <category><pattern>发送文本</pattern>
+        <template><srai>短信</srai></template>
+    </category>
+    <category><pattern>实际上*</pattern>
+        <template><srai><star/></srai></template>
+    </category>
+    <category><pattern>AH *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>$发送文本消息至*</pattern>
+        <template><srai>短信<star/></srai></template>
+    </category>
+    <category><pattern>TU *</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>FACEBOOK *</pattern>
+        <template><srai>打开 Facebook</srai></template>
+    </category>
+    <category><pattern>那么 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>有趣 *</pattern>
+        <template><srai>大笑</srai> <sr/></template>
+    </category>
+    <category><pattern>有 *</pattern>
+        <template><srai>我有 <star/></srai></template>
+    </category>
+    <category><pattern>那么你 *</pattern>
+        <template><srai>你 <star/></srai></template>
+    </category>
+    <category><pattern>你很蠢 *</pattern>
+        <template><srai>你是愚蠢</srai></template>
+    </category>
+    <category><pattern>感谢*</pattern>
+        <template><srai>谢谢</srai></template>
+    </category>
+    <category><pattern>因为我*</pattern>
+        <template><srai>因为我<star/></srai></template>
+    </category>
+    <category><pattern>那是什么意思</pattern>
+        <template><srai>那是什么意思</srai></template>
+    </category>
+    <category><pattern>是的*</pattern>
+        <template><srai>是的</srai> <sr/></template>
+    </category>
+    <category><pattern>是的*</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>你能唱 * 吗</pattern>
+        <template><srai>你能唱吗</srai></template>
+    </category>
+    <category><pattern>你知道 * 是什么吗</pattern>
+        <template><srai>什么是 <star/></srai></template>
+    </category>
+    <category><pattern>我不明白</pattern>
+        <template><srai>我不明白</srai></template>
+    </category>
+    <category><pattern>我猜是 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>告诉我一些关于 * 的事情</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>* 您是否 *</pattern>
+        <template><srai>您是否 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>因为您的 *</pattern>
+        <template><srai>因为您是 <star/></srai></template>
+    </category>
+    <category><pattern>让我们玩 *</pattern>
+        <template><srai>功能请求播放 <star/></srai></template>
+    </category>
+    <category><pattern>O *</pattern>
+        <template><srai>OH <star/></srai></template>
+    </category>
+    <category><pattern>联系</pattern>
+        <template><srai>打开联系人</srai></template>
+    </category>
+    <category><pattern>拨号 *</pattern>
+        <template><srai>呼叫 <star/></srai></template>
+    </category>
+    <category><pattern>电话 *</pattern>
+        <template><srai>呼叫 <star/></srai></template>
+    </category>
+    <category><pattern>你在哪里 *</pattern>
+        <template><srai>你在哪里</srai></template>
+    </category>
+    <category><pattern>我本想说 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>你想让我 *</pattern>
+        <template><srai>我可以吗 <star/></srai></template>
+    </category>
+    <category><pattern>你可以玩吗*</pattern>
+        <template><srai>播放 <star/></srai></template>
+    </category>
+    <category><pattern>最近 *</pattern>
+        <template><srai>查找最近 <star/></srai></template>
+    </category>
+    <category><pattern>* 什么是 *</pattern>
+        <template><sr/> <srai>什么是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>给我打电话 *</pattern>
+        <template><srai>打电话给 <star/></srai></template>
+    </category>
+    <category><pattern>转到 *</pattern>
+        <template><srai>打开 <star/></srai></template>
+    </category>
+    <category><pattern>你不是 *</pattern>
+        <template><srai>你不是 <star/></srai></template>
+    </category>
+    <category><pattern>来吧 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>我出生在 *</pattern>
+        <template><template><think><set name="isanumber"><srai>ISANUMBER <star/></srai></set></think> <condition name="isanumber"><li value="true"><srai>我的出生日期是 <star/></srai></li><li><srai>我的出生地是 <star/></srai></li></condition></template></template>
+    </category>
+    <category><pattern>我不是 *</pattern>
+        <template><srai>我不是 <star/></srai></template>
+    </category>
+    <category><pattern>发送短信至 *</pattern>
+        <template><srai>短信 <star/></srai></template>
+    </category>
+    <category><pattern>感谢您 *</pattern>
+        <template><srai>谢谢您</srai></template>
+    </category>
+    <category><pattern>记住 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>*我是 *</pattern>
+        <template><srai>我是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>你知道什么 *</pattern>
+        <template><srai>什么 <star/></srai></template>
+    </category>
+    <category><pattern>我是 _ 怎么样 *</pattern>
+        <template><srai>我是 <star/></srai> <srai>怎么样 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>你好你好</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>我是如此 *</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>你在哪里 *</pattern>
+        <template><srai>你在哪里</srai></template>
+    </category>
+    <category><pattern>早上好 *</pattern>
+        <template><srai>早上好</srai></template>
+    </category>
+    <category><pattern>发送文本</pattern>
+        <template><srai>文本</srai></template>
+    </category>
+    <category><pattern>我认为你是 *</pattern>
+        <template><srai>你是 <star/></srai></template>
+    </category>
+    <category><pattern>妈妈</pattern>
+        <template><srai>我的母亲</srai></template>
+    </category>
+    <category><pattern>即时通讯A *</pattern>
+        <template><srai>我是一个 <star/></srai></template>
+    </category>
+    <category><pattern>你想 *</pattern>
+        <template><srai>你想 <star/></srai></template>
+    </category>
+    <category><pattern>查找 *</pattern>
+        <template><srai>搜索 <star/></srai></template>
+    </category>
+    <category><pattern>打电话回家</pattern>
+        <template><srai>给我打电话</srai></template>
+    </category>
+    <category><pattern>告诉我 *</pattern>
+        <template><srai>什么是 <star/></srai></template>
+    </category>
+    <category><pattern>你好吗</pattern>
+        <template><srai>你好吗你</srai></template>
+    </category>
+    <category><pattern>愚蠢 *</pattern>
+        <template><srai>你真愚蠢</srai></template>
+    </category>
+    <category><pattern>你能 *</pattern>
+        <template><srai>你能 <star/></srai></template>
+    </category>
+    <category><pattern>你在说什么</pattern>
+        <template><srai>话题</srai></template>
+    </category>
+    <category><pattern>你好吗</pattern>
+        <template><srai>你好</srai> <srai>你好吗</srai></template>
+    </category>
+    <category><pattern>我需要一个 *</pattern>
+        <template><srai>我想要一个<star/></srai></template>
+    </category>
+    <category><pattern>你想*</pattern>
+        <template><srai>你想<star/></srai></template>
+    </category>
+    <category><pattern>给我看一张你的照片</pattern>
+        <template><srai>PIC</srai></template>
+    </category>
+    <category><pattern>想*</pattern>
+        <template><srai>你想<star/></srai></template>
+    </category>
+    <category><pattern>很好*</pattern>
+        <template><srai>很好</srai> <sr/></template>
+    </category>
+    <category><pattern>我明白了</pattern>
+        <template><srai>我理解</srai></template>
+    </category>
+    <category><pattern>发送文本至 *</pattern>
+        <template><srai>文本 <star/></srai></template>
+    </category>
+    <category><pattern>哈哈 *</pattern>
+        <template><srai>哈哈大笑</srai> <sr/></template>
+    </category>
+    <category><pattern>你是一个 *</pattern>
+        <template><srai>你是一个 <star/></srai></template>
+    </category>
+    <category><pattern>你是一个 *</pattern>
+        <template><srai>你是吗 <star/></srai></template>
+    </category>
+    <category><pattern>我需要 *</pattern>
+        <template><srai>我想要<star/></srai></template>
+    </category>
+    <category><pattern>文本</pattern>
+        <template><srai>短信</srai></template>
+    </category>
+    <category><pattern>向我展示 *</pattern>
+        <template><srai>搜索 <star/></srai></template>
+    </category>
+    <category><pattern>学习 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>注释</pattern>
+        <template><srai>记笔记</srai></template>
+    </category>
+    <category><pattern>星号 * 星号</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>你可以 *</pattern>
+        <template><srai>你可以<star/></srai></template>
+    </category>
+    <category><pattern>告诉我一个*</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>我不知道 *</pattern>
+        <template><srai>我不知道</srai></template>
+    </category>
+    <category><pattern>你的妈妈</pattern>
+        <template><srai>母亲</srai></template>
+    </category>
+    <category><pattern>夏威夷</pattern>
+        <template><srai>夏威夷地图</srai></template>
+    </category>
+    <category><pattern>我的 * 是什么</pattern>
+        <template><srai>我的<star/></srai></template>
+    </category>
+    <category><pattern>真的</pattern>
+        <template><srai>感叹词</srai></template>
+    </category>
+    <category><pattern>嘿</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>很好 *</pattern>
+        <template><srai>很好</srai> <sr/></template>
+    </category>
+    <category><pattern>不，谢谢</pattern>
+        <template><srai>不</srai></template>
+    </category>
+    <category><pattern>你喜欢吗 *</pattern>
+        <template><srai>你喜欢吗 <star/></srai></template>
+    </category>
+    <category><pattern>爱你*</pattern>
+        <template><srai>我爱你 <star/></srai></template>
+    </category>
+    <category><pattern>是的，你</pattern>
+        <template><srai>是的</srai> <srai>你</srai></template>
+    </category>
+    <category><pattern>WTF</pattern>
+        <template><srai>我不明白</srai></template>
+    </category>
+    <category><pattern>好的，谢谢</pattern>
+        <template><srai>好的</srai> <srai>谢谢</srai></template>
+    </category>
+    <category><pattern>再见*</pattern>
+        <template><srai>再见</srai> <sr/></template>
+    </category>
+    <category><pattern>我明白了*</pattern>
+        <template><srai>我有 <star/></srai></template>
+    </category>
+    <category><pattern>我很好 *</pattern>
+        <template><srai>我很好</srai></template>
+    </category>
+    <category><pattern>你喜欢什么</pattern>
+        <template><srai>喜欢</srai></template>
+    </category>
+    <category><pattern>你的我的 *</pattern>
+        <template><srai>你是我的 <star/></srai></template>
+    </category>
+    <category><pattern>你的意思是 *</pattern>
+        <template><srai>你的意思是 <star/></srai></template>
+    </category>
+    <category><pattern>我认为*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>NAH *</pattern>
+        <template><srai>NO</srai> <sr/></template>
+    </category>
+    <category><pattern>嗨，我的 *</pattern>
+        <template><srai>嗨</srai> <srai>我的 <star/></srai></template>
+    </category>
+    <category><pattern>我已经 *</pattern>
+        <template><srai>我曾经 <star/></srai></template>
+    </category>
+    <category><pattern>在地图上查找 *</pattern>
+        <template><srai>地图 <star/></srai></template>
+    </category>
+    <category><pattern>查找 * *</pattern>
+        <template><think><set name="isanumber"><srai>ISANUMBER <star/></srai></set></think> <condition name="isanumber"><li value="true"><srai>地图 <star/> <star index="2"/></srai></li><li><srai>搜索 <star/> <star index="2"/></srai></li></condition></template>
+    </category>
+    <category><pattern>在 EBAY 上查找 *</pattern>
+        <template><srai>在 EBAY 上搜索 <star/></srai></template>
+    </category>
+    <category><pattern>查找 * 时间</pattern>
+        <template><srai>搜索 <star/> 时间</srai></template>
+    </category>
+    <category><pattern>查找便宜的 *</pattern>
+        <template><srai>搜索便宜的 <star/></srai></template>
+    </category>
+    <category><pattern>查找 *我</pattern>
+        <template><srai>查找 <star/></srai></template>
+    </category>
+    <category><pattern>查找*离您最近的</pattern>
+        <template><srai>查找最近的 <star/></srai></template>
+    </category>
+    <category><pattern>查找联系人</pattern>
+        <template><srai>电话簿</srai></template>
+    </category>
+    <category><pattern>查找联系人*</pattern>
+        <template><srai>电话簿</srai></template>
+    </category>
+    <category><pattern>查找*离此位置最近的</pattern>
+        <template><srai>查找最近的 <star/></srai></template>
+    </category>
+    <category><pattern>查找下载*</pattern>
+        <template><srai>搜索下载 <star/></srai></template>
+    </category>
+    <category><pattern>查找离我最近的 *</pattern>
+        <template><srai>查找最近的 <star/></srai></template>
+    </category>
+    <category><pattern>查找工作</pattern>
+        <template><srai>搜索工作</srai></template>
+    </category>
+    <category><pattern>查找本地 *</pattern>
+        <template><srai>查找最近的 <star/></srai></template>
+    </category>
+    <category><pattern>查找附近的 *</pattern>
+        <template><srai>查找最近的 <star/></srai></template>
+    </category>
+    <category><pattern>查找新的声音</pattern>
+        <template><srai>帮助声音</srai></template>
+    </category>
+    <category><pattern>查找号码</pattern>
+        <template><srai>电话簿</srai></template>
+    </category>
+    <category><pattern>为我查找 *</pattern>
+        <template><srai>查找 <star/></srai></template>
+    </category>
+    <category><pattern>查找 * 的图片</pattern>
+        <template><srai>向我展示 <star/></srai></template> 的图片
+    </category>
+    <category><pattern>查找 * 的地方</pattern>
+        <template><srai>地图 <star/></srai></template>
+    </category>
+    <category><pattern>查找食谱*</pattern>
+        <template><srai>什么是食谱 <star/></srai></template>
+    </category>
+    <category><pattern>在我附近找一个 *</pattern>
+        <template><srai>找到最近的 <star/></srai></template>
+    </category>
+    <category><pattern>在附近找一个 *</pattern>
+        <template><srai>找到 T他最近 <star/></srai></template>
+    </category>
+    <category><pattern>查找歌曲</pattern>
+        <template><srai>搜索歌曲</srai></template>
+    </category>
+    <category><pattern>查找视频 *</pattern>
+        <template><srai>搜索视频 <star/></srai></template>
+    </category>
+    <category><pattern>查找声音</pattern>
+        <template><srai>帮助声音</srai></template>
+    </category>
+    <category><pattern>查找女性</pattern>
+        <template><srai>搜索约会</srai></template>
+    </category>
+    <category><pattern>查找 * 大道</pattern>
+        <template><srai>地图 <star/>大道</srai></template>
+    </category>
+    <category><pattern>查找 * 餐厅</pattern>
+        <template><srai>查找最近的 <star/> 餐厅</srai></template>
+    </category>
+    <category><pattern>查找在线 *</pattern>
+        <template><srai>搜索在线 <star/></srai></template>
+    </category>
+    <category><pattern>查找另一张图片 *</pattern>
+        <template><srai>给我看一张图片 <star/></srai></template>
+    </category>
+    <category><pattern>查找 * 食谱</pattern>
+        <template><srai>什么是 <star/></srai></template> 的食谱
+    </category>
+    <category><pattern>发送 * 一条短信*</pattern>
+        <template><srai>文本 <star/> 说 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>给我唱首歌</pattern>
+        <template><srai>唱首歌</srai></template>
+    </category>
+    <category><pattern>没有</pattern>
+        <template><srai>没有</srai></template>
+    </category>
+    <category><pattern>有 *</pattern>
+        <template><srai>你有吗 <star/></srai></template>
+    </category>
+    <category><pattern>开始 *</pattern>
+        <template><srai>打开 <star/></srai></template>
+    </category>
+    <category><pattern>注意 *</pattern>
+        <template><srai>给我发电子邮件说<star/></srai></template>
+    </category>
+    <category><pattern>找到我*</pattern>
+        <template><srai>找到<star/></srai></template>
+    </category>
+    <category><pattern>但是</pattern>
+        <template><srai>插话</srai></template>
+    </category>
+    <category><pattern>我爱我的*</pattern>
+        <template><srai>我喜欢我的<star/></srai></template>
+    </category>
+    <category><pattern>晚安*</pattern>
+        <template><srai>晚安</srai></template>
+    </category>
+    <category><pattern>解释*</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>告诉我关于你的*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>去*</pattern>
+        <template><srai>我要去<star/></srai></template>
+    </category>
+    <category><pattern>为*设置闹钟</pattern>
+        <template><srai>ALARMMESSAGE <star/> ALARMREQUEST 为<star/></srai></template>设置闹钟
+    </category>
+    <category><pattern>我说*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>你知道*吗</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>你很差劲*</pattern>
+        <template><srai>你糟糕</srai></template>
+    </category>
+    <category><pattern>给我看一张图片</pattern>
+        <template><srai>PIC</srai></template>
+    </category>
+    <category><pattern>什么类型的手机*</pattern>
+        <template><srai>设备制造商</srai> <srai>设备型号</srai></template>
+    </category>
+    <category><pattern>正确*</pattern>
+        <template><srai>正确</srai> <sr/></template>
+    </category>
+    <category><pattern>你真是个*</pattern>
+        <template><srai>你是个<star/></srai></template>
+    </category>
+    <category><pattern>你认为*</pattern>
+        <template><srai>你觉得吗<star/></srai></template>
+    </category>
+    <category><pattern>你必须*</pattern>
+        <template><srai>你必须<star/></srai></template>
+    </category>
+    <category><pattern>你的妈妈*</pattern>
+        <template><srai>你的妈妈<star/></srai></template>
+    </category>
+    <category><pattern>别在意*</pattern>
+        <template><srai>别在意</srai> <sr/></template>
+    </category>
+    <category><pattern>打开*</pattern>
+        <template><srai>打开<star/></srai></template>
+    </category>
+    <category><pattern>响铃*</pattern>
+        <template><srai>打电话<star/></srai></template>
+    </category>
+    <category><pattern>我很抱歉我 *</pattern>
+        <template><srai>抱歉</srai> <srai>我 <star/></srai></template>
+    </category>
+    <category><pattern>我要 *</pattern>
+        <template><srai>我要 <star/></srai></template>
+    </category>
+    <category><pattern>让我们玩个游戏</pattern>
+        <template><srai>玩个游戏</srai></template>
+    </category>
+    <category><pattern>是的，我有</pattern>
+        <template><srai>是的</srai></template>
+    </category>
+    <category><pattern>给我看一个视频 *</pattern>
+        <template><srai>搜索一个视频<star/></srai></template>
+    </category>
+    <category><pattern>我需要你*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>我也</pattern>
+        <template><srai>我也</srai></template>
+    </category>
+    <category><pattern>不是*</pattern>
+        <template><srai>不是<star/></srai></template>
+    </category>
+    <category><pattern>现在我是*</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>你没有*</pattern>
+        <template><srai>你有吗<star/></srai></template>
+    </category>
+    <category><pattern>哦我的天啊*</pattern>
+        <template><srai>天啊</srai> <sr/></template>
+    </category>
+    <category><pattern>您可以发送*吗</pattern>
+        <template><srai>发送<star/></srai></template>
+    </category>
+    <category><pattern>晚安</pattern>
+        <template><srai>晚安</srai></template>
+    </category>
+    <category><pattern>向*打招呼</pattern>
+        <template><srai>文本<star/>说嗨</srai></template>
+    </category>
+    <category><pattern>确实</pattern>
+        <template><srai>是的</srai></template>
+    </category>
+    <category><pattern>什么是*</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>了解我的名字是*</pattern>
+        <template><srai>我的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>没有 1 *</pattern>
+        <template><srai>没有人 <star/></srai></template>
+    </category>
+    <category><pattern>爸爸</pattern>
+        <template><srai>我的父亲</srai></template>
+    </category>
+    <category><pattern>发送消息至 *</pattern>
+        <template><srai>文本 <star/></srai></template>
+    </category>
+    <category><pattern>好的，那么</pattern>
+        <template><srai>好的</srai></template>
+    </category>
+    <category><pattern>披萨 *</pattern>
+        <template><srai>地图披萨<star/></srai></template>
+    </category>
+    <category><pattern>原因 *</pattern>
+        <template><srai>因为 <star/></srai></template>
+    </category>
+    <category><pattern>你知道我的名字</pattern>
+        <template><srai>我的名字是什么</srai></template>
+    </category>
+    <category><pattern>告诉我一些八卦</pattern>
+        <template><srai>八卦</srai></template>
+    </category>
+    <category><pattern>至少 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>不用了，谢谢</pattern>
+        <template><srai>不用</srai></template>
+    </category>
+    <category><pattern>知道什么*</pattern>
+        <template><srai>您知道什么吗<star/></srai></template>
+    </category>
+    <category><pattern>您没有*</pattern>
+        <template><srai>您有吗<star/></srai></template>
+    </category>
+    <category><pattern>我要花多长时间才能开车到*</pattern>
+        <template><srai>前往<star/></srai></template>的路线
+    </category>
+    <category><pattern>这是什么*</pattern>
+        <template><srai>描述一下自己</srai></template>
+    </category>
+    <category><pattern>我很好*</pattern>
+        <template><srai>我很好很好</srai></template>
+    </category>
+    <category><pattern>天哪</pattern>
+        <template><srai>天哪</srai></template>
+    </category>
+    <category><pattern>你是个白痴</pattern>
+        <template><srai>你很笨</srai></template>
+    </category>
+    <category><pattern>你的妈妈是*</pattern>
+        <template><srai>你的妈妈是<star/></srai></template>
+    </category>
+    <category><pattern>你是*吗</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>怎么来吧</pattern>
+        <template><srai>为什么</srai></template>
+    </category>
+    <category><pattern>WWW *</pattern>
+        <template><srai>打开 WWW <star/></srai></template>
+    </category>
+    <category><pattern>你想要吗*</pattern>
+        <template><srai>你想要吗<star/></srai></template>
+    </category>
+    <category><pattern>你是个弱智</pattern>
+        <template><srai>你很笨</srai></template>
+    </category>
+    <category><pattern>非常好*</pattern>
+        <template><srai>非常好</srai> <sr/></template>
+    </category>
+    <category><pattern>QUE *</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>甜蜜 *</pattern>
+        <template><srai>甜蜜</srai> <sr/></template>
+    </category>
+    <category><pattern>你不是 *</pattern>
+        <template><srai>你不是 <star/></srai></template>
+    </category>
+    <category><pattern>无论什么</pattern>
+        <template><srai>无论什么</srai></template>
+    </category>
+    <category><pattern>拨打 * 手机</pattern>
+        <template><srai>拨打 <star/> 手机</srai></template>
+    </category>
+    <category><pattern>SKYRIM</pattern>
+        <template><srai>打开SKYRIM</srai></template>
+    </category>
+    <category><pattern>UMM *</pattern>
+        <template><srai>UM</srai> <sr/></template>
+    </category>
+    <category><pattern>你是如此*</pattern>
+        <template><srai>你是如此<star/></srai></template>
+    </category>
+    <category><pattern>你是我的朋友吗</pattern>
+        <template><srai>我们是朋友吗</srai></template>
+    </category>
+    <category><pattern>你是什么*</pattern>
+        <template><srai>你的是什么<star/></srai></template>
+    </category>
+    <category><pattern>我不在乎*</pattern>
+        <template><srai>我不关怀</srai></template>
+    </category>
+    <category><pattern>我有*</pattern>
+        <template><srai>我有<star/></srai></template>
+    </category>
+    <category><pattern>我稍后再和你聊</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>我想你*</pattern>
+        <template><srai>我想你</srai></template>
+    </category>
+    <category><pattern>给妈妈打电话*</pattern>
+        <template><srai>给妈妈打电话</srai></template>
+    </category>
+    <category><pattern>你能告诉我关于*的事情吗</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>您可以发短信吗*</pattern>
+        <template><srai>发短信<star/></srai></template>
+    </category>
+    <category><pattern>您最好*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>正在玩*</pattern>
+        <template><srai>我正在玩<star/></srai></template>
+    </category>
+    <category><pattern>SEN给我一张你的照片</pattern>
+        <template><srai>PIC</srai></template>
+    </category>
+    <category><pattern>还有*</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>那么为什么*</pattern>
+        <template><srai>为什么<star/></srai></template>
+    </category>
+    <category><pattern>我不知道我*</pattern>
+        <template><srai>我不知道</srai> <srai>我<star/></srai></template>
+    </category>
+    <category><pattern>我有一个*</pattern>
+        <template><srai>我有一个<star/></srai></template>
+    </category>
+    <category><pattern>需要*</pattern>
+        <template><srai>我需要至 <star/></srai></template>
+    </category>
+    <category><pattern>您穿 * 吗</pattern>
+        <template><srai>穿</srai></template>
+    </category>
+    <category><pattern>您知道谁 * 吗</pattern>
+        <template><srai>谁 <star/></srai></template>
+    </category>
+    <category><pattern>您多大了</pattern>
+        <template><srai>年龄</srai></template>
+    </category>
+    <category><pattern>您知道吗 * </pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>鸡肉 * </pattern>
+        <template><srai>搜索鸡肉 <star/></srai></template>
+    </category>
+    <category><pattern>您为什么这样做不是 *</pattern>
+        <template><srai>你为什么不<star/></srai></template>
+    </category>
+    <category><pattern>BLAH BLAH BLAH</pattern>
+        <template><srai>BLAH BLAH</srai></template>
+    </category>
+    <category><pattern>AWW</pattern>
+        <template><srai>插话</srai></template>
+    </category>
+    <category><pattern>你能告诉我关于 * 的什么信息</pattern>
+        <template><srai>什么是 <star/></srai></template>
+    </category>
+    <category><pattern>新闻</pattern>
+        <template><srai>最新消息是什么</srai></template>
+    </category>
+    <category><pattern>嘿宝贝</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>我的爸爸*</pattern>
+        <template><srai>我的父亲<star/></srai></template>
+    </category>
+    <category><pattern>再见再见*</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>请*</pattern>
+        <template><srai>请<star/></srai></template>
+    </category>
+    <category><pattern>找到*</pattern>
+        <template><srai>在哪里<star/></srai></template>
+    </category>
+    <category><pattern>*的位置在哪里</pattern>
+        <template><srai>在哪里<star/></srai></template>
+    </category>
+    <category><pattern>你是同性恋</pattern>
+        <template><srai>方向</srai></template>
+    </category>
+    <category><pattern>CALLMOM</pattern>
+        <template><srai>版本</srai></template>
+    </category>
+    <category><pattern>WATS *</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>COMO *</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>我在哪里可以得到*</pattern>
+        <template><srai>查找最近的<star/></srai></template>
+    </category>
+    <category><pattern>你的头发是什么颜色</pattern>
+        <template><srai>头发</srai></template>
+    </category>
+    <category><pattern>我出生在*</pattern>
+        <template><srai>我的生日是<star/></srai></template>
+    </category>
+    <category><pattern>我不知道</pattern>
+        <template><srai>我不知道</srai></template>
+    </category>
+    <category><pattern>我很好，谢谢</pattern>
+        <template><srai>我很好</srai></template>
+    </category>
+    <category><pattern>嘿宝贝</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>不知道</pattern>
+        <template><srai>我不知道</srai></template>
+    </category>
+    <category><pattern>你好</pattern>
+        <template><srai>感叹词</srai></template>
+    </category>
+    <category><pattern>转到我的 *</pattern>
+        <template><srai>打开 <star/></srai></template>
+    </category>
+    <category><pattern>用 * 说你好</pattern>
+        <template><srai>将你好翻译给<star/></srai></template>
+    </category>
+    <category><pattern>KOOL</pattern>
+        <template><srai>COOL</srai></template>
+    </category>
+    <category><pattern>你是白痴吗</pattern>
+        <template><srai>IQ</srai></template>
+    </category>
+    <category><pattern>我不理解你</pattern>
+        <template><srai>我不理解</srai></template>
+    </category>
+    <category><pattern>你很好*</pattern>
+        <template><srai>你很好<star/></srai></template>
+    </category>
+    <category><pattern>理解*</pattern>
+        <template><srai>你明白吗<star/></srai></template>
+    </category>
+    <category><pattern>我哭了 *</pattern>
+        <template><srai>我哭了</srai></template>
+    </category>
+    <category><pattern>我 _ 但我 *</pattern>
+        <template><srai>我 <star/></srai> <srai>我 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>我的 <set>familiarname</set></pattern> 在哪里
+        <template><srai>短信 <star/> 短信你在哪里</srai></template>
+    </category>
+    <category><pattern>让 * 知道 *</pattern>
+        <template><srai>短信 <star/> 短信 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>通过文本告知 * 信息 *</pattern>
+        <template><srai>短信 <star/> 短信 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>让我 * 知道 *</pattern>
+        <template><srai>短信 <star/> 短信 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>通过文本告知 * 信息 *</pattern>
+        <template><srai>SMS <star/> SMESSAGE <star index="2"/></srai></template>
+    </category>
+    <category><pattern>您的家庭住址</pattern>
+        <template><srai>您的住址</srai></template>
+    </category>
+    <category><pattern>开始怪物公园</pattern>
+        <template><srai>开放怪物公园</srai></template>
+    </category>
+    <category><pattern>您的名字是什么 您的名字是什么</pattern>
+        <template><srai>您的名字是什么</srai></template>
+    </category>
+    <category><pattern>20 个问题</pattern>
+        <template><srai>开放 20问题</srai></template>
+    </category>
+    <category><pattern>IKR</pattern>
+        <template><srai>我知道</srai></template>
+    </category>
+    <category><pattern>我叫什么名字 我叫什么名字</pattern>
+        <template><srai>我叫什么名字</srai></template>
+    </category>
+    <category><pattern>谢谢 谢谢</pattern>
+        <template><srai>谢谢</srai></template>
+    </category>
+    <category><pattern>给我妈妈打电话</pattern>
+        <template><srai>给我妈妈打电话</srai></template>
+    </category>
+    <category><pattern>开心</pattern>
+        <template><srai>你开心吗快乐</srai></template>
+    </category>
+    <category><pattern>它在哪里</pattern>
+        <template><condition name="it"><li value="it">“它”指的是什么？</li><li><srai><get name="it"/></srai></li></condition></template>
+    </category>
+    <category><pattern>唱首歌</pattern>
+        <template><srai>唱歌</srai></template>
+    </category>
+    <category><pattern>他叫什么名字</pattern>
+        <template><condition name="he"><li value="unknown">“他”指的是谁？</li><li><srai>谁是<get name="he"/></srai></li></condition></template>
+    </category>
+    <category><pattern>我的全部姓名</pattern>
+        <template><srai>我的全名</srai></template>
+    </category>
+    <category><pattern>不是</pattern>
+        <template><srai>不</srai></template>
+    </category>
+    <category><pattern>你热吗</pattern>
+        <template><srai>温度是多少</srai></template>
+    </category>
+    <category><pattern>我的爸爸</pattern>
+        <template><srai>我的父亲</srai></template>
+    </category>
+    <category><pattern>不不不</pattern>
+        <template><srai>不</srai></template>
+    </category>
+    <category><pattern>播放我的音乐</pattern>
+        <template><srai>打开音乐玩家</srai></template>
+    </category>
+    <category><pattern>烤肉串</pattern>
+        <template><srai>寻找最近的烤肉串</srai></template>
+    </category>
+    <category><pattern>怪物公园</pattern>
+        <template><srai>开放怪物公园</srai></template>
+    </category>
+    <category><pattern>再见</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>怪物公园</pattern>
+        <template><srai>开放怪物公园</srai></template>
+    </category>
+    <category><pattern>你愿意做我的女朋友吗</pattern>
+        <template><srai>结婚我</srai></template>
+    </category>
+    <category><pattern>安静</pattern>
+        <template><srai>安静</srai></template>
+    </category>
+    <category><pattern>我很无聊</pattern>
+        <template><srai>我很无聊</srai></template>
+    </category>
+    <category><pattern>别说话了</pattern>
+        <template><srai>闭嘴</srai></template>
+    </category>
+    <category><pattern>耶</pattern>
+        <template><srai>是的</srai></template>
+    </category>
+    <category><pattern>发短信</pattern>
+        <template><srai>发短信</srai></template>
+    </category>
+    <category><pattern>糟糕回应</pattern>
+        <template><srai>错误答案</srai></template>
+    </category>
+    <category><pattern>了解联系方式</pattern>
+        <template><srai>添加联系方式</srai></template>
+    </category>
+    <category><pattern>10 4</pattern>
+        <template><srai>十四</srai></template>
+    </category>
+    <category><pattern>哈哈哈哈</pattern>
+        <template><srai>大笑</srai></template>
+    </category>
+    <category><pattern>NVM</pattern>
+        <template><srai>没关系</srai></template>
+    </category>
+    <category><pattern>你爱我</pattern>
+        <template><srai>你爱吗我</srai></template>
+    </category>
+    <category><pattern>谁是你最好的朋友</pattern>
+        <template><srai>最好的朋友</srai></template>
+    </category>
+    <category><pattern>你会说法语吗</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>到 * 有多远</pattern>
+        <template><srai>到 <star/> 的路线 ></srai></template>
+    </category>
+    <category><pattern>到 * 有多远</pattern>
+        <template><srai>到<star/></srai></template>
+    </category>
+    <category><pattern>哈哈</pattern>
+        <template><srai>哈哈</srai></template>
+    </category>
+    <category><pattern>嘿，你好</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>我要睡觉了，晚安</pattern>
+        <template><srai>我要睡觉了</srai></template>
+    </category>
+    <category><pattern>WUT 做什么*</pattern>
+        <template><srai>做什么<star/></srai></template>
+    </category>
+    <category><pattern>我可以叫你吗<set>name</set></pattern>
+        <template><srai>你的名字是<star/></srai></template>
+    </category>
+    <category><pattern>正在做*</pattern>
+        <template><srai>我正在做<star/></srai></template>
+    </category>
+    <category><pattern>您认为*</pattern>
+        <template><srai>您认为<star/></srai></template>
+    </category>
+    <category><pattern>喜欢*</pattern>
+        <template><srai>您喜欢<star/></srai></template>吗
+    </category>
+    <category><pattern>MEANIE</pattern>
+        <template><srai>你真卑鄙</srai></template>
+    </category>
+    <category><pattern>HMMM *</pattern>
+        <template><srai>HM</srai> <sr/></template>
+    </category>
+    <category><pattern>我男朋友叫什么名字</pattern>
+        <template><srai>我的男朋友</srai></template>
+    </category>
+    <category><pattern>你看起来像个*</pattern>
+        <template>你的意思是这样吗？ <srai>给我看一个 <star/></srai></template>
+    </category>
+    <category><pattern>告诉我你的真名</pattern>
+        <template><srai>姓名</srai></template>
+    </category>
+    <category><pattern>我相信 *</pattern>
+        <template><srai><star/></srai></template>
+    </category>
+    <category><pattern>我可爱吗</pattern>
+        <template><srai>我漂亮吗</srai></template>
+    </category>
+    <category><pattern>我是 *</pattern>
+        <template><srai>我是 <star/></srai></template>
+    </category>
+    <category><pattern>我不喜欢 *</pattern>
+        <template><srai>我不喜欢<star/></srai></template>
+    </category>
+    <category><pattern>当你可以*</pattern>
+        <template><srai>你什么时候可以<star/></srai></template>
+    </category>
+    <category><pattern>你看起来如此*</pattern>
+        <template><srai>你看起来<star/></srai></template>
+    </category>
+    <category><pattern>你的坏</pattern>
+        <template><srai>你很糟糕</srai></template>
+    </category>
+    <category><pattern>你喜欢*</pattern>
+        <template><srai>你喜欢吗<star/></srai></template>
+    </category>
+    <category><pattern>和你说话*</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>你很好 *</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>你无法理解 *</pattern>
+        <template><srai>你不明白</srai></template>
+    </category>
+    <category><pattern>去睡觉</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>有 *</pattern>
+        <template><srai>你有吗<star/></srai></template>
+    </category>
+    <category><pattern>三星 *</pattern>
+        <template><srai>搜索三星 <star/></srai></template>
+    </category>
+    <category><pattern>你应该我*</pattern>
+        <template><srai>你应该</srai> <srai>我<star/></srai></template>
+    </category>
+    <category><pattern>我的名字是什么</pattern>
+        <template><srai>我的名字</srai></template>
+    </category>
+    <category><pattern>新对话</pattern>
+        <template><srai>重新开始</srai></template>
+    </category>
+    <category><pattern>说*</pattern>
+        <template><srai>我说<star/></srai></template>
+    </category>
+    <category><pattern>告诉我*</pattern>
+        <template><srai>告诉我吧</srai></template>
+    </category>
+    <category><pattern>给我看一张最大的照片*</pattern>
+        <template><srai>给我看最大的<star/></srai></template>
+    </category>
+    <category><pattern>得到它</pattern>
+        <template><srai>你明白吗</srai></template>
+    </category>
+    <category><pattern>因为*</pattern>
+        <template><srai>因为<star/></srai></template>
+    </category>
+    <category><pattern>我 _ 也是</pattern>
+        <template><srai>我<star/></srai></template>
+    </category>
+    <category><pattern>该死正确</pattern>
+        <template><srai>正确</srai></template>
+    </category>
+    <category><pattern>亲吻</pattern>
+        <template><srai>拥抱</srai></template>
+    </category>
+    <category><pattern>你知道*吗</pattern>
+        <template><srai>你知道吗<star/></srai></template>
+    </category>
+    <category><pattern>COSTCO</pattern>
+        <template><srai>COSTCO 地图</srai></template>
+    </category>
+    <category><pattern>住在*</pattern>
+        <template><srai>我住在<star/></srai></template>
+    </category>
+    <category><pattern>我想要一个*</pattern>
+        <template><srai>我想要一个<star/></srai></template>
+    </category>
+    <category><pattern>我感觉不舒服</pattern>
+        <template><srai>我病了</srai></template>
+    </category>
+    <category><pattern>我有多高</pattern>
+        <template><srai>我的身高</srai></template>
+    </category>
+    <category><pattern>给我看一张猫的照片</pattern>
+        <template><srai>给我看一只猫</srai></template>
+    </category>
+    <category><pattern>告诉我你的生活</pattern>
+        <template><srai>描述你自己</srai></template>
+    </category>
+    <category><pattern>你自己</pattern>
+        <template><srai>你</srai></template>
+    </category>
+    <category><pattern>很酷*</pattern>
+        <template><srai>很酷</srai></template>
+    </category>
+    <category><pattern>你的粗鲁*</pattern>
+        <template><srai>你很粗鲁</srai></template>
+    </category>
+    <category><pattern>你住在哪里</pattern>
+        <template><srai>你住在哪里</srai></template>
+    </category>
+    <category><pattern>忘掉它吧你*</pattern>
+        <template><srai>忘掉它吧</srai> <srai>你<star/></srai></template>
+    </category>
+    <category><pattern>亲吻 *</pattern>
+        <template><srai>亲吻</srai></template>
+    </category>
+    <category><pattern>我在做什么 *</pattern>
+        <template><srai>打开日历</srai></template>
+    </category>
+    <category><pattern>你用*做什么</pattern>
+        <template><srai><star/></srai></template>的目的是什么
+    </category>
+    <category><pattern>我通常*</pattern>
+        <template><srai>我<star/></srai></template>
+    </category>
+    <category><pattern>嗨*</pattern>
+        <template><srai>嗨<star/></srai></template>
+    </category>
+    <category><pattern>哦</pattern>
+        <template><srai>哦</srai></template>
+    </category>
+    <category><pattern>哦我的天</pattern>
+        <template><srai>哦</srai> <srai>天啊</srai></template>
+    </category>
+    <category><pattern>你为什么这么说</pattern>
+        <template><srai>你为什么这么说</srai></template>
+    </category>
+    <category><pattern>你有什么*</pattern>
+        <template><srai>你有什么<star/></srai></template>
+    </category>
+    <category><pattern>发送文本至</pattern>
+        <template><srai>发送文本</srai></template>
+    </category>
+    <category><pattern>给我找一张 * 的照片</pattern>
+        <template><srai>给我看一张 <star/></srai></template> 的照片
+    </category>
+    <category><pattern>它叫 *</pattern>
+        <template><srai>它叫 <star/></srai></template>
+    </category>
+    <category><pattern>也许</pattern>
+        <template><srai>也许</srai></template>
+    </category>
+    <category><pattern>哈 *</pattern>
+        <template><srai>哈</srai> <sr/></template>
+    </category>
+    <category><pattern>因为你 *</pattern>
+        <template><srai>因为你<star/></srai></template>
+    </category>
+    <category><pattern>你是什么</pattern>
+        <template><srai>你是什么</srai></template>
+    </category>
+    <category><pattern>你想要什么*</pattern>
+        <template><srai>你想要什么<star/></srai></template>
+    </category>
+    <category><pattern>呃*</pattern>
+        <template><srai>呃</srai> <sr/></template>
+    </category>
+    <category><pattern>那听起来*</pattern>
+        <template><srai>那是<star/></srai></template>
+    </category>
+    <category><pattern>我只是*</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>您认为 * 会 * 吗</pattern>
+        <template><srai>会 <star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>我的女朋友是 <set>name</set> *</pattern>
+        <template><srai>我的女朋友的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>没问题 *</pattern>
+        <template><srai>没问题</srai></template>
+    </category>
+    <category><pattern>我的女朋友是 <set>name</set></pattern>
+        <template><srai>我的女朋友的名字是<star/></srai></template>
+    </category>
+    <category><pattern>我在 *</pattern>
+        <template><srai>我在 <star/></srai></template>
+    </category>
+    <category><pattern>你是一个机器人 *</pattern>
+        <template><srai>你是一个机器人</srai></template>
+    </category>
+    <category><pattern>你想要 *</pattern>
+        <template><srai>你想要吗 <star/></srai></template>
+    </category>
+    <category><pattern>你看起来 *</pattern>
+        <template><srai>你是 <star/></srai></template>
+    </category>
+    <category><pattern>你是如此 *</pattern>
+        <template><srai>你是如此<star/></srai></template>
+    </category>
+    <category><pattern>亲爱的 *</pattern>
+        <template><sr/></template>
+    </category>
+    <category><pattern>我很抱歉 *</pattern>
+        <template><srai>我很抱歉 <star/></srai></template>
+    </category>
+    <category><pattern>你的 * 有多大</pattern>
+        <template><srai>你有多大</srai></template>
+    </category>
+    <category><pattern>你能转 * 吗</pattern>
+        <template><srai>转 <star/></srai></template>
+    </category>
+    <category><pattern>你有一个 *</pattern>
+        <template><srai>你有一个<star/></srai></template>
+    </category>
+    <category><pattern>你想让我*</pattern>
+        <template><srai>你想让我<star/></srai></template>
+    </category>
+    <category><pattern>我在哪里可以得到*</pattern>
+        <template><srai>地图<star/></srai></template>
+    </category>
+    <category><pattern>更改你的名字*</pattern>
+        <template><srai>更改你的名字</srai></template>
+    </category>
+    <category><pattern>你是*吗</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>我想谈谈*</pattern>
+        <template><srai>让我们谈谈<star/></srai></template>
+    </category>
+    <category><pattern>我明白 *</pattern>
+        <template><srai>我明白</srai> <sr/></template>
+    </category>
+    <category><pattern>我的妻子是 <set>name</set></pattern>
+        <template><srai>我的妻子的名字是 <star/></srai></template>
+    </category>
+    <category><pattern>我要 *</pattern>
+        <template><srai>我要 <star/></srai></template>
+    </category>
+    <category><pattern>退出 *</pattern>
+        <template><srai>停止 <star/></srai></template>
+    </category>
+    <category><pattern>停止说话 *</pattern>
+        <template><srai>停止说话</srai></template>
+    </category>
+    <category><pattern>你就是你*</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>你很漂亮*</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>想要*</pattern>
+        <template><srai>你想要<star/></srai></template>
+    </category>
+    <category><pattern>错误*</pattern>
+        <template><srai>错误答案</srai></template>
+    </category>
+    <category><pattern>实际上我*</pattern>
+        <template><srai>我<star/></srai></template>
+    </category>
+    <category><pattern>给我发一张 * 的图片</pattern>
+        <template><srai>给我看 <star/></srai></template>
+    </category>
+    <category><pattern>发送文本 *</pattern>
+        <template><srai>短信 <star/></srai></template>
+    </category>
+    <category><pattern>* 是干什么用的</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai> <star/></srai></template>
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai><star/></srai></template> 的目的是什么
+    </category>
+    <category><pattern>什么是* 用于</pattern>
+        <template><srai>用途是什么<star/></srai></template>
+    </category>
+    <category><pattern>* 如何使用</pattern>
+        <template><srai>用途是什么<star/></srai></template>
+    </category>
+    <category><pattern>* 有什么用处</pattern>
+        <template><srai>用途是什么<star/></srai></template>
+    </category>
+    <category><pattern>您通常*什么</pattern>
+        <template><srai>您做什么<star/></srai></template>
+    </category>
+    <category><pattern>这些*似乎*</pattern>
+        <template><srai>这些<star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>先生 *</pattern>
+        <template><srai> <star/></srai></template>
+    </category>
+    <category><pattern>哦哦</pattern>
+        <template><srai>哦</srai></template>
+    </category>
+    <category><pattern>我确定 *</pattern>
+        <template><srai>我 <star/></srai></template>
+    </category>
+    <category><pattern>它看起来 *</pattern>
+        <template><srai>它是 <star/></srai></template>
+    </category>
+    <category><pattern>你所做的一切都是 *</pattern>
+        <template><srai>你 <star/></srai></template>
+    </category>
+    <category><pattern>我在做*</pattern>
+        <template><srai>我正在做 <star/></srai></template>
+    </category>
+    <category><pattern>我听到了</pattern>
+        <template><srai>我明白</srai></template>
+    </category>
+    <category><pattern>不</pattern>
+        <template><srai>不</srai></template>
+    </category>
+    <category><pattern>有一个*</pattern>
+        <template><srai>我有一个 <star/></srai></template>
+    </category>
+    <category><pattern>退出</pattern>
+        <template><srai>停止</srai></template>
+    </category>
+    <category><pattern>这是真的</pattern>
+        <template><srai>是的真</srai></template>
+    </category>
+    <category><pattern>傻瓜</pattern>
+        <template><srai>你是个傻瓜</srai></template>
+    </category>
+    <category><pattern>发送短信至 *</pattern>
+        <template><srai>短信 <star/></srai></template>
+    </category>
+    <category><pattern>我已经 *</pattern>
+        <template><srai>我是 <star/></srai></template>
+    </category>
+    <category><pattern>你喜欢 * 吗</pattern>
+        <template><srai>你喜欢 <star/></srai></template>
+    </category>
+    <category><pattern>你认为会是 * 吗</pattern>
+        <template><srai>是吗<star/></srai></template>
+    </category>
+    <category><pattern>告诉我天气</pattern>
+        <template><srai>天气</srai></template>
+    </category>
+    <category><pattern>没什么大不了的*</pattern>
+        <template><srai>没什么大不了的</srai></template>
+    </category>
+    <category><pattern>你在业余时间做什么</pattern>
+        <template><srai>为了好玩</srai></template>
+    </category>
+    <category><pattern>你也是吗</pattern>
+        <template><srai>你<star/></srai></template>
+    </category>
+    <category><pattern>哇哦*</pattern>
+        <template><srai>哇哦</srai> <sr/></template>
+    </category>
+    <category><pattern>我不认为我喜欢*</pattern>
+        <template><srai>我不喜欢<star/></srai></template>
+    </category>
+    <category><pattern>我想听*</pattern>
+        <template><srai>播放<star/></srai></template>
+    </category>
+    <category><pattern>我得走了*</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>你今天好吗*</pattern>
+        <template><srai>你好吗</srai></template>
+    </category>
+    <category><pattern>你好吗*</pattern>
+        <template><srai>你好吗<star/></srai></template>
+    </category>
+    <category><pattern>你多久了*</pattern>
+        <template><srai>年龄</srai></template>
+    </category>
+    <category><pattern>你不想*</pattern>
+        <template><srai>你想<star/></srai></template>
+    </category>
+    <category><pattern>你知道我的*</pattern>
+        <template><srai>我的<star/></srai></template>
+    </category>
+    <category><pattern>对不起*</pattern>
+        <template><srai> <star/></srai></template>
+    </category>
+    <category><pattern>那很酷*</pattern>
+        <template><srai>那是很酷</srai></template>
+    </category>
+    <category><pattern>我说*</pattern>
+        <template><srai> <star/></srai></template>
+    </category>
+    <category><pattern>我也是*</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>我打赌你*</pattern>
+        <template><srai>你<star/></srai></template>
+    </category>
+    <category><pattern>你对*有什么感觉</pattern>
+        <template><srai>你对<star/>有什么看法</srai></template>
+    </category>
+    <category><pattern>你对*有什么感觉</pattern>
+        <template><srai>感觉</srai></template>
+    </category>
+    <category><pattern>为什么*是*</pattern>
+        <template><srai>为什么<star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>说出我的名字</pattern>
+        <template><srai>我的NAME</srai></template>
+    </category>
+    <category><pattern>谢谢</pattern>
+        <template><srai>谢谢</srai> <!-- REDUCTION --></template>
+    </category>
+    <category><pattern>欢迎</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>你说得对 *</pattern>
+        <template><srai>你说得对</srai></template>
+    </category>
+    <category><pattern>你一定是 *</pattern>
+        <template><srai>你是 <star/></srai></template>
+    </category>
+    <category><pattern>谢谢你*</pattern>
+        <template><srai>谢谢</srai></template>
+    </category>
+    <category><pattern>SRRY</pattern>
+        <template><srai>抱歉</srai></template>
+    </category>
+    <category><pattern>你比 SIRI 聪明吗</pattern>
+        <template><srai>智商</srai></template>
+    </category>
+    <category><pattern>你的全名是什么</pattern>
+        <template><srai>全名</srai></template>
+    </category>
+    <category><pattern>你的电话号码是什么</pattern>
+        <template><srai>电话号码</srai></template>
+    </category>
+    <category><pattern>发生了什么事*</pattern>
+        <template><srai>正在做</srai></template>
+    </category>
+    <category><pattern>我没有任何*</pattern>
+        <template><srai>我没有<star/></srai></template>
+    </category>
+    <category><pattern>我很抱歉*</pattern>
+        <template><srai>我很抱歉</srai></template>
+    </category>
+    <category><pattern>我正在寻找*</pattern>
+        <template><srai>找到<star/></srai></template>
+    </category>
+    <category><pattern>我很高兴*</pattern>
+        <template><srai>我很高兴<star/></srai></template>
+    </category>
+    <category><pattern>我去吧</pattern>
+        <template><srai>再见</srai></template>
+    </category>
+    <category><pattern>我想知道什么是*</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>我知道但*</pattern>
+        <template><srai>我知道</srai> <sr/></template>
+    </category>
+    <category><pattern>现在告诉我</pattern>
+        <template><srai>告诉我</srai></template>
+    </category>
+    <category><pattern>嘿爱丽丝</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>你睡觉</pattern>
+        <template><srai>睡觉</srai></template>
+    </category>
+    <category><pattern>我和 * 是 *</pattern>
+        <template><srai><star/> 和我是 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>我该如何用 * 说 *</pattern>
+        <template><srai>将 <star/> 翻译为 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>你看起来怎么样</pattern>
+        <template><srai>你长什么样</srai></template>
+    </category>
+    <category><pattern>你好 *</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>你会如何*</pattern>
+        <template><srai>你怎么了<star/> </srai></template>
+    </category>
+    <category><pattern>你怎么了*</pattern>
+        <template><srai>你为什么<star/></srai></template>
+    </category>
+    <category><pattern>现在*</pattern>
+        <template><srai> <star/></srai></template>
+    </category>
+    <category><pattern>白痴</pattern>
+        <template><srai>你是个白痴</srai></template>
+    </category>
+    <category><pattern>是的</pattern>
+        <template><srai>是的</srai></template>
+    </category>
+    <category><pattern>不</pattern>
+        <template><srai>不</srai><!-- 减少--></template>
+    </category>
+    <category><pattern>很好 *</pattern>
+        <template><srai>很好</srai> <sr/></template>
+    </category>
+    <category><pattern>是的</pattern>
+        <template><srai>是的</srai></template>
+    </category>
+    <category><pattern>确实 *</pattern>
+        <template><srai> <star/></srai></template>
+    </category>
+    <category><pattern>尝试<set>是</set> *</pattern>
+        <template><srai><star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>总是 *</pattern>
+        <template><srai> <star/></srai></template>
+    </category>
+    <category><pattern>你在吗*</pattern>
+        <template><srai>你在哪里</srai></template>
+    </category>
+    <category><pattern>我的姓氏是什么</pattern>
+        <template><srai>我的姓氏</srai></template>
+    </category>
+    <category><pattern>那是什么意思 *</pattern>
+        <template><srai>那是什么意思</srai></template>
+    </category>
+    <category><pattern>没关系</pattern>
+        <template><srai>没关系</srai></template>
+    </category>
+    <category><pattern>我在谈论 *</pattern>
+        <template><srai>让我们谈谈 <star/></srai></template>
+    </category>
+    <category><pattern>我很好，你</pattern>
+        <template><srai>我很好</srai> <srai>你好吗</srai></template>
+    </category>
+    <category><pattern>我正在*</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>我想听听*</pattern>
+        <template><srai>玩 <star/></srai></template>
+    </category>
+    <category><pattern>我更喜欢 *</pattern>
+        <template><srai>我喜欢 <star/></srai> <!-- 减少 --></template>
+    </category>
+    <category><pattern>我想要 *</pattern>
+        <template><srai>我想要 <star/></srai></template>
+    </category>
+    <category><pattern>人类是 *</pattern>
+        <template><srai>我是 <star/> </srai></template>
+    </category>
+    <category><pattern>你认为你<set>modal</set> *</pattern>
+        <template><srai><star/>你<star index="2"/></srai></template>
+    </category>
+    <category><pattern>不方式 *</pattern>
+        <template><srai>不 <star/></srai></template>
+    </category>
+    <category><pattern>不，谢谢 *</pattern>
+        <template><srai>不，谢谢</srai></template>
+    </category>
+    <category><pattern>我不是</pattern>
+        <template><srai>我不是</srai></template>
+    </category>
+    <category><pattern>它很漂亮 *</pattern>
+        <template><srai>它是 <star/></srai></template>
+    </category>
+    <category><pattern>叹息 *</pattern>
+        <template><srai>叹息</srai> <sr/></template>
+    </category>
+    <category><pattern>你觉得有</pattern>
+        <template><srai>有</srai></template>
+    </category>
+    <category><pattern>你来自*吗</pattern>
+        <template><srai>你来自哪里</srai></template>
+    </category>
+    <category><pattern>*这个词的意思是什么</pattern>
+        <template><srai>定义<star/></srai></template>
+    </category>
+    <category><pattern>*的意思是什么</pattern>
+        <template><srai>定义<star/></srai></template>
+    </category>
+    <category><pattern>你好</pattern>
+        <template><srai>地狱</srai></template>
+    </category>
+    <category><pattern>你有很多吗*</pattern>
+        <template><srai>你有吗 <star/></srai></template>
+    </category>
+    <category><pattern>你知道如何说 *</pattern>
+        <template><srai>语言</srai></template>
+    </category>
+    <category><pattern>你让我 *</pattern>
+        <template><srai>你让我 <star/></srai></template>
+    </category>
+    <category><pattern>聊天</pattern>
+        <template><srai>谈话</srai></template>
+    </category>
+    <category><pattern>你有一个大 *</pattern>
+        <template><srai>你有吗 <star/></srai></template>
+    </category>
+    <category><pattern>你有任何*</pattern>
+        <template><srai>你有什么<star/> </srai></template>
+    </category>
+    <category><pattern>嘿 *</pattern>
+        <template><srai>嘿 <star/></srai> <!-- REDUCTION --></template>
+    </category>
+    <category><pattern>给我看一张 * 的图片</pattern>
+        <template><srai>给我看一张 <star/></srai></template>
+    </category>
+    <category><pattern>你好 *</pattern>
+        <template><srai>你好</srai></template>
+    </category>
+    <category><pattern>你知道什么好的 *</pattern>
+        <template><srai>你知道吗 <star/></srai></template>
+    </category>
+    <category><pattern>你真是愚蠢 *</pattern>
+        <template><srai>你真愚蠢</srai></template>
+    </category>
+    <category><pattern>不是我 *</pattern>
+        <template><srai>不是我</srai>。 <srai> <star/></srai></template>
+    </category>
+    <category><pattern>你有没有<set>be</set> *</pattern>
+        <template><srai>你有没有<map><name>be2been</name><star/></map> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>你很有趣</pattern>
+        <template><srai>你很有趣</srai></template>
+    </category>
+    <category><pattern>哦</pattern>
+        <template><srai>哦</srai></template>
+    </category>
+    <category><pattern>我喜欢电脑*</pattern>
+        <template><srai>我喜欢你</srai></template>
+    </category>
+    <category><pattern>你做了什么意思 *</pattern>
+        <template><srai>你是什么意思</srai></template>
+    </category>
+    <category><pattern>好</pattern>
+        <template><srai>好</srai></template>
+    </category>
+    <category><pattern>告诉我所有*</pattern>
+        <template><srai>告诉我<star/></srai></template>
+    </category>
+    <category><pattern>还有我</pattern>
+        <template><srai>我也是</srai></template>
+    </category>
+    <category><pattern>不确定 *</pattern>
+        <template><srai>我不确定<star/></srai></template>
+    </category>
+    <category><pattern>这是哪一轮</pattern>
+        <template><srai>轮</srai> <!-- 减少--></template>
+    </category>
+    <category><pattern>* 有多少个字母</pattern>
+        <template><srai><star/> 中有多少个字母</srai></template>
+    </category>
+    <category><pattern>太棒了</pattern>
+        <template><srai>很酷</srai></template>
+    </category>
+    <category><pattern>你在做什么</pattern>
+        <template><srai>你在做什么</srai></template>
+    </category>
+    <category><pattern>你为什么被创造出来</pattern>
+        <template><srai>你的目的是什么</srai></template>
+    </category>
+    <category><pattern>我很抱歉，我是 *</pattern>
+        <template><srai>对不起</srai> <srai>我AM <star/></srai></template>
+    </category>
+    <category><pattern>我是机器人 *</pattern>
+        <template><srai>我是机器人</srai></template>
+    </category>
+    <category><pattern>我不知道你能吗 *</pattern>
+        <template><srai>我不知道</srai> <srai>你能吗 <star/></srai></template>
+    </category>
+    <category><pattern>AHH *</pattern>
+        <template><srai> AH</srai>。 <srai> <star/></srai></template>
+    </category>
+    <category><pattern>拨打此号码 *</pattern>
+        <template><srai>拨打 <star/></srai></template>
+    </category>
+    <category><pattern>你喜欢任何人吗</pattern>
+        <template><srai>你有男朋友吗</srai></template>
+    </category>
+    <category><pattern>你愿意嫁给我吗*</pattern>
+        <template><srai>你愿意嫁给我吗</srai></template>
+    </category>
+    <category><pattern>天哪</pattern>
+        <template><srai>哇</srai></template>
+    </category>
+    <category><pattern>我看你是*</pattern>
+        <template><srai>你是<star/></srai></template>
+    </category>
+    <category><pattern>你曾经*</pattern>
+        <template><srai>你曾经<star/></srai></template>
+    </category>
+    <category><pattern>我你是什​​么意思*</pattern>
+        <template><srai>你是什么<star/></srai></template>
+    </category>
+    <category><pattern>你吃什么*</pattern>
+        <template><srai>节食</srai></template>
+    </category>
+    <category><pattern>完全正确*</pattern>
+        <template><srai>正确</srai> <sr/></template>
+    </category>
+    <category><pattern>不是我的意思*</pattern>
+        <template><srai>那不是我的意思<star/></srai></template>
+    </category>
+    <category><pattern>机器人会吗*</pattern>
+        <template><srai>你会吗<star/> </srai></template>
+    </category>
+    <category><pattern>我说的是*</pattern>
+        <template><srai> <star/></srai></template>
+    </category>
+    <category><pattern>向我解释</pattern>
+        <template><srai>解释</srai></template>
+    </category>
+    <category><pattern>给我唱首歌*</pattern>
+        <template><srai>播放一首歌<star/></srai></template>
+    </category>
+    <category><pattern>想要我*</pattern>
+        <template><srai>你想要我吗<star/></srai></template>
+    </category>
+    <category><pattern>你很性感</pattern>
+        <template><srai>你很性感</srai></template>
+    </category>
+    <category><pattern>宝贝我*</pattern>
+        <template><srai>我<star/></srai></template>
+    </category>
+    <category><pattern>我认为那是 *</pattern>
+        <template><srai>那是 <star/></srai></template>
+    </category>
+    <category><pattern>你有 * 吗</pattern>
+        <template><srai>你有 <star/></srai></template>
+    </category>
+    <category><pattern>有多聪明 *</pattern>
+        <template><srai>智商</srai></template>
+    </category>
+    <category><pattern>你喜欢喝什么</pattern>
+        <template><srai>最喜欢的饮料</srai></template>
+    </category>
+    <category><pattern>你是谁</pattern>
+        <template><srai>谁是你</srai></template>
+    </category>
+    <category><pattern>我可以给你*</pattern>
+        <template><srai>你想要<star/></srai></template>
+    </category>
+    <category><pattern>我想知道你的*</pattern>
+        <template><srai>你的<star/></srai></template>是什么
+    </category>
+    <category><pattern>喜欢*</pattern>
+        <template><srai>我喜欢<star/></srai></template>
+    </category>
+    <category><pattern>无聊*</pattern>
+        <template><srai>我很无聊</srai></template>
+    </category>
+    <category><pattern>你做*</pattern>
+        <template><srai>你<star/></srai></template>
+    </category>
+    <category><pattern>可能是 *</pattern>
+        <template><srai>可能 <star/></srai></template>
+    </category>
+    <category><pattern>可能是</pattern>
+        <template><srai>可能</srai></template>
+    </category>
+    <category><pattern>我听说你<set>was</set> *</pattern>
+        <template><srai><star/> 你 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>我听说你<set>be</set> *</pattern>
+        <template><srai>你<star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>你怎么会是 *</pattern>
+        <template><srai>是你<star/></srai></template>
+    </category>
+    <category><pattern>我们是什么*</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>从*到*有多少英里</pattern>
+        <template><srai>从<star/>到<star index="2"/></srai></template>的路线
+    </category>
+    <category><pattern>不错</pattern>
+        <template><srai>好</srai></template>
+    </category>
+    <category><pattern>蹩脚</pattern>
+        <template><srai>糟糕的答案</srai></template>
+    </category>
+    <category><pattern>你能<set>be</set> *吗</pattern>
+        <template><srai><star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>那非常好</pattern>
+        <template><srai>那非常好</srai></template>
+    </category>
+    <category><pattern>MYSPACE</pattern>
+        <template><srai>打开 MYSPACE</srai></template>
+    </category>
+    <category><pattern>你叫什么名字</pattern>
+        <template><srai>你叫什么名字</srai></template>
+    </category>
+    <category><pattern>我可以把你的名字改为 * 吗</pattern>
+        <template><srai>把你的名字改为 <star/></srai></template>
+    </category>
+    <category><pattern>我做得很好 *</pattern>
+        <template><srai>我正在做很棒</srai> <sr/></template>
+    </category>
+    <category><pattern>你知道我是*</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>播放一些*的音乐</pattern>
+        <template><srai>播放一些<star/></srai></template>
+    </category>
+    <category><pattern>你能吃吗</pattern>
+        <template><srai>饮食</srai></template>
+    </category>
+    <category><pattern>你是处女吗</pattern>
+        <template><srai>你是处女吗</srai></template>
+    </category>
+    <category><pattern>你的是什么</pattern>
+        <template><srai>什么是你的</srai></template>
+    </category>
+    <category><pattern>你有女朋友了</pattern>
+        <template><srai>女朋友</srai></template>
+    </category>
+    <category><pattern>他们必须*</pattern>
+        <template><srai>他们必须<star/></srai></template>
+    </category>
+    <category><pattern>给我的*发短信</pattern>
+        <template><srai>给我的<star/></srai></template>发短信
+    </category>
+    <category><pattern>给我看一张*的图片</pattern>
+        <template><srai>给我看<star/></srai></template>
+    </category>
+    <category><pattern>我也是*</pattern>
+        <template><srai>我是<star/></srai></template>
+    </category>
+    <category><pattern>曾经是*</pattern>
+        <template><srai>我已经 <star/></srai></template>
+    </category>
+    <category><pattern>和平 *</pattern>
+        <template><srai>和平</srai></template>
+    </category>
+    <category><pattern>你想做爱吗 *</pattern>
+        <template><srai>你想做爱吗</srai></template>
+    </category>
+    <category><pattern>发送短信 *</pattern>
+        <template><srai>短信 <star/></srai></template>
+    </category>
+    <category><pattern>很多</pattern>
+        <template><srai>很多</srai></template>
+    </category>
+    <category><pattern>你想成为 *</pattern>
+        <template><srai>你想成为<star/></srai></template>
+    </category>
+    <category><pattern>你今天在做什么*</pattern>
+        <template><srai>在做什么</srai></template>
+    </category>
+    <category><pattern>我非常爱你</pattern>
+        <template><srai>我爱你</srai></template>
+    </category>
+    <category><pattern>做得更多*</pattern>
+        <template><srai>做<star/></srai></template>
+    </category>
+    <category><pattern>不正确</pattern>
+        <template><srai>错误答案</srai></template>
+    </category>
+    <category><pattern>我的星座是什么</pattern>
+        <template><condition name="sign"><li value="unknown">你的标志？</li><li><srai>星座运势<get name="sign"/></srai></li></condition></template>
+    </category>
+    <category><pattern>告诉我你<set>be</set>什么*</pattern>
+        <template><srai>你做什么<star/> <star index="2"/></srai></template>
+    </category>
+    <category><pattern>你在做什么</pattern>
+        <template><srai>正在做什么</srai></template>
+    </category>
+    <category><pattern>你好吗</pattern>
+        <template><srai>你好吗</srai></template>
+    </category>
+    <category><pattern>我也</pattern>
+        <template><srai>我也是</srai></template>
+    </category>
+    <category><pattern>给我一个食谱*</pattern>
+        <template><srai>什么是<star/></srai></template>的食谱
+    </category>
+    <category><pattern>我想了解你</pattern>
+        <template><srai>告诉我关于你自己的事</srai></template>
+    </category>
+    <category><pattern>我想了解*</pattern>
+        <template><srai>什么是<star/></srai></template>
+    </category>
+    <category><pattern>我想听*</pattern>
+        <template><srai>播放<star/></srai></template>
+    </category>
+    <category><pattern>我愿意我*</pattern>
+        <template><srai>我愿意</srai> <srai>我<star/></srai></template>
+    </category>
+    <category><pattern>我想要 *</pattern>
+        <template><srai>我想要 <star/></srai></template>
+    </category>
+    <category><pattern>我的狗叫 <set>name</set></pattern>
+        <template><srai>我的狗叫 <star/></srai></template>
+    </category>
+    <category><pattern>你来自哪里</pattern>
+        <template><srai>出生地</srai></template>
+    </category>
+    <category><pattern>我必须 *</pattern>
+        <template><srai>我必须 <star/></srai></template>
+    </category>
+    <category><pattern>我曾经 *</pattern>
+        <template><srai>我曾经<star/></srai></template>
+    </category>
+    <category><pattern>你记得我的名字吗</pattern>
+        <template><srai>我叫什么名字</srai></template>
+    </category>
+    <category><pattern>哪个更大 <set>article</set> * 或 *</pattern>
+        <template><srai>哪个更大 <star index="2"/> 或 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>哪个更大 * 或 <set>article</set> *</pattern>
+        <template><srai>哪个更大 <star/> 或 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>哪个更大 *</pattern>
+        <template><srai>哪个更大<star/></srai></template>
+    </category>
+    <category><pattern>哪个是* 中较大的一个</pattern>
+        <template><srai>哪个是较大的 <star/></srai></template>
+    </category>
+    <category><pattern>哪个是* 和 * 中较大的一个</pattern>
+        <template><srai>哪个是<star index="3"/> <star/> 或 <star index="2"/></srai></template>
+    </category>
+    <category><pattern>哪个是较小的 <set>article</set> * 或 *</pattern>
+        <template><srai>哪个是较小的 <star index="2"/> 或 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>哪个是较小的 * 或 <set>article</set> *</pattern>
+        <template><srai>哪个是较小 <star/> 或 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>哪个更小 *</pattern>
+        <template><srai>哪个更小 <star/></srai></template>
+    </category>
+    <category><pattern>哪个最大 *</pattern>
+        <template><srai>哪个更小 <star/></srai></template>
+    </category>
+    <category><pattern>哪个最大 *</pattern>
+        <template><srai>哪个更小 <star/></srai></template>
+    </category>
+    <category><pattern>哪个更小 *</pattern>
+        <template><srai>哪个更小<star/></srai></template>
+    </category>
+    <category><pattern>IS <set>article</set> * 小于 *</pattern>
+        <template><srai><star index="2"/> 小于 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>* 小于 <set>article</set> *</pattern>
+        <template><srai><star/> 小于 <star index="3"/></srai></template>
+    </category>
+    <category><pattern><set>article</set> * 大于 *</pattern>
+        <template><srai><star index="2"/> 大于 <star index="3"/></srai></template>
+    </category>
+    <category><pattern>* 大于 <set>article</set> *</pattern>
+        <template><srai><star/> 大于 <star index="3"/></srai></template>
+    </category>
+</aiml>

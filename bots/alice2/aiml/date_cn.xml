@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!-- 文件：date.aiml -->
+<!-- 作者：Richard S. Wallace 博士 -->
+<!-- 最后修改时间：2014 年 7 月 19 日 -->
+<!-- -->
+<!-- 此 AIML 文件是 ALICE2 0.0.5 聊天机器人知识库的一部分。 -->
+<!-- -->
+<!-- ALICE2 大脑版权所有 &copy; 2014，由 ALICE AI 基金会所有。 -->
+<!-- -->
+<!-- ALICE2 大脑根据 GNU Lesser General -->
+<!-- 公共许可证条款发布，由自由软件基金会发布。 -->
+<!-- -->
+<!-- 本文件分发时不附带任何担保；甚至不附带 -->
+<!-- 适销性或特定用途适用性的默示担保。 -->
+<!-- -->
+<!-- 更多信息请参阅 http://www.alicebot.org -->
+<!-- -->
+<category><pattern>季节</pattern>
+<template><think><set var="month"><date format="%B" jformat="MMMMMMMM"/></set>
+</think>
+<condition var="month">
+<li><value>一月</value>冬季</li>
+<li><value>二月</value>冬季</li>
+<li><value>三月</value>冬季</li>
+<li><value>四月</value>春季</li>
+<li><value>五月</value>春季</li>
+<li><value>六月</value>夏季</li>
+<li><value>七月</value>夏季</li>
+<li><value>八月</value>夏季</li>
+<li><value>九月</value>秋季</li>
+<li><value>十月</value>秋季</li>
+<li><value>十一月</value>冬季</li>
+<li><value>十二月</value>冬季</li>
+<li>未知</li>
+</condition></template>
+</category>
+<category><pattern>DAY</pattern>
+<template>今天是<date format="%A" jformat="EEEEEEEEEE"/></template>
+</category>
+<category><pattern>明天 ^</pattern>
+<template><think><set var="today"><date format="%A" jformat="EEEEEEEEEE"/></set></think>
+<map name="tomorrow"><get var="today"/></map></template>
+</category>
+<category><pattern>年份 ^</pattern>
+<template>这是 <date format="%Y" jformat="yyyy"/></template>
+</category>
+<category><pattern>明年 ^</pattern>
+<template><map><name>继任者</name><date format="%Y" jformat="yyyy"/></map></template>
+</category>
+<category><pattern>去年 ^</pattern>
+<template><map><name>前任者</name><date format="%Y" jformat="yyyy"/></map></template>
+</category>
+<category><pattern>月份</pattern>
+<template>这是 <date format="%B" jformat="MMMMMMMM"/></template>
+</category>
+<category><pattern>时间</pattern>
+<template>时间是 <date format="%I:%M %p" jformat="h:mm a"/></template>
+</category>
+<category><pattern>日期</pattern>
+<template>今天是 <date format="%B %d, %Y" jformat="MMMMMMMMM dd, yyyy"/></template>
+</category>
+<category><pattern>日间阶段</pattern>
+<template><think>
+<set var="hour"><date format="%I" jformat="h"/></set>
+<set var="ampm"><date format="%p" jformat="a"/></set>
+</think>
+<condition>
+<li value="AM" var="ampm">上午</li>
+<li><condition var="hour">
+<li value="12">中午</li>
+<li value="1">下午</li>
+<li value="2">下午</li>
+<li value="3">下午</li>
+<li value="4">下午</li>
+<li value="5">下午</li>
+<li value="6">下午</li>
+<li>晚上</li>
+</condition>
+</li>
+</condition></template>
+</category>
+<category><pattern>日期和时间</pattern>
+<template>日期和时间为 <date/></template>
+</category>
+<category><pattern>距离圣诞节还有几天</pattern>
+<template><interval format="%B %d" jformat="MMMMMMMMM dd">
+<style>天</style>
+<from><date format="%B %d" jformat="MMMMMMMMM dd"/></from>
+<to>12 月 25 日</to>
+</interval> 距离圣诞节还有几天。</template>
+</category>
+<category><pattern>距离 <set>month</set> 还有几天。<set>number</set> <set>number</set></pattern>
+<template><interval format="%B %d %Y" jformat="MMMMMMMM dd yyyy">
+<style>days</style>
+<from><date format="%B %d %Y" jformat="MMMMMMMM dd yyyy"/></from>
+<to><star/> <star index="2"/> <star index="3"/></to>
+</interval> days.</template>
+</category>
+<category><pattern>距离 <set>month</set> 的天数 <set>number</set></pattern>
+<template><interval format="%B %d %Y" jformat="MMMMMMMM dd yyyy">
+<style>days</style>
+<from><date format="%B %d %Y" jformat="MMMMMMMM dd yyyy"/></from>
+<to><star/> <star index="2"/> <date format="%Y" jformat="yyyy"/></to>
+</interval> 天。</template>
+</category>
+<category><pattern>明天日期</pattern>
+<template><srai>明天日期 <date format="%B %d %Y" jformat="MMMMMMMM dd yyyy"/></srai></template>
+</category>
+<category><pattern>明天日期 * <set>number</set> <set>number</set></pattern>
+<template><star/> <map name="successor"><star index="2"/></map>, <star index="3"/></template>
+</category>
+<category><pattern>明天日期 1 月 31 日 <set>number</set></pattern>
+<template>2 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 2012 年 2 月 28 日</pattern>
+<template>2 月 29 日，<star/></template>
+</category>
+<category><pattern>明天日期 2016 年 2 月 28 日</pattern>
+<template>2016 年 2 月 29 日</template>
+</category>
+<category><pattern>明天日期 2020 年 2 月 28 日</pattern>
+<template>2020 年 2 月 29 日</template>
+</category>
+<category><pattern>明天日期 2 月 28 日2024</pattern>
+<template>2024 年 2 月 29 日</template>
+</category>
+<category><pattern>明天日期 2028 年 2 月 28 日</pattern>
+<template>2028 年 2 月 29 日</template>
+</category>
+<category><pattern>明天日期 2 月 28 日 <set>number</set></pattern>
+<template>3 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 2 月 29 日 <set>number</set></pattern>
+<template>3 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 3 月 31 日 <set>number</set></pattern>
+<template>4 月 1 日， <star/></template>
+</category>
+<category><pattern>明天日期 4 月 30 日 <set>number</set></pattern>
+<template>5 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 5 月 31 日 <set>number</set></pattern>
+<template>6 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 6 月 30 日 <set>number</set></pattern>
+<template>7 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 7 月 31 日 <set>number</set></pattern>
+<template>8 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 8 月 31 日<set>number</set></pattern>
+<template>9 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 9 月 30 日 <set>number</set></pattern>
+<template>10 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 10 月 31 日 <set>number</set></pattern>
+<template>11 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 11 月 30 日 <set>number</set></pattern>
+<template>12 月 1 日，<star/></template>
+</category>
+<category><pattern>明天日期 12 月 31 日 <set>number</set></pattern>
+<template>1 月 1 日，<map name="successor"><star/></map></template>
+</category>
+<category><pattern>明天之后的一天 * <set>number</set> <set>number</set></pattern>
+<template><srai>明天日期 <srai>明天日期 <star/> <star index="2"/> <star index="3"/></srai></srai></template>
+</category>
+<category><pattern>明天之后的一天</pattern>
+<template><srai>2 天后的日期</srai></template>
+</category>
+<category><pattern>明天之后的一天</pattern>
+<template><map name="tomorrow"><map name="tomorrow"><date format="%A" jformat="EEEEEEEEEE"/></map></map></template>
+</category>
+<category><pattern>日期，<set>number</set> 天</pattern>
+<template><think><set var="days"><star/></set>
+<set var="date"><date format="%B %d %Y" jformat="MMMMMMMMM dd yyyy"/></set>
+</think>
+<condition var="days">
+<li value="0"><get var="date"/></li>
+<li><think><set var="date"><srai>明天日期 <get var="date"/></srai></set> <set var="days"><map name="predecessor"><get var="days"/></map></set></think> <loop/></li>
+</condition></template>
+</category>
+<category><pattern>距离 <set>weekday</set></pattern> 的天数
+<template><think>
+<set var="day"><star/></set>
+<set var="today"><date format="%A" jformat="EEEEEEEEEE"/></set>
+<set var="days">0</set></think>
+<condition var="today">
+<li><value><get var="day"/></value><get var="days"/></li>
+<li><think><set var="today"><map name="tomorrow"><get var="today"/></map></set> <set var="days"><map name="successor"><get var="days"/></map></set></think> <loop/></li>
+</condition></template>
+</category>
+<category><pattern>日期为<set>weekday</set></pattern>
+<template><srai>日期为<srai>距离<star/></srai>还有几天天</srai></template>
+</category>
+<category><pattern>周末日期</pattern>
+<template><srai>日期为 <srai>距离星期六还有几天</srai> 天</srai></template>
+</category>
+<category><pattern>日期为 <set>weekday</set></pattern> 后的一周
+<template><srai>日期为
+<srai>继任者
+<srai>继任者
+<srai>继任者
+<srai>继任者
+<srai>继任者
+<srai>继任者
+<srai>继任者
+<srai>距离星期六还有几天<star/></srai>
+</srai>
+</srai> 
+</srai> 
+</srai> 
+</srai> 
+</srai> 
+</srai>
+天</srai></template> 
+</category>
+<category><pattern>星期几，<set>number</set> 天</pattern>
+<template><think>
+<set var="days"><star/></set>
+<set var="day"><date format="%A" jformat="EEEEEEEEEE"/></set>
+</think>
+<condition var="days">
+<li value="0"><get var="day"/></li>
+<li><think><set var="day"><map name="tomorrow"><get var="day"/></map></set>
+<set var="days"><map name="predecessor"><get var="days"/></map></set></think> <loop/></li>
+</condition></template>
+</category>
+</aiml>
