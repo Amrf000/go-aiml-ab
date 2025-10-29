@@ -86,14 +86,14 @@
 </think>
 <srai>记住熟悉的名称</srai></template>
 </category>
-<category><pattern>我的<set>familiarname</set>是<set>名称</set></pattern>
+<category><pattern>我的<set>familiarname</set>是<set>name</set></pattern>
 <template><think>
 <set name="familiarpredicate"><srai>熟悉的名称<star/></srai></set>
 <set name="contactname"><star index="2"/></set>
 </think>
 <srai>记住熟悉的名称</srai></template>
 </category>
-<category><pattern>我的<set>familiarname</set>是<set>名称</set> *</pattern>
+<category><pattern>我的<set>familiarname</set>是<set>name</set> *</pattern>
 <template><think>
 <set name="familiarpredicate"><srai>熟悉的前缀 <star/></srai></set>
 <set name="contactname"><star index="2"/> <star index="3"/></set>

@@ -2,6 +2,7 @@ package ab
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 )
 
@@ -24,8 +25,17 @@ func NewPath() *Paths {
 
 func SentenceToPath(sentence string) *Paths {
 	sentence = strings.TrimSpace(sentence)
+	if strings.Contains(sentence, "我最喜欢的颜色是") {
+		nn := 0
+		nn++
+	}
 	sentence = strings.ReplaceAll(sentence, "><", "> <")
-	words := strings.Split(sentence, " ")
+	var reg = regexp.MustCompile(`([^ ])(\<)([^/])`)
+	sentence = reg.ReplaceAllString(sentence, `$1 $2$3`)
+	reg = regexp.MustCompile(`(\</[^\<]+\>)([^ ])`)
+	sentence = reg.ReplaceAllString(sentence, `$1 $2`)
+	// words := strings.Split(sentence, " ")
+	words := SplitWords(sentence)
 	return ArrayToPath(words)
 }
 

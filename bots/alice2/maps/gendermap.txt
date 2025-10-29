@@ -11,4 +11,5 @@ guy:male
 dude:male
 lady:female
 chick:female
-
+男人:男性
+女人:女性

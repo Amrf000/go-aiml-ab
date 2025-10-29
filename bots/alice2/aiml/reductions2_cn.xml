@@ -4046,7 +4046,7 @@
     <category><pattern>确实 *</pattern>
         <template><srai> <star/></srai></template>
     </category>
-    <category><pattern>尝试<set>是</set> *</pattern>
+    <category><pattern>尝试<set>be</set> *</pattern>
         <template><srai><star/> <star index="2"/></srai></template>
     </category>
     <category><pattern>总是 *</pattern>

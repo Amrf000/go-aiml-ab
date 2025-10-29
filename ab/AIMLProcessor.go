@@ -636,7 +636,10 @@ func UnevaluatedAIML(node dom.Node, ps *ParseState) string {
 func RecursLearn(node dom.Node, ps *ParseState) string {
 	nodeName := node.GetNodeName()
 	if nodeName == "#text" {
-		return node.(dom.Text).GetValue()
+		val := node.(dom.Text).GetValue()
+		//words := jieba.Cut(val, true)
+		//return strings.Join(words, " ")
+		return val
 	} else if nodeName == "eval" {
 		return EvalTagContent(node, ps, nil)
 	} else {
@@ -1022,7 +1025,10 @@ func RecursEval(node dom.Node, ps *ParseState) string {
 	nodeName := node.GetNodeName()
 	switch nodeName {
 	case "#text":
-		return node.(dom.Text).GetValue()
+		val := node.(dom.Text).GetValue()
+		//words := jieba.Cut(val, true)
+		//return strings.Join(words, " ")
+		return val
 	case "#comment":
 		return ""
 	case "template":

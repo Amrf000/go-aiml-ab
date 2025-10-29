@@ -41,7 +41,10 @@ func tokenizeXML(xmlExpression string) string {
 func recursEval(element dom.Element) string {
 	switch element.GetNodeName() {
 	case "#text":
-		return tokenizeFragment(element.(dom.Text).GetValue())
+		val := tokenizeFragment(element.(dom.Text).GetValue())
+		//words := jieba.Cut(val, true)
+		//return strings.Join(words, " ")
+		return val
 	case "sentence":
 		return evalTagContent(element)
 	default:

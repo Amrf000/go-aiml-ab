@@ -1567,7 +1567,7 @@
 <category><pattern>你玩过任何*吗</pattern>
 <template><srai>你玩过<star/></srai></template>
 </category>
-<category><pattern>你用<set>语言</set></pattern>说话吗
+<category><pattern>你用<set>language</set></pattern>说话吗
 <template><srai>语言</srai></template>
 </category>
 <category><pattern>你认为*是*吗</pattern>
@@ -3676,7 +3676,7 @@
 <category><pattern>您知道谁是 * 吗</pattern>
 <template><srai>谁是 <star/></srai></template>
 </category>
-<category><pattern>你会说<set>语言</set></pattern>吗
+<category><pattern>你会说<set>language</set></pattern>吗
 <template><srai>语言</srai></template>
 </category>
 <category><pattern>不知道</pattern>

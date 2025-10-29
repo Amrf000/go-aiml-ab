@@ -34,7 +34,7 @@
 <category><pattern>秘密</pattern>
 <template>秘密密码是 <set name="password"><srai>生成密码</srai></set>。记住它。</template>
 </category>
-<category><pattern>陈述您的<set>个人资料</set></pattern>
+<category><pattern>陈述您的<set>profile</set></pattern>
 <template><srai><star/></srai></template>
 </category>
 <category><pattern>看起来像</pattern>

@@ -677,7 +677,7 @@ func (bot *Bot) ShadowCheckerWithNode(node *Nodemapper) {
 }
 
 func (bot *Bot) InstantiateSets(pattern string) string {
-	splitPattern := strings.Split(pattern, " ")
+	splitPattern := SplitWords(pattern) // strings.Split(pattern, " ")
 	for i, x := range splitPattern {
 		if strings.HasPrefix(x, "<SET>") {
 			setName := TrimTag(x, "SET")

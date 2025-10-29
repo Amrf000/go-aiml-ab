@@ -1,6 +1,8 @@
 package ab
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type NodemapperOperator struct{}
 
@@ -31,9 +33,15 @@ func Put(node *Nodemapper, key string, value *Nodemapper) {
 
 func Get(node *Nodemapper, key string) *Nodemapper {
 	if node.Map != nil {
-		return node.Map[key]
+		ret, ok := node.Map[key]
+		if ok {
+			//fmt.Printf("Get %sn\n", key)
+			return ret
+		}
+		return nil
 	}
 	if key == node.Key {
+		//fmt.Printf("Get %s %s\n", key, node.Value)
 		return node.Value
 	}
 	return nil
