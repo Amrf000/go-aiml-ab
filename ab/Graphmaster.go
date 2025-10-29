@@ -56,7 +56,7 @@ func (g *Graphmaster) AddCategory(category *Category) {
 	inputThatTopic := InputThatTopic(category.GetPattern(), category.GetThat(), category.GetTopic())
 	// fmt.Println("addCategory: " + inputThatTopic)
 	inputThatTopic = g.ReplaceBotProperties(inputThatTopic)
-	p := SentenceToPath(inputThatTopic)
+	p := SentenceToPath(inputThatTopic, g.Bot.tokenizer)
 	g.AddPath(p, category)
 	g.CategoryCnt++
 }
@@ -139,7 +139,7 @@ func (g *Graphmaster) FindNode(c *Category) *Nodemapper {
 var verbose = false
 
 func (g *Graphmaster) FindNodeWithTopic(input, that, topic string) *Nodemapper {
-	result := g.FindNodeWithPath(g.Root, SentenceToPath(InputThatTopic(input, that, topic)))
+	result := g.FindNodeWithPath(g.Root, SentenceToPath(InputThatTopic(input, that, topic), g.Bot.tokenizer))
 	if verbose {
 		fmt.Printf("findNode %s %v\n", InputThatTopic(input, that, topic), result)
 	}
@@ -178,7 +178,7 @@ func (g *Graphmaster) MatchRaw(input, that, topic string) *Nodemapper {
 	if TraceMode {
 		fmt.Println("Matching: " + inputThatTopic)
 	}
-	p := SentenceToPath(inputThatTopic)
+	p := SentenceToPath(inputThatTopic, g.Bot.tokenizer)
 	// p.Print()
 	n = g.MatchWithTopic(p, inputThatTopic)
 	if TraceMode {
@@ -455,7 +455,7 @@ func (g *Graphmaster) SetMatch(path *Paths, node *Nodemapper, input, starState s
 			if DEBUG {
 				fmt.Println("in Graphmaster.setMatch, setMatch trying \"" + phrase + "\" in " + setName)
 			}
-			if aimlSet.Contains(phrase) {
+			if aimlSet.Contains(phrase, g.Bot) {
 				if matchedNode = g.Match(qath, nextNode, input, starState, starIndex+1, inputStars, thatStars, topicStars, matchTrace); matchedNode != nil {
 					g.SetStars(starWords, starIndex, starState, inputStars, thatStars, topicStars)
 					if DEBUG {

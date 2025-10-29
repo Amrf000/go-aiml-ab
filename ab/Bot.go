@@ -13,6 +13,7 @@ import (
 
 // Bot struct represents the bot in GoLang
 type Bot struct {
+	tokenizer    *TokenizerUtil
 	Properties   Properties
 	PreProcessor *PreProcessor
 	Brain        *Graphmaster
@@ -59,6 +60,7 @@ func NewBotWithAction(name, path, action string) *Bot {
 	cnt := 0
 
 	bot := &Bot{
+		tokenizer:  NewTokenizerUtil(),
 		Name:       name,
 		RootPath:   RootPath,
 		SetMap:     make(map[string]*AIMLSet),
@@ -661,7 +663,7 @@ func (bot *Bot) ShadowCheckerWithNode(node *Nodemapper) {
 		input = strings.NewReplacer("*", "XXX", "_", "XXX", "^", "", "#", "").Replace(input)
 		that := strings.NewReplacer("*", "XXX", "_", "XXX", "^", "", "#", "").Replace(node.Category.That)
 		topic := strings.NewReplacer("*", "XXX", "_", "XXX", "^", "", "#", "").Replace(node.Category.Topic)
-		input = bot.InstantiateSets(input)
+		input = bot.InstantiateSets(input, bot.tokenizer)
 		fmt.Println("shadowChecker: input=", input)
 		match := bot.Brain.MatchRaw(input, that, topic)
 		if match != node {
@@ -676,8 +678,8 @@ func (bot *Bot) ShadowCheckerWithNode(node *Nodemapper) {
 	}
 }
 
-func (bot *Bot) InstantiateSets(pattern string) string {
-	splitPattern := SplitWords(pattern) // strings.Split(pattern, " ")
+func (bot *Bot) InstantiateSets(pattern string, tokenizer *TokenizerUtil) string {
+	splitPattern := tokenizer.Tokenize(pattern) // strings.Split(pattern, " ")
 	for i, x := range splitPattern {
 		if strings.HasPrefix(x, "<SET>") {
 			setName := TrimTag(x, "SET")

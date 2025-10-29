@@ -7,7 +7,7 @@ import (
 
 func TestPath(t *testing.T) {
 	sentence := "This is a sample sentence."
-	path := SentenceToPath(sentence)
+	path := SentenceToPath(sentence, NewTokenizerUtil())
 	fmt.Println("Path to sentence:", PathToSentence(path))
 	fmt.Println("Printing path:")
 	path.Print()

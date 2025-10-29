@@ -64,7 +64,7 @@ func (a *AIMLSet) Remove(item string) {
 	a.Set = removeByValue(a.Set, item)
 }
 
-func (s *AIMLSet) Contains(item string) bool {
+func (s *AIMLSet) Contains(item string, bot *Bot) bool {
 	if s.IsExternal && EnableExternalSets {
 		if _, ok := s.InCache[item]; ok {
 			return true
@@ -72,7 +72,7 @@ func (s *AIMLSet) Contains(item string) bool {
 		if _, ok := s.OutCache[item]; ok {
 			return false
 		}
-		split := SplitWords(item) // strings.Split(item, " ")
+		split := bot.tokenizer.Tokenize(item) // strings.Split(item, " ")
 		if len(split) > s.MaxLength {
 			return false
 		}
@@ -129,7 +129,7 @@ func (s *AIMLSet) ReadAIMLSetFromInputStream(file *os.File, bot *Bot) int {
 				}
 			} else {
 				line = strings.ToUpper(strings.TrimSpace(line))
-				splitLine := SplitWords(line) // strings.Split(line, " ")
+				splitLine := bot.tokenizer.Tokenize(line) // strings.Split(line, " ")
 				length := len(splitLine)
 				if length > s.MaxLength {
 					s.MaxLength = length
